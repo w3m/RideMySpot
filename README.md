@@ -1,7 +1,7 @@
 RideMySpot
 ==========
 
-An Geolocalisation Android application that let the user add some different kind of spot (Roller, Skate, BMX, schedule) on a Google Map and share it to the RideMySpot Community.
+A Geolocalisation Android application that let the user add some different kind of spot (Roller, Skate, BMX, schedule) on a Google Map and share it to the RideMySpot Community.
 User can also :
 -add comments
 -rate a spot
