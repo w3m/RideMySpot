@@ -14,3 +14,6 @@ gen/
 
 # Local configuration file (sdk path, etc)
 local.properties
+
+#private key for mapV2
+secret.xml
