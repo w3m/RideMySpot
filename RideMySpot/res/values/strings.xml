@@ -2,5 +2,15 @@
 
     <string name="app_name">Ride My Spot</string>
     <string name="menu_maps_fav">Favoris</string>
-
+    <string name="menu_maps_add">Ajouter un spot</string>
+	<string name="add_spot_map_info">Vous pouvez déplacer le point par appuie long sur celui ci</string>
+	<string name="add_spot_name">Entrer un nom</string>
+	<string name="text_roller">Roller</string>
+	<string name="text_skatepark">Skatepark</string>
+	<string name="text_skate">Skate</string>
+	<string name="text_bmx">BMX</string>
+	<string name="add_spot_radio">Type de spot :</string>
+	<string name="add_spot_description">Entrez votre description</string>
+	<string name="text_valider">Valider</string>
+	<string name="text_annuler">Annuler</string>
 </resources>
