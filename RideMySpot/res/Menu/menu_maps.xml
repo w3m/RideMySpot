@@ -1,10 +1,15 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	<item
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:ridemyspot="http://schemas.android.com/apk/res-auto"  >
+	<item	    
 		android:id="@+id/menu_add"
-		android:showAsAction="never"
-		android:title="@string/menu_maps_add"/>
+		ridemyspot:showAsAction="ifRoom"
+		android:title="@string/menu_maps_add"
+		android:icon="@drawable/add"
+		/>
 	<item
-		android:id="@+id/menu_fav"
-		android:showAsAction="never"
-		android:title="@string/menu_maps_fav"/>
+		android:id="@+id/menu_list"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_maps_list"
+		android:icon="@drawable/list"
+		/>
 </menu>

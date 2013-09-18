@@ -1,7 +1,13 @@
 <resources>
 
     <string name="app_name">Ride My Spot</string>
-    <string name="menu_maps_fav">Favoris</string>
+    <string name="menu_maps_list">Liste</string>
+    <string-array name="navigation_drawer_menu">
+        <item>Mes Favoris</item>
+        <item>Paramètres Perso</item>
+        <item>Contacter w3m</item>
+        <item>Mentions légales</item>
+    </string-array>
     <string name="menu_maps_add">Ajouter un spot</string>
 	<string name="add_spot_map_info">Vous pouvez déplacer le point par appuie long sur celui ci</string>
 	<string name="add_spot_name">Entrer un nom</string>
@@ -13,4 +19,6 @@
 	<string name="add_spot_description">Entrez votre description</string>
 	<string name="text_valider">Valider</string>
 	<string name="text_annuler">Annuler</string>
+	
+	<string name="icon_url">http://www.tehkseven.net/300-icons-103164/</string>
 </resources>
