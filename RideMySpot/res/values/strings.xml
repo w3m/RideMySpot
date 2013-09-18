@@ -2,11 +2,19 @@
 
     <string name="app_name">Ride My Spot</string>
     <string name="menu_maps_list">Liste</string>
+    <string name="text_all_spot">Tous les Spots</string>
     <string-array name="navigation_drawer_menu">
         <item>Mes Favoris</item>
         <item>Paramètres Perso</item>
         <item>Contacter w3m</item>
         <item>Mentions légales</item>
+    </string-array>
+    <string-array name="maps_filter_list">
+        <item>Roller</item>
+        <item>Skate</item>
+        <item>BMX</item>
+        <item>Skatepark</item>
+        <item>Favoris</item>
     </string-array>
     <string name="menu_maps_add">Ajouter un spot</string>
 	<string name="add_spot_map_info">Vous pouvez déplacer le point par appuie long sur celui ci</string>

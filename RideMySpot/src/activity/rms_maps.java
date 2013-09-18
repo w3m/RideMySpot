@@ -1,5 +1,12 @@
 package activity;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import model.MultiSpinner;
+import model.MultiSpinner.MultiSpinnerListener;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +14,8 @@ import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
@@ -18,9 +27,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.w3m.ridemyspot.R;
 
-public class rms_maps extends ActionBarActivity implements OnMapLongClickListener, OnMarkerClickListener{
+public class rms_maps extends ActionBarActivity implements OnMapLongClickListener, OnMarkerClickListener, MultiSpinnerListener{
 
 	private GoogleMap m_map;
+	private Spinner m_filter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +41,11 @@ public class rms_maps extends ActionBarActivity implements OnMapLongClickListene
 		m_map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 		m_map.setOnMapLongClickListener(this);
 		m_map.setOnMarkerClickListener(this);
+		
+		//Filter Initialization
+		ArrayList<String> Liste = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.maps_filter_list)));
+		MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.multi_spinner);
+		multiSpinner.setItems(Liste, getResources().getString(R.string.text_all_spot), this);
 	}
 	
 	@Override
@@ -101,6 +116,11 @@ public class rms_maps extends ActionBarActivity implements OnMapLongClickListene
 		Intent intent = new Intent(rms_maps.this, rms_add_spot.class);
 		intent.putExtra("position", position);
 		startActivity(intent);
+		
+	}
+
+	@Override
+	public void onItemsSelected(boolean[] selected) {
 		
 	}
 
