@@ -28,5 +28,11 @@
 	<string name="text_valider">Valider</string>
 	<string name="text_annuler">Annuler</string>
 	
+	<string name="menu_spot_fav">Favoris</string>
+	<string name="menu_spot_share">Partager</string>
+	<string name="menu_spot_stview">Street View</string>
+	<string name="menu_spot_nav">Navigation</string>
+	<string name="menu_spot_vote">Voter</string>
+	
 	<string name="icon_url">http://www.tehkseven.net/300-icons-103164/</string>
 </resources>

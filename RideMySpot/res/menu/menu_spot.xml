@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:ridemyspot="http://schemas.android.com/apk/res-auto"   >
+    <item
+		android:id="@+id/menu_fav"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_spot_fav"
+		android:icon="@drawable/star_2"
+		/>
+	<item
+		android:id="@+id/menu_share"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_spot_share"
+		android:icon="@drawable/fork"
+		/>
+	<item
+		android:id="@+id/menu_stview"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_spot_stview"
+		android:icon="@drawable/eye_2"
+		/>
+	<item
+		android:id="@+id/menu_nav"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_spot_nav"
+		android:icon="@drawable/mail_2"
+		/>
+	<item
+		android:id="@+id/menu_vote"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_spot_vote"
+		android:icon="@drawable/flux"
+		/>
+</menu>
