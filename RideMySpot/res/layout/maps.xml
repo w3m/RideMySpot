@@ -16,5 +16,15 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         />
+    <ImageButton 
+        android:id="@+id/map_location"
+        android:src="@drawable/user_3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+		android:layout_marginBottom="30dp"
+		android:layout_marginLeft="5dp"
+        />
     
 </RelativeLayout> 

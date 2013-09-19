@@ -42,11 +42,10 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener{
 		
 		Marker spot = m_map.addMarker(new MarkerOptions()
         .position(position)
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.map)));
 		spot.setDraggable(true);
 		
-		m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
-		m_map.animateCamera(CameraUpdateFactory.zoomTo(30), 2000, null);
+		m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 17));
 		
 		m_transparentImage.setOnTouchListener(this);
 		
