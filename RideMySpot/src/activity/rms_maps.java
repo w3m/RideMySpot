@@ -2,8 +2,6 @@ package activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
@@ -16,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,7 +66,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	
 	private void populateMap() {
 		for (Spot spot : m_spot) {
-			Marker marker = m_map.addMarker(new MarkerOptions()
+			m_map.addMarker(new MarkerOptions()
     			.position(spot.getPosition())
     			.title(spot.getName())
     			.icon(BitmapDescriptorFactory.fromResource(R.drawable.map))
@@ -166,7 +163,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Marker user = m_map.addMarker(new MarkerOptions()
+		m_map.addMarker(new MarkerOptions()
         	.position(new LatLng(location.getLatitude(), location.getLongitude()))
         	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
         	.title("User")
