@@ -1,15 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
 public class Spot implements Parcelable {
-	public final int ROLLER = 1;
-	public final int SKATE = 2;
-	public final int BMX = 3;
-	public final int SKATEPARK= 4;
+	public final static int ROLLER = 1;
+	public final static int SKATE = 2;
+	public final static int BMX = 4;
+	public final static int SKATEPARK= 8;
 	
 	private long ID;
 	private String m_name;
@@ -119,7 +121,38 @@ public class Spot implements Parcelable {
 		return new LatLng(m_position_lat, m_position_long);
 	}
 
+	public ArrayList<String> getStringTypes(){
+		ArrayList<String> type = new ArrayList<String>();
+		type.addAll(dudu_s_tricks());
+		return type;
+	}
 		
+	private ArrayList<String> dudu_s_tricks(){
+		ArrayList<String> tricks = new ArrayList<String>();
+		String type = Integer.toBinaryString(Integer.reverseBytes(m_type));
+		
+		for (int i = 0; i < 4; i++){
+			if(type.charAt(i) == '1'){
+				switch (i+1) {
+				case 1:
+					tricks.add("Roller");
+					break;
+				case 2:
+					tricks.add("Skate");
+					break;
+				case 3:
+					tricks.add("BMX");
+					break;
+				case 4:
+					tricks.add("Skatepark");
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		return tricks;
+	}
 		
 
 
