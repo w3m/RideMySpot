@@ -7,12 +7,14 @@
 		android:title="@string/menu_spot_fav"
 		android:icon="@drawable/star_2"
 		/>
+<!-- 	
 	<item
 		android:id="@+id/menu_share"
 		ridemyspot:showAsAction="ifRoom|withText"
 		android:title="@string/menu_spot_share"
 		android:icon="@drawable/fork"
 		/>
+ -->
 	<item
 		android:id="@+id/menu_stview"
 		ridemyspot:showAsAction="ifRoom|withText"

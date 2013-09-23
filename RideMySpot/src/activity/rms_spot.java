@@ -7,17 +7,28 @@ import com.w3m.ridemyspot.R;
 import model.Comment;
 import model.Spot;
 import adapter.List_comment;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class rms_spot extends ActionBarActivity{
+public class rms_spot extends ActionBarActivity implements OnItemClickListener, OnClickListener{
 
 	private Spot m_spot;
 	private ArrayList<Comment> m_comments;
@@ -25,6 +36,17 @@ public class rms_spot extends ActionBarActivity{
 	private Intent intent;
 	
 	private ListView m_listComment;
+	private TextView m_dialog_user;
+	private EditText m_dialog_com;
+	private RatingBar m_dialog_rate;
+	
+	
+	/*Changement de rotation changer l'ordre 
+	 * des layout pour les différents écrans
+	 * ecran nexus 4 description en haut à droite
+	 * split galery / comm'?...s
+	*/
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +55,7 @@ public class rms_spot extends ActionBarActivity{
 	
 		m_spot = getIntent().getParcelableExtra("spot");
 		
-		RatingBar note = (RatingBar) findViewById(R.id.spot_globalnote);
+		((RatingBar) findViewById(R.id.spot_globalnote)).setRating((float) 3.5);///*m_spot.getGlobalNote()*/
 
 		((TextView) findViewById(R.id.spot_text_name)).setText(m_spot.getName());
 		((TextView) findViewById(R.id.spot_text_adress)).setText(m_spot.getAdress());
@@ -41,6 +63,10 @@ public class rms_spot extends ActionBarActivity{
 
 		m_listComment = (ListView) findViewById(R.id.spot_list_comment);
 		m_listComment.setEmptyView(findViewById(R.id.spot_loading));
+		
+		m_listComment.setOnItemClickListener(this);
+		//((ListView) findViewById(R.id.spot_list_comment)).setOnItemClickListener(this);
+		
 		
 		getComment();
 		
@@ -62,7 +88,10 @@ public class rms_spot extends ActionBarActivity{
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		//icone favoris (ici ou oncreate de rms_spot)
+		
+		//TODO Ajouter les favoris dans la représentation de la base de données base de données
+		
+		//icone favoris etoile pleine (ici ou oncreate de rms_spot)
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
@@ -72,12 +101,16 @@ public class rms_spot extends ActionBarActivity{
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_nav:
+			LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+			Location userLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+			
 			String uri = "http://maps.google.com/maps?" +
-					"saddr="+(m_spot.getPosition_lat()-0.1)+","+(m_spot.getPosition_long())+
+					"saddr="+(userLocation.getLatitude())+","+(userLocation.getLongitude())+
 					"&daddr="+m_spot.getPosition_lat()+","+m_spot.getPosition_long();
 			intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 			startActivity(intent);
@@ -98,6 +131,35 @@ public class rms_spot extends ActionBarActivity{
 
 	public void setSpot(Spot spot) {
 		this.m_spot = spot;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+			if(parent.getAdapter().getCount()-1 != position)
+				return;
+		
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			AlertDialog alertDialog;
+			final View alertView = LayoutInflater.from(this).inflate(R.layout.add_comment, null);
+	
+			builder.setTitle("w3m");
+			builder.setView(alertView);
+			builder.setPositiveButton("Valider", this);
+			builder.setNegativeButton("Annuler", this);
+			
+			m_dialog_user = (TextView) alertView.findViewById(R.id.add_comment_name);
+			m_dialog_com = (EditText) alertView.findViewById(R.id.add_comment_text);
+			m_dialog_rate = (RatingBar) alertView.findViewById(R.id.add_comment_rate);
+			
+			alertDialog = builder.create();
+			alertDialog.show(); 
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		//Add the comment to the server
+		
 	}
 	
 }
