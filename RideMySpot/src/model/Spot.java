@@ -9,9 +9,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Spot implements Parcelable {
 	public final static int ROLLER = 1;
-	public final static int SKATE = 2;
-	public final static int BMX = 4;
-	public final static int SKATEPARK= 8;
+	public final static int SKATE = 1 << 1;
+	public final static int BMX = 1 << 2;
+	public final static int SKATEPARK= 1 << 3;
 	
 	private long ID;
 	private String m_name;
@@ -129,28 +129,20 @@ public class Spot implements Parcelable {
 		
 	private ArrayList<String> dudu_s_tricks(){
 		ArrayList<String> tricks = new ArrayList<String>();
-		String type = Integer.toBinaryString(Integer.reverseBytes(m_type));
 		
-		for (int i = 0; i < 4; i++){
-			if(type.charAt(i) == '1'){
-				switch (i+1) {
-				case 1:
-					tricks.add("Roller");
-					break;
-				case 2:
-					tricks.add("Skate");
-					break;
-				case 3:
-					tricks.add("BMX");
-					break;
-				case 4:
-					tricks.add("Skatepark");
-					break;
-				default:
-					break;
-				}
-			}
+		if((m_type & ROLLER) == (ROLLER)){
+			tricks.add("Roller");
 		}
+		if((m_type & SKATE) == (SKATE)){
+			tricks.add("Skate");
+		}
+		if((m_type & BMX) == (BMX)){
+			tricks.add("BMX");
+		}
+		if((m_type & SKATEPARK) == (SKATEPARK)){
+			tricks.add("Skatepark");
+		}
+		
 		return tricks;
 	}
 		

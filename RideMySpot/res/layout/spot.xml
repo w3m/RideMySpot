@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-<RelativeLayout
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="fill_parent">
     
     <LinearLayout 
         android:id="@+id/spot_linear_head"
@@ -17,7 +15,8 @@
 		    android:layout_height="100dp"
 		    android:scaleType="fitCenter"
 		    android:src="@drawable/image_64x64"
-		    android:layout_gravity="left"/>
+		    android:layout_gravity="left"
+		    android:contentDescription="@string/empty"/>
 		<LinearLayout 
 		    android:id="@+id/spot_linear_head_info"
 		    android:layout_width="fill_parent"
@@ -38,7 +37,7 @@
 		        android:layout_height="wrap_content"
                	android:numStars="5"
                	android:stepSize="0.5"
-               	style="@style/rms.RatingBar.Small"/>
+               	style="?android:attr/ratingBarStyleSmall"/>
 		</LinearLayout>        
     </LinearLayout>
     <TextView 
@@ -51,8 +50,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/spot_text_desciption"
+        android:visibility="gone"
         />
-        <!-- android:visibility="gone"  -->
     <ListView 
         android:id="@+id/spot_list_comment"
         android:layout_width="fill_parent"
@@ -68,4 +67,3 @@
         />
 
 </RelativeLayout>
-</ScrollView>

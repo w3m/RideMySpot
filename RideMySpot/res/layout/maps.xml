@@ -18,7 +18,7 @@
         />
     <ImageButton 
         android:id="@+id/map_location"
-        android:src="@drawable/user_3"
+        android:src="@drawable/podcast"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"

@@ -6,19 +6,25 @@ import com.w3m.ridemyspot.R;
 
 import model.Comment;
 import model.Spot;
+import adapter.List_comment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class rms_spot extends ActionBarActivity{
 
 	private Spot m_spot;
-	private ArrayList<Comment> m_comment;
+	private ArrayList<Comment> m_comments;
+
+	private Intent intent;
+	
+	private ListView m_listComment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +33,31 @@ public class rms_spot extends ActionBarActivity{
 	
 		m_spot = getIntent().getParcelableExtra("spot");
 		
-		getComment();
 		RatingBar note = (RatingBar) findViewById(R.id.spot_globalnote);
 
 		((TextView) findViewById(R.id.spot_text_name)).setText(m_spot.getName());
 		((TextView) findViewById(R.id.spot_text_adress)).setText(m_spot.getAdress());
 		((TextView) findViewById(R.id.spot_text_desciption)).setText(m_spot.getDescription());
 
+		m_listComment = (ListView) findViewById(R.id.spot_list_comment);
+		m_listComment.setEmptyView(findViewById(R.id.spot_loading));
+		
+		getComment();
+		
 		getSupportActionBar().setTitle(m_spot.getStringTypes().toString());
 	}
 	
 	private void getComment() {
+
+		m_comments = new ArrayList<Comment>();
 		
+		Comment test = new Comment(1,1,"w3m", "Ouais pas mal", 3.5);
+		m_comments.add(test);
+		Comment test_2 = new Comment(2,2,"zIz", "T'as gueule!", 1);
+		m_comments.add(test_2);
+		
+		List_comment listComment = new List_comment(this, m_comments);
+		m_listComment.setAdapter(listComment);
 	}
 
 	@Override
@@ -60,16 +79,14 @@ public class rms_spot extends ActionBarActivity{
 			String uri = "http://maps.google.com/maps?" +
 					"saddr="+(m_spot.getPosition_lat()-0.1)+","+(m_spot.getPosition_long())+
 					"&daddr="+m_spot.getPosition_lat()+","+m_spot.getPosition_long();
-			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+			intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 			startActivity(intent);
 			return true;
 		case R.id.menu_stview:
-			Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse ("google.streetview:cbll=" 
-					+ m_spot.getPosition_lat() + 
-					"," 
-					+ m_spot.getPosition_long() + 
+			intent = new Intent(Intent.ACTION_VIEW, Uri.parse ("google.streetview:cbll=" 
+					+ m_spot.getPosition_lat() + "," + m_spot.getPosition_long() + 
 					"&cbp=1,180,,0,1.0")); 
-			startActivity(myIntent); 
+			startActivity(intent); 
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -58,7 +58,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		findViewById(R.id.map_location).setOnClickListener(this);
 
 		Spot spot;
-		spot = new Spot("Ile de la Cité","17 Rue Chanoinesse","REAL Sample spot for test",48.853717,2.350277,Spot.ROLLER+Spot.BMX);
+		spot = new Spot("Ile de la Cité","17 Rue Chanoinesse","REAL Sample spot for test",48.853717,2.350277,(Spot.ROLLER |Spot.BMX));
 		m_spot.add(spot);
 		
 		populateMap();
