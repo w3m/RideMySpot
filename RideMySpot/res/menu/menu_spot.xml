@@ -5,7 +5,7 @@
 		android:id="@+id/menu_fav"
 		ridemyspot:showAsAction="ifRoom|withText"
 		android:title="@string/menu_spot_fav"
-		android:icon="@drawable/star_2"
+		android:icon="@drawable/heart_empty"
 		/>
 <!-- 	
 	<item

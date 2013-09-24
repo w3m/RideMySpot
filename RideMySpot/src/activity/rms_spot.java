@@ -36,7 +36,6 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	private Intent intent;
 	
 	private ListView m_listComment;
-	private TextView m_dialog_user;
 	private EditText m_dialog_com;
 	private RatingBar m_dialog_rate;
 	
@@ -55,7 +54,7 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	
 		m_spot = getIntent().getParcelableExtra("spot");
 		
-		((RatingBar) findViewById(R.id.spot_globalnote)).setRating((float) 3.5);///*m_spot.getGlobalNote()*/
+		((RatingBar) findViewById(R.id.spot_globalnote)).setRating(m_spot.getGlobalNote());
 
 		((TextView) findViewById(R.id.spot_text_name)).setText(m_spot.getName());
 		((TextView) findViewById(R.id.spot_text_adress)).setText(m_spot.getAdress());
@@ -66,7 +65,8 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		
 		m_listComment.setOnItemClickListener(this);
 		//((ListView) findViewById(R.id.spot_list_comment)).setOnItemClickListener(this);
-		
+
+		//((MenuItem) findViewById(R.id.menu_fav)).setIcon(R.drawable.heart_full);
 		
 		getComment();
 		
@@ -98,6 +98,7 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_spot, menu);	
+		//menu.getItem(R.id.menu_fav);//
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -148,7 +149,6 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 			builder.setPositiveButton("Valider", this);
 			builder.setNegativeButton("Annuler", this);
 			
-			m_dialog_user = (TextView) alertView.findViewById(R.id.add_comment_name);
 			m_dialog_com = (EditText) alertView.findViewById(R.id.add_comment_text);
 			m_dialog_rate = (RatingBar) alertView.findViewById(R.id.add_comment_rate);
 			
@@ -159,6 +159,15 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		//Add the comment to the server
+		switch (which) {
+		case DialogInterface.BUTTON_POSITIVE:
+				m_dialog_com.getText();
+				m_dialog_rate.getRating();
+			break;
+
+		default:
+			break;
+		}
 		
 	}
 	

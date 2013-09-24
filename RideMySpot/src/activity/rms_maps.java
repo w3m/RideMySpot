@@ -6,6 +6,7 @@ import java.util.Arrays;
 import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
+import adapter.Info_spot;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -21,6 +22,7 @@ import android.view.View.OnClickListener;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -30,7 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.w3m.ridemyspot.R;
 
-public class rms_maps extends ActionBarActivity implements LocationListener, OnMapLongClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener{
+public class rms_maps extends ActionBarActivity implements LocationListener, OnMapLongClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener{
 
 	private GoogleMap m_map;
 	private LocationManager m_locationManager;
@@ -46,6 +48,8 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		m_map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 		m_map.setOnMapLongClickListener(this);
 		m_map.setOnMarkerClickListener(this);
+		m_map.setOnInfoWindowClickListener(this);
+		
 
 		//Location Initialization
 		m_locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -58,8 +62,10 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		findViewById(R.id.map_location).setOnClickListener(this);
 
 		Spot spot;
-		spot = new Spot("Ile de la Cité","17 Rue Chanoinesse","REAL Sample spot for test",48.853717,2.350277,(Spot.ROLLER |Spot.BMX));
+		spot = new Spot("Ile de la Cité","17 Rue Chanoinesse","REAL Sample spot for test",48.853717,2.350277,(Spot.ROLLER |Spot.BMX), (float) 3.5, 5);
 		m_spot.add(spot);
+		
+		m_map.setInfoWindowAdapter(new Info_spot(this, spot));
 		
 		populateMap();
 	}
@@ -69,6 +75,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 			m_map.addMarker(new MarkerOptions()
     			.position(spot.getPosition())
     			.title(spot.getName())
+    			.snippet(String.valueOf(spot.getGlobalNote()))
     			.icon(BitmapDescriptorFactory.fromResource(R.drawable.map))
 			);
 		}
@@ -127,6 +134,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		Marker spot = m_map.addMarker(new MarkerOptions()
         .position(marker)
         .title("add")
+		.snippet("")
         .icon(BitmapDescriptorFactory
         .fromResource(R.drawable.map)));
 		spot.setDraggable(true);
@@ -134,12 +142,9 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 
 	@Override
 	public boolean onMarkerClick(Marker marker) {
+		marker.hideInfoWindow();
 		if(marker.getTitle().equalsIgnoreCase("add"))
 			add_spot(marker.getPosition());
-		else if(marker.getTitle().equalsIgnoreCase("user"))
-			return false;
-		else
-			view_spot(marker);
 		return false;
 	}
 	
@@ -167,6 +172,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
         	.position(new LatLng(location.getLatitude(), location.getLongitude()))
         	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
         	.title("User")
+    		.snippet("")
         );
 		
 		m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),14));
@@ -191,6 +197,13 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 			break;
 		}
 		
+	}
+
+	@Override
+	public void onInfoWindowClick(Marker marker) {
+		if(marker.getTitle().equalsIgnoreCase("user"))
+			return;
+		view_spot(marker);
 	}
 
 	
