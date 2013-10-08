@@ -2,10 +2,8 @@ package adapter;
 
 import model.Spot;
 import android.content.Context;
-import android.media.ExifInterface;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.WebView.FindListener;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -20,7 +18,7 @@ public class Info_spot implements InfoWindowAdapter{
 
 	public Info_spot(Context context, Spot spot) {
 		m_layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		m_spot = spot;
+		setSpot(spot);
 	}
 
 	@Override
@@ -29,6 +27,10 @@ public class Info_spot implements InfoWindowAdapter{
 		
 		((TextView) view.findViewById(R.id.info_spot_name)).setText(marker.getTitle());
 		String note = marker.getSnippet();
+		
+		if(note.equals("add"))
+			return null;
+		
 		if(note.length()!=0)
 			((RatingBar) view.findViewById(R.id.info_spot_globalnote)).setRating(Float.valueOf(note));
 		else
@@ -39,6 +41,14 @@ public class Info_spot implements InfoWindowAdapter{
 	@Override
 	public View getInfoWindow(Marker arg0) {
 		return null;
+	}
+
+	public Spot getSpot() {
+		return m_spot;
+	}
+
+	public void setSpot(Spot spot) {
+		this.m_spot = spot;
 	}
 
 }

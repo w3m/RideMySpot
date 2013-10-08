@@ -36,6 +36,9 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 
 	private GoogleMap m_map;
 	private LocationManager m_locationManager;
+
+	private Marker addSpot;
+	private Marker user;
 	
 	public ArrayList<Spot> m_spot = new ArrayList<Spot>();
 	
@@ -131,19 +134,22 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		v.vibrate(200);
 		
-		Marker spot = m_map.addMarker(new MarkerOptions()
+		if(addSpot!=null)
+			if(addSpot.isVisible())
+				addSpot.remove();
+			
+		addSpot = m_map.addMarker(new MarkerOptions()
         .position(marker)
-        .title("add")
-		.snippet("")
+        .snippet("add")
         .icon(BitmapDescriptorFactory
         .fromResource(R.drawable.map)));
-		spot.setDraggable(true);
+		addSpot.setDraggable(true);
 	}
 
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		marker.hideInfoWindow();
-		if(marker.getTitle().equalsIgnoreCase("add"))
+		if(marker.equals(addSpot))
 			add_spot(marker.getPosition());
 		return false;
 	}
@@ -168,7 +174,11 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 
 	@Override
 	public void onLocationChanged(Location location) {
-		m_map.addMarker(new MarkerOptions()
+		if(user!=null)
+			if(user.isVisible())
+				user.remove();
+		
+		user = m_map.addMarker(new MarkerOptions()
         	.position(new LatLng(location.getLatitude(), location.getLongitude()))
         	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
         	.title("User")
