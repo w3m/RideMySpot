@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,8 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	private Marker addSpot;
 	private Marker user;
 	
+	private MultiSpinner multiSpinner;
+	
 	public ArrayList<Spot> m_spot = new ArrayList<Spot>();
 	
 	@Override
@@ -59,7 +62,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		
 		//Filter Initialization
 		ArrayList<String> Liste = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.maps_filter_list)));
-		MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.multi_spinner);
+		multiSpinner = (MultiSpinner) findViewById(R.id.multi_spinner);
 		multiSpinner.setItems(Liste, getResources().getString(R.string.text_all_spot), this);
 		
 		findViewById(R.id.map_location).setOnClickListener(this);
@@ -74,14 +77,37 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	}
 	
 	private void populateMap() {
+		m_map.clear();
+		
+		ArrayList<String> type = new ArrayList<String>(Arrays.asList(multiSpinner.getSelectedItem().toString().split(", ")));
+		if(type.contains(getResources().getString(R.string.text_all_spot)))
+			type = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.maps_filter_list)));
+			
 		for (Spot spot : m_spot) {
-			m_map.addMarker(new MarkerOptions()
-    			.position(spot.getPosition())
-    			.title(spot.getName())
-    			.snippet(String.valueOf(spot.getGlobalNote()))
-    			.icon(BitmapDescriptorFactory.fromResource(R.drawable.map))
-			);
+			if(containsAny(type, spot.getStringTypes()))
+				m_map.addMarker(new MarkerOptions()
+	    			.position(spot.getPosition())
+	    			.title(spot.getName())
+	    			.snippet(String.valueOf(spot.getGlobalNote()))
+	    			.icon(BitmapDescriptorFactory.fromResource(R.drawable.map))
+				);
 		}
+		m_locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		Location userLocation = m_locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+		
+		user = m_map.addMarker(new MarkerOptions()
+	    	.position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
+	    	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+	    	.snippet("user")
+	    );
+	}
+	
+	private boolean containsAny(ArrayList<String> type, ArrayList<String> stringTypes) {
+		for (String text : type){
+			if(stringTypes.contains(text))
+				return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -106,6 +132,9 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	protected void onResume() {
 		super.onResume();
 		//m_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		if(addSpot!=null)
+			if(addSpot.isVisible())
+				addSpot.remove();
 	}
 
 	@Override
@@ -140,7 +169,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 			
 		addSpot = m_map.addMarker(new MarkerOptions()
         .position(marker)
-        .snippet("add")
+        .snippet("addSpot")
         .icon(BitmapDescriptorFactory
         .fromResource(R.drawable.map)));
 		addSpot.setDraggable(true);
@@ -169,7 +198,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 
 	@Override
 	public void onItemsSelected(boolean[] selected) {
-		
+		populateMap();
 	}
 
 	@Override
@@ -181,8 +210,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		user = m_map.addMarker(new MarkerOptions()
         	.position(new LatLng(location.getLatitude(), location.getLongitude()))
         	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
-        	.title("User")
-    		.snippet("")
+        	.snippet("user")
         );
 		
 		m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),14));

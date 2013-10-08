@@ -28,7 +28,7 @@ public class Info_spot implements InfoWindowAdapter{
 		((TextView) view.findViewById(R.id.info_spot_name)).setText(marker.getTitle());
 		String note = marker.getSnippet();
 		
-		if(note.equals("add"))
+		if(note.equals("addSpot") || note.equals("user"))
 			return null;
 		
 		if(note.length()!=0)
