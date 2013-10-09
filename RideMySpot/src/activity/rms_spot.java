@@ -39,6 +39,8 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	private EditText m_dialog_com;
 	private RatingBar m_dialog_rate;
 	
+	private boolean m_fav;
+	
 	
 	/*Changement de rotation changer l'ordre 
 	 * des layout pour les différents écrans
@@ -52,7 +54,9 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spot);
 	
-		m_spot = getIntent().getParcelableExtra("spot");
+		Intent intent = getIntent();
+		m_spot = intent.getParcelableExtra("spot");
+		m_fav = intent.getBooleanExtra("fav", false);
 		
 		((RatingBar) findViewById(R.id.spot_globalnote)).setRating(m_spot.getGlobalNote());
 
@@ -66,7 +70,6 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		m_listComment.setOnItemClickListener(this);
 		//((ListView) findViewById(R.id.spot_list_comment)).setOnItemClickListener(this);
 
-		//((MenuItem) findViewById(R.id.menu_fav)).setIcon(R.drawable.heart_full);
 		
 		getComment();
 		
@@ -88,10 +91,8 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		
-		//TODO Ajouter les favoris dans la représentation de la base de données base de données
-		
-		//icone favoris etoile pleine (ici ou oncreate de rms_spot)
+		if(m_fav)
+			menu.findItem(R.id.menu_fav).setIcon(R.drawable.heart_full);
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
@@ -102,10 +103,40 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		//add or delete from fav if changed
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.menu_fav:
+			if(m_fav){
+				item.setIcon(R.drawable.heart_empty);
+				m_fav = false;
+			} else {
+				item.setIcon(R.drawable.heart_full);
+				m_fav = true;
+			}
+			break;
 		case R.id.menu_nav:
 			LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 			Location userLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -115,15 +146,17 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 					"&daddr="+m_spot.getPosition_lat()+","+m_spot.getPosition_long();
 			intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 			startActivity(intent);
-			return true;
+			break;
 		case R.id.menu_stview:
 			intent = new Intent(Intent.ACTION_VIEW, Uri.parse ("google.streetview:cbll=" 
 					+ m_spot.getPosition_lat() + "," + m_spot.getPosition_long() + 
 					"&cbp=1,180,,0,1.0")); 
-			startActivity(intent); 
+			startActivity(intent);
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	public Spot getSpot() {

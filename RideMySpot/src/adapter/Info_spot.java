@@ -26,15 +26,15 @@ public class Info_spot implements InfoWindowAdapter{
 		View view = m_layoutInflater.inflate(R.layout.info_spot, null);
 		
 		((TextView) view.findViewById(R.id.info_spot_name)).setText(marker.getTitle());
-		String note = marker.getSnippet();
 		
+		String note = marker.getSnippet();
 		if(note.equals("addSpot") || note.equals("user"))
 			return null;
-		
 		if(note.length()!=0)
 			((RatingBar) view.findViewById(R.id.info_spot_globalnote)).setRating(Float.valueOf(note));
 		else
 			((RatingBar) view.findViewById(R.id.info_spot_globalnote)).setVisibility(View.GONE);
+
 		return view;
 	}
 

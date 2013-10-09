@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -121,14 +122,14 @@ public class Spot implements Parcelable {
 		return new LatLng(m_position_lat, m_position_long);
 	}
 
-	public ArrayList<String> getStringTypes(){
-		ArrayList<String> type = new ArrayList<String>();
+	public List<String> getStringTypes(){
+		List<String> type = new ArrayList<String>();
 		type.addAll(dudu_s_tricks());
 		return type;
 	}
 		
-	private ArrayList<String> dudu_s_tricks(){
-		ArrayList<String> tricks = new ArrayList<String>();
+	private List<String> dudu_s_tricks(){
+		List<String> tricks = new ArrayList<String>();
 		
 		if((m_type & ROLLER) == (ROLLER)){
 			tricks.add("Roller");
@@ -187,5 +188,13 @@ public class Spot implements Parcelable {
             return new Spot[size];
         }
     };
+
+	public boolean isHere(LatLng position) {
+		double rounded_lat = (double) Math.round(position.latitude * 1000000.0) / 1000000.0;
+		double rounded_long = (double) Math.round(position.longitude * 1000000.0) / 1000000.0;
+		if(m_position_lat == rounded_lat && m_position_long == rounded_long)
+			return true;
+		return false;
+	}
 }
 

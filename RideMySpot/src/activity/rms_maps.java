@@ -2,6 +2,7 @@ package activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
@@ -15,7 +16,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +43,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	
 	private MultiSpinner multiSpinner;
 	
-	public ArrayList<Spot> m_spot = new ArrayList<Spot>();
+	public List<Spot> m_spot = new ArrayList<Spot>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +59,10 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 
 		//Location Initialization
 		m_locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		m_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		
 		//Filter Initialization
-		ArrayList<String> Liste = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.maps_filter_list)));
+		List<String> Liste = Arrays.asList(getResources().getStringArray(R.array.maps_filter_list));
 		multiSpinner = (MultiSpinner) findViewById(R.id.multi_spinner);
 		multiSpinner.setItems(Liste, getResources().getString(R.string.text_all_spot), this);
 		
@@ -70,6 +71,8 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		Spot spot;
 		spot = new Spot("Ile de la Cité","17 Rue Chanoinesse","REAL Sample spot for test",48.853717,2.350277,(Spot.ROLLER |Spot.BMX), (float) 3.5, 5);
 		m_spot.add(spot);
+		spot = new Spot("Muret François Mitterand","51 Quai Panhard et Levassor","Muret un peu haut mais glisse assez bien",48.830755,2.381798,(Spot.ROLLER |Spot.SKATE), (float) 4.5, 5);
+		m_spot.add(spot);
 		
 		m_map.setInfoWindowAdapter(new Info_spot(this, spot));
 		
@@ -77,11 +80,12 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	}
 	
 	private void populateMap() {
-		m_map.clear();
+		m_map.clear();    //On peut aussi jouer sur la visibilité... optimise le fais de pas avoir à recréer les marker!!
+							//Du coup un populatemap() pour tout les points et un filtermarker() pour le filtre
 		
-		ArrayList<String> type = new ArrayList<String>(Arrays.asList(multiSpinner.getSelectedItem().toString().split(", ")));
+		List<String> type = Arrays.asList(multiSpinner.getSelectedItem().toString().split(", "));
 		if(type.contains(getResources().getString(R.string.text_all_spot)))
-			type = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.maps_filter_list)));
+			type = Arrays.asList(getResources().getStringArray(R.array.maps_filter_list));
 			
 		for (Spot spot : m_spot) {
 			if(containsAny(type, spot.getStringTypes()))
@@ -92,9 +96,9 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	    			.icon(BitmapDescriptorFactory.fromResource(R.drawable.map))
 				);
 		}
-		m_locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		Location userLocation = m_locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 		
+		//Redraw user's last know location
+		Location userLocation = m_locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 		user = m_map.addMarker(new MarkerOptions()
 	    	.position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
 	    	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
@@ -102,7 +106,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	    );
 	}
 	
-	private boolean containsAny(ArrayList<String> type, ArrayList<String> stringTypes) {
+	private boolean containsAny(List<String> type, List<String> stringTypes) {
 		for (String text : type){
 			if(stringTypes.contains(text))
 				return true;
@@ -113,7 +117,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	@Override
 	protected void onStart() {
 		super.onStart();
-		m_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		//m_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 	}
 	
 	@Override
@@ -182,13 +186,6 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 			add_spot(marker.getPosition());
 		return false;
 	}
-	
-	
-	private void view_spot(Marker marker) {
-		Intent intent = new Intent(rms_maps.this, rms_spot.class);
-		intent.putExtra("spot", m_spot.get(0));
-		startActivity(intent);
-	}
 
 	private void add_spot(LatLng position){
 		Intent intent = new Intent(rms_maps.this, rms_add_spot.class);
@@ -239,14 +236,19 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 
 	@Override
 	public void onInfoWindowClick(Marker marker) {
-		if(marker.getTitle().equalsIgnoreCase("user"))
-			return;
-		view_spot(marker);
+		Intent intent = new Intent(rms_maps.this, rms_spot.class);
+		
+		int index = 0;
+		for (Spot spot : m_spot){
+			if(spot.isHere(marker.getPosition()))
+				break;
+			index++;
+		}
+		
+		intent.putExtra("spot", m_spot.get(index));
+		startActivity(intent);
 	}
 
-	
-
-	
 }
 
 
