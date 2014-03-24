@@ -7,19 +7,24 @@ import java.util.List;
 import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
+import account.SessionManager;
 import adapter.Info_spot;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,12 +36,19 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
 import com.w3m.ridemyspot.R;
+
+import entity.Rmsendpoint;
+import entity.model.CollectionResponseSpots;
+import entity.model.Spots;
 
 public class rms_maps extends ActionBarActivity implements LocationListener, OnMapLongClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener{
 
 	private GoogleMap m_map;
 	private LocationManager m_locationManager;
+	private SessionManager m_sessionManager;
 
 	private Marker addSpot;
 	private Marker user;
@@ -55,7 +67,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		m_map.setOnMapLongClickListener(this);
 		m_map.setOnMarkerClickListener(this);
 		m_map.setOnInfoWindowClickListener(this);
-		
+		m_map.setInfoWindowAdapter(new Info_spot(this));
 
 		//Location Initialization
 		m_locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -67,16 +79,11 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		multiSpinner.setItems(Liste, getResources().getString(R.string.text_all_spot), this);
 		
 		findViewById(R.id.map_location).setOnClickListener(this);
-
-		Spot spot;
-		spot = new Spot("Ile de la CitÃ©","17 Rue Chanoinesse","REAL Sample spot for test",48.853717,2.350277,(Spot.ROLLER |Spot.BMX), (float) 3.5, 5);
-		m_spot.add(spot);
-		spot = new Spot("Muret FranÃ§ois Mitterand","51 Quai Panhard et Levassor","Muret un peu haut mais glisse assez bien",48.830755,2.381798,(Spot.ROLLER |Spot.SKATE), (float) 4.5, 5);
-		m_spot.add(spot);
 		
-		m_map.setInfoWindowAdapter(new Info_spot(this, spot));
+		m_sessionManager = new SessionManager(this);
 		
-		populateMap();
+		Toast.makeText(this, m_sessionManager.getUserDetails().get(SessionManager.KEY_NAME),Toast.LENGTH_LONG);
+		
 	}
 	
 	private void populateMap() {
@@ -88,13 +95,18 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 			type = Arrays.asList(getResources().getStringArray(R.array.maps_filter_list));
 			
 		for (Spot spot : m_spot) {
-			if(containsAny(type, spot.getStringTypes()))
-				m_map.addMarker(new MarkerOptions()
+			//If the spot is in the type scope
+			if(containsAny(type, spot.getStringTypes())){
+				//We add it to the map and retrieve his ID
+				String markerID = m_map.addMarker(new MarkerOptions()
 	    			.position(spot.getPosition())
 	    			.title(spot.getName())
 	    			.snippet(String.valueOf(spot.getGlobalNote()))
 	    			.icon(BitmapDescriptorFactory.fromResource(R.drawable.map))
-				);
+				).getId();
+				//We set to the spot the marker's ID to retrieve the connection when it will hit
+				spot.setMarkerID(markerID);
+			}
 		}
 		
 		//Redraw user's last know location
@@ -139,6 +151,9 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		if(addSpot!=null)
 			if(addSpot.isVisible())
 				addSpot.remove();
+		
+		if(m_sessionManager.isNetworkAvailable())
+			new ListSpots(this).execute();
 	}
 
 	@Override
@@ -231,7 +246,6 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 				m_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 			break;
 		}
-		
 	}
 
 	@Override
@@ -240,13 +254,76 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		
 		int index = 0;
 		for (Spot spot : m_spot){
-			if(spot.isHere(marker.getPosition()))
+			if(marker.getId().equalsIgnoreCase(spot.getMarkerID()))
 				break;
 			index++;
 		}
 		
 		intent.putExtra("spot", m_spot.get(index));
 		startActivity(intent);
+	}
+	
+	private class ListSpots extends AsyncTask<Void, Void, CollectionResponseSpots>{
+		private Context m_context;
+		private ProgressDialog m_progressDialog;
+		
+		public ListSpots(Context context){
+			this.m_context = context;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			m_progressDialog = new ProgressDialog(m_context);
+			m_progressDialog.setMessage("Récupération des spots..."); //TODO getressource
+			m_progressDialog.show();
+		}
+		
+		@Override
+		protected CollectionResponseSpots doInBackground(Void... params) {
+			CollectionResponseSpots spots = null;
+			try{
+				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+				Rmsendpoint service = builder.build();
+				spots = service.listSpots().setPIdUser(Long.parseLong(m_sessionManager.getUserDetails().get(SessionManager.KEY_ID))).execute();
+			} catch (Exception e){
+				Log.d("impossible de récupérer les spots", e.getMessage(), e);//TODO getressource
+			}
+			return spots;
+		}
+		
+		@Override
+		protected void onPostExecute(CollectionResponseSpots spots) {
+			super.onPostExecute(spots);
+			m_progressDialog.dismiss();
+
+			if(spots != null && spots.getItems() != null){
+				if(m_spot == null){
+			        m_spot = new ArrayList<Spot>();
+				} else {
+					m_spot.clear();
+				}
+		        List<Spots> _list = spots.getItems();
+			    if(_list != null){
+			        for (Spots spot : _list) {
+			        	Spot item = new Spot(
+			        			spot.getId(),
+			        			spot.getName(),
+			            		 "",
+			            		 spot.getDescription(),
+			            		 spot.getLatitude(),
+			            		 spot.getLongitude(),
+			            		 spot.getType(),
+			            		 spot.getAverageNote(),
+			            		 spot.getFavorite()
+			        			);
+			        	m_spot.add(item);
+			        	
+			        }
+		        }
+				populateMap();
+			}
+		}
 	}
 
 }

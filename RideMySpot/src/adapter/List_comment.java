@@ -2,12 +2,8 @@ package adapter;
 
 import java.util.ArrayList;
 
-import com.w3m.ridemyspot.R;
-
 import model.Comment;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.w3m.ridemyspot.R;
 
 public class List_comment extends BaseAdapter{
 
@@ -72,7 +70,7 @@ public class List_comment extends BaseAdapter{
 		
 		
 		if(!m_comments.isEmpty() && m_comments.size()>position){
-			Log.d("rms_debug", m_comments.get(position).getUser());
+			//Log.d("rms_debug", m_comments.get(position).getUser());
 			Comment comment = m_comments.get(position);
 			m_name.setText(comment.getUser());
 			m_rate.setRating((float) comment.getNote());

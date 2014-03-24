@@ -13,8 +13,9 @@ public class Spot implements Parcelable {
 	public final static int SKATE = 1 << 1;
 	public final static int BMX = 1 << 2;
 	public final static int SKATEPARK= 1 << 3;
-	
+
 	private long ID;
+	private String MarkerID;
 	private String m_name;
 	private String m_adress;
 	private String m_description;
@@ -23,19 +24,24 @@ public class Spot implements Parcelable {
 	private int m_type;
 	private float m_globalNote;
 	private int m_score;
+	private boolean m_favorite;
 	
 	public Spot(){}
 
-	public Spot(String name, String adress, String description, double position_lat, double position_long, int type){
+	public Spot(long id, String name, String adress, String description, double position_lat, double position_long, int type, float globalNote, boolean favorite){
+		this.setID(id);
 		this.setName(name);
 		this.setAdress(adress);
 		this.setDescription(description);
 		this.setPosition_lat(position_lat);
 		this.setPosition_long(position_long);
 		this.setType(type);
+		this.setGlobalNote(globalNote);
+		this.setFavorite(favorite);
 	}
 
-	public Spot(String name, String adress, String description, double position_lat, double position_long, int type, float globalNote, int score){
+	public Spot(long id,String name, String adress, String description, double position_lat, double position_long, int type, float globalNote, int score){
+		this.setID(id);
 		this.setName(name);
 		this.setAdress(adress);
 		this.setDescription(description);
@@ -52,6 +58,14 @@ public class Spot implements Parcelable {
 
 	public void setID(long iD) {
 		ID = iD;
+	}
+	
+	public String getMarkerID() {
+		return MarkerID;
+	}
+
+	public void setMarkerID(String markerID) {
+		MarkerID = markerID;
 	}
 	
 	public String getName() {
@@ -122,6 +136,14 @@ public class Spot implements Parcelable {
 		return new LatLng(m_position_lat, m_position_long);
 	}
 
+	public boolean isFavorite() {
+		return m_favorite;
+	}
+
+	public void setFavorite(boolean m_favorite) {
+		this.m_favorite = m_favorite;
+	}
+
 	public List<String> getStringTypes(){
 		List<String> type = new ArrayList<String>();
 		type.addAll(dudu_s_tricks());
@@ -151,6 +173,7 @@ public class Spot implements Parcelable {
 
     protected Spot(Parcel in) {
         ID = in.readLong();
+        MarkerID = in.readString();
         m_name = in.readString();
         m_adress = in.readString();
         m_description = in.readString();
@@ -159,6 +182,7 @@ public class Spot implements Parcelable {
         m_type = in.readInt();
         m_globalNote = in.readFloat();
         m_score = in.readInt();
+        m_favorite = in.readByte() != 0;
     }
 
     @Override
@@ -169,6 +193,7 @@ public class Spot implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(ID);
+        dest.writeString(MarkerID);
         dest.writeString(m_name);
         dest.writeString(m_adress);
         dest.writeString(m_description);
@@ -177,6 +202,7 @@ public class Spot implements Parcelable {
         dest.writeInt(m_type);
         dest.writeFloat(m_globalNote);
         dest.writeInt(m_score);
+        dest.writeByte((byte) (m_favorite ? 1 : 0)); 
     }
 
     public static final Parcelable.Creator<Spot> CREATOR = new Parcelable.Creator<Spot>() {

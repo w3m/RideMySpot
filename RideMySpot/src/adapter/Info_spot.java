@@ -1,6 +1,5 @@
 package adapter;
 
-import model.Spot;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +13,9 @@ import com.w3m.ridemyspot.R;
 public class Info_spot implements InfoWindowAdapter{
 	
 	private LayoutInflater m_layoutInflater;
-	private Spot m_spot;
 
-	public Info_spot(Context context, Spot spot) {
+	public Info_spot(Context context) {
 		m_layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		setSpot(spot);
 	}
 
 	@Override
@@ -41,14 +38,6 @@ public class Info_spot implements InfoWindowAdapter{
 	@Override
 	public View getInfoWindow(Marker arg0) {
 		return null;
-	}
-
-	public Spot getSpot() {
-		return m_spot;
-	}
-
-	public void setSpot(Spot spot) {
-		this.m_spot = spot;
 	}
 
 }
