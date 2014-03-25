@@ -19,7 +19,7 @@
 package entity.model;
 
 /**
- * Model definition for Users.
+ * Model definition for Comments.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the rmsendpoint. For a detailed explanation see:
@@ -29,19 +29,7 @@ package entity.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class Users extends com.google.api.client.json.GenericJson {
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.lang.String adress;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.util.List<java.lang.String> favorite;
+public final class Comments extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
@@ -52,50 +40,26 @@ public final class Users extends com.google.api.client.json.GenericJson {
   /**
    * The value may be {@code null}.
    */
-  @com.google.api.client.util.Key
-  private java.lang.String name;
+  @com.google.api.client.util.Key @com.google.api.client.json.JsonString
+  private java.lang.Long idSpot;
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key @com.google.api.client.json.JsonString
+  private java.lang.Long idUser;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String type;
+  private java.lang.Float note;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<java.lang.String> vote;
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.String getAdress() {
-    return adress;
-  }
-
-  /**
-   * @param adress adress or {@code null} for none
-   */
-  public Users setAdress(java.lang.String adress) {
-    this.adress = adress;
-	return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.util.List<java.lang.String> getFavorite() {
-    return favorite;
-  }
-
-  /**
-   * @param favorite favorite or {@code null} for none
-   */
-  public Users setFavorite(java.util.List<java.lang.String> favorite) {
-    this.favorite = favorite;
-    return this;
-  }
+  private java.lang.String text;
 
   /**
    * @return value or {@code null} for none
@@ -107,7 +71,7 @@ public final class Users extends com.google.api.client.json.GenericJson {
   /**
    * @param id id or {@code null} for none
    */
-  public Users setId(java.lang.Long id) {
+  public Comments setId(java.lang.Long id) {
     this.id = id;
     return this;
   }
@@ -115,56 +79,71 @@ public final class Users extends com.google.api.client.json.GenericJson {
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getName() {
-    return name;
+  public java.lang.Long getIdSpot() {
+    return idSpot;
   }
 
   /**
-   * @param name name or {@code null} for none
+   * @param idSpot idSpot or {@code null} for none
    */
-  public Users setName(java.lang.String name) {
-    this.name = name;
+  public Comments setIdSpot(java.lang.Long idSpot) {
+    this.idSpot = idSpot;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getType() {
-    return type;
+  public java.lang.Long getIdUser() {
+    return idUser;
   }
 
   /**
-   * @param type type or {@code null} for none
+   * @param idUser idUser or {@code null} for none
    */
-  public Users setType(java.lang.String type) {
-    this.type = type;
+  public Comments setIdUser(java.lang.Long idUser) {
+    this.idUser = idUser;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<java.lang.String> getVote() {
-    return vote;
+  public java.lang.Float getNote() {
+    return note;
   }
 
   /**
-   * @param vote vote or {@code null} for none
+   * @param note note or {@code null} for none
    */
-  public Users setVote(java.util.List<java.lang.String> vote) {
-    this.vote = vote;
+  public Comments setNote(java.lang.Float note) {
+    this.note = note;
+    return this;
+  }
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.lang.String getText() {
+    return text;
+  }
+
+  /**
+   * @param text text or {@code null} for none
+   */
+  public Comments setText(java.lang.String text) {
+    this.text = text;
     return this;
   }
 
   @Override
-  public Users set(String fieldName, Object value) {
-    return (Users) super.set(fieldName, value);
+  public Comments set(String fieldName, Object value) {
+    return (Comments) super.set(fieldName, value);
   }
 
   @Override
-  public Users clone() {
-    return (Users) super.clone();
+  public Comments clone() {
+    return (Comments) super.clone();
   }
 
 }

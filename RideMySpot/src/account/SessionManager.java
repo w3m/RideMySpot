@@ -77,7 +77,7 @@ public class SessionManager {
      * */
     public void checkLogin(){
 
-        //if(!this.isLoggedIn()){
+        if(!this.isLoggedIn()){
         	
 	    	String listAdress[] = getAccountNames();
 	    	if(listAdress.length > 1){
@@ -105,7 +105,9 @@ public class SessionManager {
 	            mAdress = listAdress[0];
 	    		new ListUsers().execute(mAdress);
 	    	}
-        //}
+        } else {
+        	returnToMap();
+        }
     }
      
     /**
@@ -189,13 +191,7 @@ private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers>
 			if(User != null && User.getItems() != null && User.getItems().get(0) != null){
 				Users user = User.getItems().get(0);
 				createLoginSession(user.getId().toString(), user.getName(), user.getAdress(), user.getType());
-				 // user is not logged in redirect him to Login Activity
-	            Intent intent = new Intent(mContext, rms_maps.class);
-	            // Closing all the Activities
-	            intent.putExtra(KEY_EMAIL, mAdress);
-	            // Add new Flag to start new Activity and closing all the activities
-	            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	            mContext.startActivity(intent);
+				returnToMap();
 			}else{
 				 // user is not logged in redirect him to Login Activity
 	            Intent intent = new Intent(mContext, rms_add_user.class);
@@ -205,5 +201,15 @@ private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers>
 	            mContext.startActivity(intent);
 			}
 		}
+	}
+
+	public void returnToMap() {
+		 // user is not logged in redirect him to Login Activity
+		Intent intent = new Intent(mContext, rms_maps.class);
+		// Closing all the Activities
+		intent.putExtra(KEY_EMAIL, mAdress);
+		// Add new Flag to start new Activity and closing all the activities
+	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    mContext.startActivity(intent);
 	}
 }

@@ -9,7 +9,6 @@ import java.net.URL;
 import org.json.JSONException;
 
 import activity.rms_add_user;
-import activity.rms_maps;
 import activity.rms_splashscreen;
 import android.content.Intent;
 import android.os.AsyncTask;

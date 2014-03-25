@@ -24,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -81,9 +80,6 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		findViewById(R.id.map_location).setOnClickListener(this);
 		
 		m_sessionManager = new SessionManager(this);
-		
-		Toast.makeText(this, m_sessionManager.getUserDetails().get(SessionManager.KEY_NAME),Toast.LENGTH_LONG);
-		
 	}
 	
 	private void populateMap() {
@@ -96,7 +92,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 			
 		for (Spot spot : m_spot) {
 			//If the spot is in the type scope
-			if(containsAny(type, spot.getStringTypes())){
+			if(containsAny(type, spot.getStringTypes(), spot.isFavorite())){
 				//We add it to the map and retrieve his ID
 				String markerID = m_map.addMarker(new MarkerOptions()
 	    			.position(spot.getPosition())
@@ -118,9 +114,9 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	    );
 	}
 	
-	private boolean containsAny(List<String> type, List<String> stringTypes) {
+	private boolean containsAny(List<String> type, List<String> stringTypes, boolean fav) {
 		for (String text : type){
-			if(stringTypes.contains(text))
+			if(stringTypes.contains(text) || fav)
 				return true;
 		}
 		return false;

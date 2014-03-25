@@ -17,7 +17,7 @@
         <item>Favoris</item>
     </string-array>
     <string name="menu_maps_add">Ajouter un spot</string>
-	<string name="add_spot_map_info">Vous pouvez déplacer le point par appuie long sur celui ci</string>
+	<string name="add_spot_map_info">Vous pouvez déplacer le point par appui long sur celui ci</string>
 	<string name="add_spot_name">Entrer un nom</string>
 	<string name="text_roller">Roller</string>
 	<string name="text_skatepark">Skatepark</string>
@@ -36,6 +36,9 @@
 	<string name="add_comment_text">Entrer votre commentaire</string>
 	
 	<string name="empty"></string>
+	
+	<string name="vote_moins">Vote moins</string>
+	<string name="vote_plus">Vote plus</string>
 	
 	<string name="icon_url">http://www.tehkseven.net/300-icons-103164/</string>
 </resources>

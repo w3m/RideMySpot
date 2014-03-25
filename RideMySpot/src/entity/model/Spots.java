@@ -83,6 +83,12 @@ public final class Spots extends com.google.api.client.json.GenericJson {
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
+  private java.lang.Integer score;
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
   private java.lang.Float totalNote;
 
   /**
@@ -208,6 +214,21 @@ public final class Spots extends com.google.api.client.json.GenericJson {
    */
   public Spots setNbNote(java.lang.Integer nbNote) {
     this.nbNote = nbNote;
+    return this;
+  }
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.lang.Integer getScore() {
+    return score;
+  }
+
+  /**
+   * @param score score or {@code null} for none
+   */
+  public Spots setScore(java.lang.Integer score) {
+    this.score = score;
     return this;
   }
 

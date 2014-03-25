@@ -228,6 +228,134 @@ public class Rmsendpoint extends com.google.api.client.googleapis.services.json.
   }
 
   /**
+   * Create a request for the method "addScore".
+   *
+   * This request holds the parameters needed by the the rmsendpoint server.  After setting any
+   * optional parameters, call the {@link AddScore#execute()} method to invoke the remote operation.
+   *
+   * @param idSpot
+   * @param idUser
+   * @param score
+   * @return the request
+   */
+  public AddScore addScore(java.lang.Long idSpot, java.lang.String idUser, java.lang.Boolean score) throws java.io.IOException {
+    AddScore result = new AddScore(idSpot, idUser, score);
+    initialize(result);
+    return result;
+  }
+
+  public class AddScore extends RmsendpointRequest<Void> {
+
+    private static final String REST_PATH = "addScore/{idSpot}/{idUser}/{score}";
+
+    /**
+     * Create a request for the method "addScore".
+     *
+     * This request holds the parameters needed by the the rmsendpoint server.  After setting any
+     * optional parameters, call the {@link AddScore#execute()} method to invoke the remote operation.
+     * <p> {@link
+     * AddScore#initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest)}
+     * must be called to initialize this instance immediately after invoking the constructor. </p>
+     *
+     * @param idSpot
+     * @param idUser
+     * @param score
+     * @since 1.13
+     */
+    protected AddScore(java.lang.Long idSpot, java.lang.String idUser, java.lang.Boolean score) {
+      super(Rmsendpoint.this, "POST", REST_PATH, null, Void.class);
+      this.idSpot = com.google.api.client.util.Preconditions.checkNotNull(idSpot, "Required parameter idSpot must be specified.");
+      this.idUser = com.google.api.client.util.Preconditions.checkNotNull(idUser, "Required parameter idUser must be specified.");
+      this.score = com.google.api.client.util.Preconditions.checkNotNull(score, "Required parameter score must be specified.");
+    }
+
+    @Override
+    public AddScore setAlt(java.lang.String alt) {
+      return (AddScore) super.setAlt(alt);
+    }
+
+    @Override
+    public AddScore setFields(java.lang.String fields) {
+      return (AddScore) super.setFields(fields);
+    }
+
+    @Override
+    public AddScore setKey(java.lang.String key) {
+      return (AddScore) super.setKey(key);
+    }
+
+    @Override
+    public AddScore setOauthToken(java.lang.String oauthToken) {
+      return (AddScore) super.setOauthToken(oauthToken);
+    }
+
+    @Override
+    public AddScore setPrettyPrint(java.lang.Boolean prettyPrint) {
+      return (AddScore) super.setPrettyPrint(prettyPrint);
+    }
+
+    @Override
+    public AddScore setQuotaUser(java.lang.String quotaUser) {
+      return (AddScore) super.setQuotaUser(quotaUser);
+    }
+
+    @Override
+    public AddScore setUserIp(java.lang.String userIp) {
+      return (AddScore) super.setUserIp(userIp);
+    }
+
+    @com.google.api.client.util.Key
+    private java.lang.Long idSpot;
+
+    /**
+
+     */
+    public java.lang.Long getIdSpot() {
+      return idSpot;
+    }
+
+    public AddScore setIdSpot(java.lang.Long idSpot) {
+      this.idSpot = idSpot;
+      return this;
+    }
+
+    @com.google.api.client.util.Key
+    private java.lang.String idUser;
+
+    /**
+
+     */
+    public java.lang.String getIdUser() {
+      return idUser;
+    }
+
+    public AddScore setIdUser(java.lang.String idUser) {
+      this.idUser = idUser;
+      return this;
+    }
+
+    @com.google.api.client.util.Key
+    private java.lang.Boolean score;
+
+    /**
+
+     */
+    public java.lang.Boolean getScore() {
+      return score;
+    }
+
+    public AddScore setScore(java.lang.Boolean score) {
+      this.score = score;
+      return this;
+    }
+
+    @Override
+    public AddScore set(String parameterName, Object value) {
+      return (AddScore) super.set(parameterName, value);
+    }
+  }
+
+  /**
    * Create a request for the method "getComments".
    *
    * This request holds the parameters needed by the the rmsendpoint server.  After setting any

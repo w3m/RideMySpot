@@ -178,9 +178,7 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 				spot.setDescription(m_editDescription.getText().toString());
 				spot.setLatitude(params[0].latitude);
 				spot.setLongitude(params[0].longitude);
-				spot.setNbNote(1);
 				spot.setTotalNote(note);
-				spot.setAverageNote(note);
 				spot.setType(m_type);
 				
 				response = service.insertSpots(spot).execute();

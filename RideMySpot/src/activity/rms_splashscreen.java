@@ -3,7 +3,6 @@ package activity;
 import account.AbstractGetNameTask;
 import account.GetNameInForeground;
 import account.SessionManager;
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.GoogleAuthUtil;
 import com.w3m.ridemyspot.R;
 
 /**

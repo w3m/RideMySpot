@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:ridemyspot="http://schemas.android.com/apk/res-auto"   >
-    <item
-		android:id="@+id/menu_fav"
+    
+	<item
+		android:id="@+id/menu_vote"
 		ridemyspot:showAsAction="ifRoom|withText"
-		android:title="@string/menu_spot_fav"
-		android:icon="@drawable/heart_empty"
+		android:title="@string/menu_spot_vote"
+		android:icon="@drawable/flux"
+		android:onClick="showPopup"
 		/>
 <!-- 	
 	<item
@@ -28,9 +30,9 @@
 		android:icon="@drawable/mail_2"
 		/>
 	<item
-		android:id="@+id/menu_vote"
+		android:id="@+id/menu_fav"
 		ridemyspot:showAsAction="ifRoom|withText"
-		android:title="@string/menu_spot_vote"
-		android:icon="@drawable/flux"
+		android:title="@string/menu_spot_fav"
+		android:icon="@drawable/heart_empty"
 		/>
 </menu>
