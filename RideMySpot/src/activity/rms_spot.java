@@ -138,6 +138,7 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	}
 	
 	//TODO Enlever les deprecated
+	//http://stackoverflow.com/questions/2795833/check-orientation-on-android-phone
 	public int getScreenOrientation()
 	{
 	    Display getOrient = getWindowManager().getDefaultDisplay();
