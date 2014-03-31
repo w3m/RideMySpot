@@ -22,13 +22,15 @@ public class Spot implements Parcelable {
 	private double m_position_lat;
 	private double m_position_long;
 	private int m_type;
-	private float m_globalNote;
+	private float m_totalNote;
+	private int m_nbNote;
 	private int m_score;
 	private boolean m_favorite;
+	private boolean m_hasScore;
 	
 	public Spot(){}
 
-	public Spot(long id, String name, String adress, String description, double position_lat, double position_long, int type, float globalNote, boolean favorite){
+	public Spot(long id,String name, String adress, String description, double position_lat, double position_long, int type, float totalNote, int nbNote, boolean favorite, int score, boolean hasScore){
 		this.setID(id);
 		this.setName(name);
 		this.setAdress(adress);
@@ -36,20 +38,15 @@ public class Spot implements Parcelable {
 		this.setPosition_lat(position_lat);
 		this.setPosition_long(position_long);
 		this.setType(type);
-		this.setGlobalNote(globalNote);
+		this.setTotalNote(totalNote);
+		this.setNbNote(nbNote);
 		this.setFavorite(favorite);
-	}
-
-	public Spot(long id,String name, String adress, String description, double position_lat, double position_long, int type, float globalNote, int score){
-		this.setID(id);
-		this.setName(name);
-		this.setAdress(adress);
-		this.setDescription(description);
-		this.setPosition_lat(position_lat);
-		this.setPosition_long(position_long);
-		this.setType(type);
-		this.setGlobalNote(globalNote);
 		this.setScore(score);
+		this.setHasScore(hasScore);
+	}
+	
+	public float getGlobalNote(){
+		return (m_totalNote/m_nbNote);
 	}
 
 	public long getID() {
@@ -116,12 +113,20 @@ public class Spot implements Parcelable {
 		this.m_type = type;
 	}
 
-	public float getGlobalNote() {
-		return m_globalNote;
+	public float getTotalNote() {
+		return m_totalNote;
 	}
 
-	public void setGlobalNote(float globalNote) {
-		this.m_globalNote = globalNote;
+	public void setTotalNote(float totalNote) {
+		this.m_totalNote = totalNote;
+	}
+
+	public int getNbNote() {
+		return m_score;
+	}
+
+	public void setNbNote(int nbNote) {
+		this.m_nbNote = nbNote;
 	}
 
 	public int getScore() {
@@ -140,8 +145,16 @@ public class Spot implements Parcelable {
 		return m_favorite;
 	}
 
-	public void setFavorite(boolean m_favorite) {
-		this.m_favorite = m_favorite;
+	public void setFavorite(boolean favorite) {
+		this.m_favorite = favorite;
+	}
+
+	public boolean isHasScrore() {
+		return m_hasScore;
+	}
+
+	public void setHasScore(boolean hasScore) {
+		this.m_hasScore = hasScore;
 	}
 
 	public List<String> getStringTypes(){
@@ -180,9 +193,11 @@ public class Spot implements Parcelable {
         m_position_lat = in.readDouble();
         m_position_long = in.readDouble();
         m_type = in.readInt();
-        m_globalNote = in.readFloat();
+        m_totalNote = in.readFloat();
+        m_nbNote = in.readInt();
         m_score = in.readInt();
         m_favorite = in.readByte() != 0;
+        m_hasScore = in.readByte() != 0;
     }
 
     @Override
@@ -200,9 +215,11 @@ public class Spot implements Parcelable {
         dest.writeDouble(m_position_lat);
         dest.writeDouble(m_position_long);
         dest.writeInt(m_type);
-        dest.writeFloat(m_globalNote);
+        dest.writeFloat(m_totalNote);
+        dest.writeInt(m_nbNote);
         dest.writeInt(m_score);
-        dest.writeByte((byte) (m_favorite ? 1 : 0)); 
+        dest.writeByte((byte) (m_favorite ? 1 : 0));
+        dest.writeByte((byte) (m_hasScore ? 1 : 0)); 
     }
 
     public static final Parcelable.Creator<Spot> CREATOR = new Parcelable.Creator<Spot>() {

@@ -382,7 +382,9 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 						comment.getText(), 
 						comment.getNote())
 				);
-				//TODO Mise à jour de la note global du spot creer asynctask pour récupération de la note?...
+				m_spot.setTotalNote(m_spot.getTotalNote()+comment.getNote());
+				m_spot.setNbNote(m_spot.getNbNote()+1);
+				((RatingBar) findViewById(R.id.spot_globalnote)).setRating(m_spot.getGlobalNote());
 				populateComment();
 				
 				

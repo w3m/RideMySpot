@@ -84,7 +84,7 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 	
 	private void populateMap() {
 		m_map.clear();    //On peut aussi jouer sur la visibilité... optimise le fais de pas avoir à recréer les marker!!
-							//Du coup un populatemap() pour tout les points et un filtermarker() pour le filtre
+							//Du coup un populatemap() pour tout les points et un filtermarker() pour le filtre (le faire sur le clicklistener du filtre!)
 		
 		List<String> type = Arrays.asList(multiSpinner.getSelectedItem().toString().split(", "));
 		if(type.contains(getResources().getString(R.string.text_all_spot)))
@@ -302,19 +302,23 @@ public class rms_maps extends ActionBarActivity implements LocationListener, OnM
 		        List<Spots> _list = spots.getItems();
 			    if(_list != null){
 			        for (Spots spot : _list) {
-			        	Spot item = new Spot(
-			        			spot.getId(),
-			        			spot.getName(),
-			            		 "",
-			            		 spot.getDescription(),
-			            		 spot.getLatitude(),
-			            		 spot.getLongitude(),
-			            		 spot.getType(),
-			            		 spot.getAverageNote(),
-			            		 spot.getFavorite()
-			        			);
-			        	m_spot.add(item);
-			        	
+			        	if(spot != null){
+				        	Spot item = new Spot(
+				        			spot.getId(),
+				        			spot.getName(),
+				            		 "",
+				            		 spot.getDescription(),
+				            		 spot.getLatitude(),
+				            		 spot.getLongitude(),
+				            		 spot.getType(),
+				            		 spot.getTotalNote(),
+				            		 spot.getNbNote(),
+				            		 spot.getFavorite(),
+				            		 spot.getScore(),
+				            		 spot.getHasScore()
+				        			);
+				        	m_spot.add(item);
+			        	}
 			        }
 		        }
 				populateMap();

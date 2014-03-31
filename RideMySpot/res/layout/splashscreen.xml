@@ -4,21 +4,34 @@
     android:layout_height="match_parent"
     tools:context=".SplashActivity" >
 
+    <ImageView 
+        android:id="@+id/imageView1"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription=""
+		android:src="@drawable/big_logo"
+		  
+ 	/>
+
+        
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:text="Please wait..."
-        android:textSize="25sp" />
-
+        android:layout_below="@id/imageView1"
+        android:textSize="20dp" />
+    
     <ProgressBar
         android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleLarge"
+        style="?android:attr/progressBarStyleInverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@id/textView1"
         android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
