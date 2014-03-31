@@ -6,7 +6,7 @@ import java.util.List;
 import model.Comment;
 import model.Spot;
 import account.SessionManager;
-import adapter.List_comment;
+import adapter.ListComment;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -48,28 +48,28 @@ import entity.Rmsendpoint;
 import entity.model.CollectionResponseComments;
 import entity.model.Comments;
 
-public class rms_spot extends ActionBarActivity implements OnItemClickListener, OnClickListener, android.view.View.OnClickListener{
+public class SpotActivity extends ActionBarActivity implements OnItemClickListener, OnClickListener, android.view.View.OnClickListener{
 
-	private SessionManager m_sessionManager;
+	private SessionManager mSessionManager;
 	
-	private Spot m_spot;
-	private ArrayList<Comment> m_comments;
+	private Spot mSpot;
+	private ArrayList<Comment> mComments;
 
 	private Intent intent;
 	
-	private ListView m_listComment;
-	private EditText m_dialog_com;
-	private RatingBar m_dialog_rate;
+	private ListView mListComment;
+	private EditText mDialog_com;
+	private RatingBar mDialog_rate;
 
-	private ImageButton m_votePlus;
-	private ImageButton m_voteMoins;
+	private ImageButton mVotePlus;
+	private ImageButton mVoteMoins;
 	
-	private boolean m_fav;
+	private boolean mFav;
 	
-	private String m_idUser;
+	private String mIdUser;
 	
-	private View m_popupView;
-	private PopupWindow m_popupWindow;
+	private View mPopupView;
+	private PopupWindow mPopupWindow;
 	
 	
 	/*Changement de rotation changer l'ordre 
@@ -85,55 +85,55 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		setContentView(R.layout.spot);
 	
 		Intent intent = getIntent();
-		m_spot = intent.getParcelableExtra("spot");
-		m_fav = m_spot.isFavorite();
+		mSpot = intent.getParcelableExtra("spot");
+		mFav = mSpot.isFavorite();
 		
-		((RatingBar) findViewById(R.id.spot_globalnote)).setRating(m_spot.getGlobalNote());
+		((RatingBar) findViewById(R.id.spot_globalnote)).setRating(mSpot.getGlobalNote());
 
-		((TextView) findViewById(R.id.spot_text_name)).setText(m_spot.getName());
-		((TextView) findViewById(R.id.spot_text_adress)).setText(m_spot.getAdress());
-		((TextView) findViewById(R.id.spot_text_desciption)).setText(m_spot.getDescription());
+		((TextView) findViewById(R.id.spot_text_name)).setText(mSpot.getName());
+		((TextView) findViewById(R.id.spot_text_adress)).setText(mSpot.getAdress());
+		((TextView) findViewById(R.id.spot_text_desciption)).setText(mSpot.getDescription());
 
-		m_listComment = (ListView) findViewById(R.id.spot_list_comment);
-		m_listComment.setEmptyView(findViewById(R.id.spot_loading));
-		m_listComment.setOnItemClickListener(this);
+		mListComment = (ListView) findViewById(R.id.spot_list_comment);
+		mListComment.setEmptyView(findViewById(R.id.spot_loading));
+		mListComment.setOnItemClickListener(this);
 
-		m_sessionManager = new SessionManager(this);
-		m_idUser = m_sessionManager.getUserDetails().get(SessionManager.KEY_ID);
+		mSessionManager = new SessionManager(this);
+		mIdUser = mSessionManager.getUserDetails().get(SessionManager.KEY_ID);
 
-		getSupportActionBar().setTitle(m_spot.getStringTypes().toString());
+		getSupportActionBar().setTitle(mSpot.getStringTypes().toString());
 		new ListComments().execute();
 	}
 	
 	private void populateComment() {
-		//m_comments = new ArrayList<Comment>();
-		List_comment listComment = new List_comment(this, m_comments);
-		m_listComment.setAdapter(listComment);
+		//mComments = new ArrayList<Comment>();
+		ListComment listComment = new ListComment(this, mComments);
+		mListComment.setAdapter(listComment);
 	}
 
 	
 	public void showPopup(MenuItem menuItem){
 		View view = findViewById(menuItem.getItemId());
-		m_popupWindow = new PopupWindow(this);
-		m_popupWindow.setTouchable(true);
-		m_popupWindow.setFocusable(true);
-		m_popupWindow.setOutsideTouchable(true);
-		m_popupWindow.setTouchInterceptor(new OnTouchListener() {
+		mPopupWindow = new PopupWindow(this);
+		mPopupWindow.setTouchable(true);
+		mPopupWindow.setFocusable(true);
+		mPopupWindow.setOutsideTouchable(true);
+		mPopupWindow.setTouchInterceptor(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_OUTSIDE){
-					m_popupWindow.dismiss();
+					mPopupWindow.dismiss();
 				}
 				return false;
 			}
 		});
-		m_popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-		m_popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-		m_popupWindow.setContentView(m_popupView);
+		mPopupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+		mPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+		mPopupWindow.setContentView(mPopupView);
 		if(getScreenOrientation() == Configuration.ORIENTATION_PORTRAIT)
-			m_popupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, getSupportActionBar().getHeight());
+			mPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, getSupportActionBar().getHeight());
 		else
-			m_popupWindow.showAsDropDown(view, 0, 0);
+			mPopupWindow.showAsDropDown(view, 0, 0);
 		
 	}
 	
@@ -158,14 +158,14 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		m_popupView = inflater.inflate(R.layout.vote_popup, null, false);
+		mPopupView = inflater.inflate(R.layout.vote_popup, null, false);
 		
-		m_votePlus = (ImageButton) m_popupView.findViewById(R.id.vote_plus);
-		m_voteMoins = (ImageButton) m_popupView.findViewById(R.id.vote_moins);
-		m_votePlus.setOnClickListener(this);
-		m_voteMoins.setOnClickListener(this);
+		mVotePlus = (ImageButton) mPopupView.findViewById(R.id.vote_plus);
+		mVoteMoins = (ImageButton) mPopupView.findViewById(R.id.vote_moins);
+		mVotePlus.setOnClickListener(this);
+		mVoteMoins.setOnClickListener(this);
 		
-		if(m_fav)
+		if(mFav)
 			menu.findItem(R.id.menu_fav).setIcon(R.drawable.heart_full);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -207,14 +207,14 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_fav:
-			if(m_fav){
+			if(mFav){
 				item.setIcon(R.drawable.heart_empty);
 				new RemoveFavorite().execute();
-				m_fav = false;
+				mFav = false;
 			} else {
 				item.setIcon(R.drawable.heart_full);
 				new AddFavorite().execute();
-				m_fav = true;
+				mFav = true;
 			}
 			break;
 		case R.id.menu_nav:
@@ -223,13 +223,13 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 			
 			String uri = "http://maps.google.com/maps?" +
 					"saddr="+(userLocation.getLatitude())+","+(userLocation.getLongitude())+
-					"&daddr="+m_spot.getPosition_lat()+","+m_spot.getPosition_long();
+					"&daddr="+mSpot.getPosition_lat()+","+mSpot.getPosition_long();
 			intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 			startActivity(intent);
 			break;
 		case R.id.menu_stview:
 			intent = new Intent(Intent.ACTION_VIEW, Uri.parse ("google.streetview:cbll=" 
-					+ m_spot.getPosition_lat() + "," + m_spot.getPosition_long() + 
+					+ mSpot.getPosition_lat() + "," + mSpot.getPosition_long() + 
 					"&cbp=1,180,,0,1.0")); 
 			startActivity(intent);
 		default:
@@ -239,11 +239,11 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	}
 	
 	public Spot getSpot() {
-		return m_spot;
+		return mSpot;
 	}
 
 	public void setSpot(Spot spot) {
-		this.m_spot = spot;
+		this.mSpot = spot;
 	}
 
 	@Override
@@ -256,13 +256,13 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 			AlertDialog alertDialog;
 			final View alertView = LayoutInflater.from(this).inflate(R.layout.add_comment, null);
 	
-			builder.setTitle(m_sessionManager.getUserDetails().get(SessionManager.KEY_NAME));
+			builder.setTitle(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
 			builder.setView(alertView);
 			builder.setPositiveButton("Valider", this);
 			builder.setNegativeButton("Annuler", this);
 			
-			m_dialog_com = (EditText) alertView.findViewById(R.id.add_comment_text);
-			m_dialog_rate = (RatingBar) alertView.findViewById(R.id.add_comment_rate);
+			mDialog_com = (EditText) alertView.findViewById(R.id.add_comment_text);
+			mDialog_rate = (RatingBar) alertView.findViewById(R.id.add_comment_rate);
 			
 			alertDialog = builder.create();
 			alertDialog.show(); 
@@ -295,7 +295,7 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 			try{
 				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
 				Rmsendpoint service = builder.build();
-				comments = service.listComments().setPIdSpot(m_spot.getID()).execute();
+				comments = service.listComments().setPIdSpot(mSpot.getID()).execute();
 			} catch (Exception e){
 				Log.d("impossible de récupérer les commmentaires", e.getMessage(), e);//TODO getressource
 			}
@@ -306,10 +306,10 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		protected void onPostExecute(CollectionResponseComments comments) {
 			super.onPostExecute(comments);
 			if(comments != null){
-				if(m_comments == null){
-					m_comments = new ArrayList<Comment>();
+				if(mComments == null){
+					mComments = new ArrayList<Comment>();
 				} else {
-					m_comments.clear();
+					mComments.clear();
 				}
 		        List<Comments> _list = comments.getItems();
 			    if(_list != null){
@@ -321,7 +321,7 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 			        			comment.getText(),
 			        			comment.getNote()
 			        			);
-			        	m_comments.add(item);
+			        	mComments.add(item);
 						Log.d("###########", "" + comment.getUser());
 			        }
 		        }
@@ -331,19 +331,19 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 	}
 		
 	private class AddComment extends AsyncTask<Void, Void, Comments>{
-		private Context m_context;
-		private ProgressDialog m_progressDialog;
+		private Context mContext;
+		private ProgressDialog mProgressDialog;
 		
 		public AddComment(Context context){
-			this.m_context = context;
+			this.mContext = context;
 		}
 		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			m_progressDialog = new ProgressDialog(m_context);
-			m_progressDialog.setMessage("Ajout du spot..."); //TODO getressource
-			m_progressDialog.show();
+			mProgressDialog = new ProgressDialog(mContext);
+			mProgressDialog.setMessage("Ajout du spot..."); //TODO getressource
+			mProgressDialog.show();
 		}
 		
 		@Override
@@ -356,10 +356,10 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 				
 				Comments comment = new Comments();
 				
-				comment.setIdSpot(m_spot.getID());
-				comment.setIdUser(Long.parseLong(m_idUser));
-				comment.setNote(m_dialog_rate.getRating());
-				comment.setText(m_dialog_com.getText().toString());
+				comment.setIdSpot(mSpot.getID());
+				comment.setIdUser(Long.parseLong(mIdUser));
+				comment.setNote(mDialog_rate.getRating());
+				comment.setText(mDialog_com.getText().toString());
 				
 				response = service.insertComments(comment).execute();
 				
@@ -371,20 +371,20 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		
 		@Override
 		protected void onPostExecute(Comments comment) {
-			m_progressDialog.dismiss();
+			mProgressDialog.dismiss();
 
 			if(comment != null){
-				m_comments.add(
+				mComments.add(
 					new Comment(
 						comment.getIdSpot(), 
 						comment.getIdUser(),
-						m_sessionManager.getUserDetails().get(SessionManager.KEY_NAME), //Non renvoyer par le serveur au moment de l'ajout!
+						mSessionManager.getUserDetails().get(SessionManager.KEY_NAME), //Non renvoyer par le serveur au moment de l'ajout!
 						comment.getText(), 
 						comment.getNote())
 				);
-				m_spot.setTotalNote(m_spot.getTotalNote()+comment.getNote());
-				m_spot.setNbNote(m_spot.getNbNote()+1);
-				((RatingBar) findViewById(R.id.spot_globalnote)).setRating(m_spot.getGlobalNote());
+				mSpot.setTotalNote(mSpot.getTotalNote()+comment.getNote());
+				mSpot.setNbNote(mSpot.getNbNote()+1);
+				((RatingBar) findViewById(R.id.spot_globalnote)).setRating(mSpot.getGlobalNote());
 				populateComment();
 				
 				
@@ -404,8 +404,8 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
 				Rmsendpoint service = builder.build();
 				service.addFavorite(
-						Long.parseLong(m_idUser),
-						String.valueOf(m_spot.getID())).execute();
+						Long.parseLong(mIdUser),
+						String.valueOf(mSpot.getID())).execute();
 				
 			} catch (Exception e){
 				Log.d("impossible d'ajouter le favori", e.getMessage(), e);//TODO getressource
@@ -422,8 +422,8 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
 				Rmsendpoint service = builder.build();
 				service.removeFavorite(
-						Long.parseLong(m_idUser),
-						String.valueOf(m_spot.getID())).execute();
+						Long.parseLong(mIdUser),
+						String.valueOf(mSpot.getID())).execute();
 				
 			} catch (Exception e){
 				Log.d("impossible de supprimer le favori", e.getMessage(), e);//TODO getressource
@@ -440,8 +440,8 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 			Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
 			Rmsendpoint service = builder.build();
 				service.addScore(
-						m_spot.getID(),
-						m_idUser,
+						mSpot.getID(),
+						mIdUser,
 						params[0]).execute();
 			} catch (Exception e) {
 				Log.d("impossible d'ajouter le score", e.getMessage(), e);//TODO getressource
@@ -457,7 +457,7 @@ public class rms_spot extends ActionBarActivity implements OnItemClickListener, 
 		if(view.getId() == R.id.vote_plus)
 			vote = true;
 		new AddScore().execute(vote);
-		m_popupWindow.dismiss();
+		mPopupWindow.dismiss();
 	}
 	
 }

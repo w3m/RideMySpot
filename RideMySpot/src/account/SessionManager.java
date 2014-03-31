@@ -2,8 +2,8 @@ package account;
 
 import java.util.HashMap;
 
-import activity.rms_add_user;
-import activity.rms_maps;
+import activity.AddUserActivity;
+import activity.MapActivity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -131,7 +131,7 @@ public class SessionManager {
         mEditor.commit();
          
         // After logout redirect user to Loging Activity
-        Intent i = new Intent(mContext, rms_add_user.class);
+        Intent i = new Intent(mContext, AddUserActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // Add new Flag to start new Activity
@@ -194,7 +194,7 @@ private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers>
 				returnToMap();
 			}else{
 				 // user is not logged in redirect him to Login Activity
-	            Intent intent = new Intent(mContext, rms_add_user.class);
+	            Intent intent = new Intent(mContext, AddUserActivity.class);
 	            intent.putExtra(KEY_EMAIL, mAdress);
 	            // Add new Flag to start new Activity and closing all the activities
 	            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -205,7 +205,7 @@ private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers>
 
 	public void returnToMap() {
 		 // user is not logged in redirect him to Login Activity
-		Intent intent = new Intent(mContext, rms_maps.class);
+		Intent intent = new Intent(mContext, MapActivity.class);
 		// Closing all the Activities
 		intent.putExtra(KEY_EMAIL, mAdress);
 		// Add new Flag to start new Activity and closing all the activities

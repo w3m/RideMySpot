@@ -8,8 +8,8 @@ import java.net.URL;
 
 import org.json.JSONException;
 
-import activity.rms_add_user;
-import activity.rms_splashscreen;
+import activity.AddUserActivity;
+import activity.SplashScreenActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -22,13 +22,13 @@ import com.google.android.gms.auth.GoogleAuthUtil;
  */
 public abstract class AbstractGetNameTask extends AsyncTask<Void, Void, Void> {
 	private static final String TAG = "TokenInfoTask";
-	protected rms_splashscreen mActivity;
+	protected SplashScreenActivity mActivity;
 	public static String GOOGLE_USER_DATA="No_data";
 	protected String mScope;
 	protected String mEmail;
 	protected int mRequestCode;
 
-	AbstractGetNameTask(rms_splashscreen activity, String email, String scope) {
+	AbstractGetNameTask(SplashScreenActivity activity, String email, String scope) {
 		this.mActivity = activity;
 		this.mScope = scope;
 		this.mEmail = email;
@@ -83,7 +83,7 @@ public abstract class AbstractGetNameTask extends AsyncTask<Void, Void, Void> {
 			GOOGLE_USER_DATA = readResponse(is);
 			is.close();
 
-			Intent intent=new Intent(mActivity,rms_add_user.class);
+			Intent intent=new Intent(mActivity,AddUserActivity.class);
 			intent.putExtra("email_id", mEmail);
 			mActivity.startActivity(intent);
 			mActivity.finish();

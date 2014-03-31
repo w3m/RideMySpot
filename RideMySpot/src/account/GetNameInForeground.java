@@ -2,7 +2,7 @@ package account;
 
 import java.io.IOException;
 
-import activity.rms_splashscreen;
+import activity.SplashScreenActivity;
 
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -15,7 +15,7 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
  */
 public class GetNameInForeground extends AbstractGetNameTask {
 
-  public GetNameInForeground(rms_splashscreen activity, String email, String scope) {
+  public GetNameInForeground(SplashScreenActivity activity, String email, String scope) {
       super(activity, email, scope);
   }
 

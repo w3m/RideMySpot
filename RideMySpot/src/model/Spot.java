@@ -16,17 +16,17 @@ public class Spot implements Parcelable {
 
 	private long ID;
 	private String MarkerID;
-	private String m_name;
-	private String m_adress;
-	private String m_description;
-	private double m_position_lat;
-	private double m_position_long;
-	private int m_type;
-	private float m_totalNote;
-	private int m_nbNote;
-	private int m_score;
-	private boolean m_favorite;
-	private boolean m_hasScore;
+	private String mName;
+	private String mAdress;
+	private String mDescription;
+	private double mPosition_lat;
+	private double mPosition_long;
+	private int mType;
+	private float mTotalNote;
+	private int mNbNote;
+	private int mScore;
+	private boolean mFavorite;
+	private boolean mHasScore;
 	
 	public Spot(){}
 
@@ -46,7 +46,7 @@ public class Spot implements Parcelable {
 	}
 	
 	public float getGlobalNote(){
-		return (m_totalNote/m_nbNote);
+		return (mTotalNote/mNbNote);
 	}
 
 	public long getID() {
@@ -66,95 +66,95 @@ public class Spot implements Parcelable {
 	}
 	
 	public String getName() {
-		return m_name;
+		return mName;
 	}
 
 	public void setName(String name) {
-		this.m_name = name;
+		this.mName = name;
 	}
 
 	public String getAdress() {
-		return m_adress;
+		return mAdress;
 	}
 
 	public void setAdress(String adress) {
-		this.m_adress = adress;
+		this.mAdress = adress;
 	}
 
 	public String getDescription() {
-		return m_description;
+		return mDescription;
 	}
 
 	public void setDescription(String description) {
-		this.m_description = description;
+		this.mDescription = description;
 	}
 
 	public double getPosition_lat() {
-		return m_position_lat;
+		return mPosition_lat;
 	}
 
 	public void setPosition_lat(double position_lat) {
-		this.m_position_lat = position_lat;
+		this.mPosition_lat = position_lat;
 	}
 	
 	public double getPosition_long() {
-		return m_position_long;
+		return mPosition_long;
 	}
 
 	public void setPosition_long(double position_long) {
-		this.m_position_long = position_long;
+		this.mPosition_long = position_long;
 	}
 
 	public int getType() {
-		return m_type;
+		return mType;
 	}
 
 	public void setType(int type) {
-		this.m_type = type;
+		this.mType = type;
 	}
 
 	public float getTotalNote() {
-		return m_totalNote;
+		return mTotalNote;
 	}
 
 	public void setTotalNote(float totalNote) {
-		this.m_totalNote = totalNote;
+		this.mTotalNote = totalNote;
 	}
 
 	public int getNbNote() {
-		return m_score;
+		return mScore;
 	}
 
 	public void setNbNote(int nbNote) {
-		this.m_nbNote = nbNote;
+		this.mNbNote = nbNote;
 	}
 
 	public int getScore() {
-		return m_score;
+		return mScore;
 	}
 
 	public void setScore(int score) {
-		this.m_score = score;
+		this.mScore = score;
 	}
 	
 	public LatLng getPosition(){
-		return new LatLng(m_position_lat, m_position_long);
+		return new LatLng(mPosition_lat, mPosition_long);
 	}
 
 	public boolean isFavorite() {
-		return m_favorite;
+		return mFavorite;
 	}
 
 	public void setFavorite(boolean favorite) {
-		this.m_favorite = favorite;
+		this.mFavorite = favorite;
 	}
 
 	public boolean isHasScrore() {
-		return m_hasScore;
+		return mHasScore;
 	}
 
 	public void setHasScore(boolean hasScore) {
-		this.m_hasScore = hasScore;
+		this.mHasScore = hasScore;
 	}
 
 	public List<String> getStringTypes(){
@@ -166,16 +166,16 @@ public class Spot implements Parcelable {
 	private List<String> dudu_s_tricks(){
 		List<String> tricks = new ArrayList<String>();
 		
-		if((m_type & ROLLER) == (ROLLER)){
+		if((mType & ROLLER) == (ROLLER)){
 			tricks.add("Roller");
 		}
-		if((m_type & SKATE) == (SKATE)){
+		if((mType & SKATE) == (SKATE)){
 			tricks.add("Skate");
 		}
-		if((m_type & BMX) == (BMX)){
+		if((mType & BMX) == (BMX)){
 			tricks.add("BMX");
 		}
-		if((m_type & SKATEPARK) == (SKATEPARK)){
+		if((mType & SKATEPARK) == (SKATEPARK)){
 			tricks.add("Skatepark");
 		}
 		
@@ -187,17 +187,17 @@ public class Spot implements Parcelable {
     protected Spot(Parcel in) {
         ID = in.readLong();
         MarkerID = in.readString();
-        m_name = in.readString();
-        m_adress = in.readString();
-        m_description = in.readString();
-        m_position_lat = in.readDouble();
-        m_position_long = in.readDouble();
-        m_type = in.readInt();
-        m_totalNote = in.readFloat();
-        m_nbNote = in.readInt();
-        m_score = in.readInt();
-        m_favorite = in.readByte() != 0;
-        m_hasScore = in.readByte() != 0;
+        mName = in.readString();
+        mAdress = in.readString();
+        mDescription = in.readString();
+        mPosition_lat = in.readDouble();
+        mPosition_long = in.readDouble();
+        mType = in.readInt();
+        mTotalNote = in.readFloat();
+        mNbNote = in.readInt();
+        mScore = in.readInt();
+        mFavorite = in.readByte() != 0;
+        mHasScore = in.readByte() != 0;
     }
 
     @Override
@@ -209,17 +209,17 @@ public class Spot implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(ID);
         dest.writeString(MarkerID);
-        dest.writeString(m_name);
-        dest.writeString(m_adress);
-        dest.writeString(m_description);
-        dest.writeDouble(m_position_lat);
-        dest.writeDouble(m_position_long);
-        dest.writeInt(m_type);
-        dest.writeFloat(m_totalNote);
-        dest.writeInt(m_nbNote);
-        dest.writeInt(m_score);
-        dest.writeByte((byte) (m_favorite ? 1 : 0));
-        dest.writeByte((byte) (m_hasScore ? 1 : 0)); 
+        dest.writeString(mName);
+        dest.writeString(mAdress);
+        dest.writeString(mDescription);
+        dest.writeDouble(mPosition_lat);
+        dest.writeDouble(mPosition_long);
+        dest.writeInt(mType);
+        dest.writeFloat(mTotalNote);
+        dest.writeInt(mNbNote);
+        dest.writeInt(mScore);
+        dest.writeByte((byte) (mFavorite ? 1 : 0));
+        dest.writeByte((byte) (mHasScore ? 1 : 0)); 
     }
 
     public static final Parcelable.Creator<Spot> CREATOR = new Parcelable.Creator<Spot>() {
@@ -235,7 +235,7 @@ public class Spot implements Parcelable {
 	public boolean isHere(LatLng position) {
 		double rounded_lat = (double) Math.round(position.latitude * 1000000.0) / 1000000.0;
 		double rounded_long = (double) Math.round(position.longitude * 1000000.0) / 1000000.0;
-		if(m_position_lat == rounded_lat && m_position_long == rounded_long)
+		if(mPosition_lat == rounded_lat && mPosition_long == rounded_long)
 			return true;
 		return false;
 	}

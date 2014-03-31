@@ -10,17 +10,17 @@ import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.Marker;
 import com.w3m.ridemyspot.R;
 
-public class Info_spot implements InfoWindowAdapter{
+public class InfoSpot implements InfoWindowAdapter{
 	
-	private LayoutInflater m_layoutInflater;
+	private LayoutInflater mLayoutInflater;
 
-	public Info_spot(Context context) {
-		m_layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public InfoSpot(Context context) {
+		mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
 	public View getInfoContents(Marker marker) {
-		View view = m_layoutInflater.inflate(R.layout.info_spot, null);
+		View view = mLayoutInflater.inflate(R.layout.info_spot, null);
 		
 		((TextView) view.findViewById(R.id.info_spot_name)).setText(marker.getTitle());
 		

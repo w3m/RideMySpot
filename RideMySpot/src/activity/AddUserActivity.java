@@ -19,15 +19,15 @@ import com.w3m.ridemyspot.R;
 import entity.Rmsendpoint;
 import entity.model.Users;
 
-public class rms_add_user extends Activity{
+public class AddUserActivity extends Activity{
 
-	public String m_adress;
-	private String m_type;
+	public String mAdress;
+	private String mType;
 	
-	private EditText m_name;
-	private Button m_validate;
+	private EditText mName;
+	private Button mValidate;
 	
-	private SessionManager m_sessionManager;
+	private SessionManager mSessionManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +35,14 @@ public class rms_add_user extends Activity{
 		setContentView(R.layout.add_user);
 		initializeView();
 
-		m_sessionManager = new SessionManager(this);
-		m_adress = getIntent().getStringExtra(SessionManager.KEY_EMAIL);
+		mSessionManager = new SessionManager(this);
+		mAdress = getIntent().getStringExtra(SessionManager.KEY_EMAIL);
 	}
 
 	private void initializeView() {
-		m_name = (EditText) findViewById(R.id.add_user_name);
-		m_validate = (Button) findViewById(R.id.add_user_validate);
-		m_validate.setOnClickListener(new OnClickListener() {
+		mName = (EditText) findViewById(R.id.add_user_name);
+		mValidate = (Button) findViewById(R.id.add_user_validate);
+		mValidate.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -74,13 +74,13 @@ public class rms_add_user extends Activity{
 	public void onRadioButtonClicked(View radioButton) {
 		switch (radioButton.getId()) {
 		case R.id.add_user_roller:
-			m_type = "Roller";
+			mType = "Roller";
 			break;
 		case R.id.add_user_bmx:
-			m_type = "BMX";
+			mType = "BMX";
 			break;
 		case R.id.add_user_skate:
-			m_type = "Skate";
+			mType = "Skate";
 			break;
 		default:
 			break;
@@ -103,9 +103,9 @@ public class rms_add_user extends Activity{
 				
 				Users User = new Users();
 				
-				User.setAdress(m_adress);
-				User.setName(m_name.getText().toString());
-				User.setType(String.valueOf(m_type));
+				User.setAdress(mAdress);
+				User.setName(mName.getText().toString());
+				User.setType(String.valueOf(mType));
 				
 				response = service.insertUsers(User).execute();
 				
@@ -119,9 +119,9 @@ public class rms_add_user extends Activity{
 		protected void onPostExecute(Users User) {
 
 			if(User != null){
-				m_sessionManager.createLoginSession(User.getId().toString(), User.getName(), User.getAdress(), User.getType());
+				mSessionManager.createLoginSession(User.getId().toString(), User.getName(), User.getAdress(), User.getType());
 				 // user is not logged in redirect him to Login Activity
-	            Intent intent = new Intent(rms_add_user.this, rms_maps.class);
+	            Intent intent = new Intent(AddUserActivity.this, MapActivity.class);
 	            // Closing all the Activities
 	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	            // Add new Flag to start new Activity

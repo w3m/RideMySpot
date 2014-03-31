@@ -18,8 +18,8 @@ import com.w3m.ridemyspot.R;
  * @author manish
  * 
  */
-public class rms_splashscreen extends Activity {
-	Context mContext = rms_splashscreen.this;
+public class SplashScreenActivity extends Activity {
+	Context mContext = SplashScreenActivity.this;
 	AccountManager mAccountManager;
 	String token;
 	int serverCode;
@@ -42,7 +42,7 @@ public class rms_splashscreen extends Activity {
 
 	
 	
-	private AbstractGetNameTask getTask(rms_splashscreen activity, String email,
+	private AbstractGetNameTask getTask(SplashScreenActivity activity, String email,
 			String scope) {
 		return new GetNameInForeground(activity, email, scope);
 
@@ -53,13 +53,13 @@ public class rms_splashscreen extends Activity {
 			String[] accountarrs = mSessionManager.getAccountNames();
 			if (accountarrs.length > 0) {
 				//you can set here account for login
-				getTask(rms_splashscreen.this, accountarrs[0], SCOPE).execute();
+				getTask(SplashScreenActivity.this, accountarrs[0], SCOPE).execute();
 			} else {
-				Toast.makeText(rms_splashscreen.this, "No Google Account Sync!",
+				Toast.makeText(SplashScreenActivity.this, "No Google Account Sync!",
 						Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			Toast.makeText(rms_splashscreen.this, "No Network Service!",
+			Toast.makeText(SplashScreenActivity.this, "No Network Service!",
 					Toast.LENGTH_SHORT).show();
 		}
 	}

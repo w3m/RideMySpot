@@ -37,28 +37,28 @@ import com.w3m.ridemyspot.R;
 import entity.Rmsendpoint;
 import entity.model.Spots;
 
-public class rms_add_spot extends FragmentActivity implements OnTouchListener, OnClickListener, OnCheckedChangeListener{
+public class AddSpotActivity extends FragmentActivity implements OnTouchListener, OnClickListener, OnCheckedChangeListener{
 	
-	private GoogleMap m_map;
+	private GoogleMap mMap;
 	
-	private ScrollView m_scrollView;
-	private ImageView m_transparentImage;
+	private ScrollView mScrollView;
+	private ImageView mTransparentImage;
 	
-	private Button m_validate;
-	private Button m_cancel;
+	private Button mValidate;
+	private Button mCancel;
 
-	private RadioButton m_checkRoller;
-	private RadioButton m_checkBmx;
-	private RadioButton m_checkSkate;
-	private RadioButton m_checkSkatepark;
+	private RadioButton mCheckRoller;
+	private RadioButton mCheckBmx;
+	private RadioButton mCheckSkate;
+	private RadioButton mCheckSkatepark;
 	
-	private RatingBar m_ratingBar;
+	private RatingBar mRatingBar;
 
-	private EditText m_editName;
-	private EditText m_editDescription;
+	private EditText mEditName;
+	private EditText mEditDescription;
 	
-	private Marker m_spot;
-	private int m_type = 0;
+	private Marker mSpot;
+	private int mType = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,40 +70,40 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 		Intent intent = getIntent();
 		LatLng position = (LatLng) intent.getExtras().get("position");
 		
-		m_spot = m_map.addMarker(new MarkerOptions()
+		mSpot = mMap.addMarker(new MarkerOptions()
         .position(position)
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.map)));
-		m_spot.setDraggable(true);
+		mSpot.setDraggable(true);
 		
-		m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 17));
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 17));
 		
-		m_transparentImage.setOnTouchListener(this);
+		mTransparentImage.setOnTouchListener(this);
 		
 	}
 
 	private void initializeView() {
-		m_map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.add_spot_map)).getMap();
-		m_scrollView = (ScrollView) findViewById(R.id.add_spot_scrollview);
-		m_transparentImage = (ImageView) findViewById(R.id.add_spot_transparent_image);
+		mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.add_spot_map)).getMap();
+		mScrollView = (ScrollView) findViewById(R.id.add_spot_scrollview);
+		mTransparentImage = (ImageView) findViewById(R.id.add_spot_transparent_image);
 
-		m_validate = (Button) findViewById(R.id.add_spot_valider);
-		m_cancel = (Button) findViewById(R.id.add_spot_annuler);
-		m_validate.setOnClickListener(this);
-		m_cancel.setOnClickListener(this);
+		mValidate = (Button) findViewById(R.id.add_spot_valider);
+		mCancel = (Button) findViewById(R.id.add_spot_annuler);
+		mValidate.setOnClickListener(this);
+		mCancel.setOnClickListener(this);
 
-		m_checkRoller = (RadioButton) findViewById(R.id.add_spot_roller);
-		m_checkBmx = (RadioButton) findViewById(R.id.add_spot_bmx);
-		m_checkSkate = (RadioButton) findViewById(R.id.add_spot_skate);
-		m_checkSkatepark = (RadioButton) findViewById(R.id.add_spot_skatepark);
-		m_checkRoller.setOnCheckedChangeListener(this);
-		m_checkBmx.setOnCheckedChangeListener(this);
-		m_checkSkate.setOnCheckedChangeListener(this);
-		m_checkSkatepark.setOnCheckedChangeListener(this);
+		mCheckRoller = (RadioButton) findViewById(R.id.add_spot_roller);
+		mCheckBmx = (RadioButton) findViewById(R.id.add_spot_bmx);
+		mCheckSkate = (RadioButton) findViewById(R.id.add_spot_skate);
+		mCheckSkatepark = (RadioButton) findViewById(R.id.add_spot_skatepark);
+		mCheckRoller.setOnCheckedChangeListener(this);
+		mCheckBmx.setOnCheckedChangeListener(this);
+		mCheckSkate.setOnCheckedChangeListener(this);
+		mCheckSkatepark.setOnCheckedChangeListener(this);
 		
-		m_ratingBar = (RatingBar) findViewById(R.id.add_spot_rating);
+		mRatingBar = (RatingBar) findViewById(R.id.add_spot_rating);
 
-		m_editName = (EditText) findViewById(R.id.add_spot_edit_name);
-		m_editDescription = (EditText) findViewById(R.id.add_spot_edit_description);
+		mEditName = (EditText) findViewById(R.id.add_spot_edit_name);
+		mEditDescription = (EditText) findViewById(R.id.add_spot_edit_description);
 	}
 
 	@Override
@@ -131,15 +131,15 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				// Disallow ScrollView to intercept touch events.
-				m_scrollView.requestDisallowInterceptTouchEvent(true);
+				mScrollView.requestDisallowInterceptTouchEvent(true);
 				// Disable touch on transparent view
 				return false;
 			case MotionEvent.ACTION_UP:
 				// Allow ScrollView to intercept touch events.
-				m_scrollView.requestDisallowInterceptTouchEvent(false);
+				mScrollView.requestDisallowInterceptTouchEvent(false);
 				return true;
 			case MotionEvent.ACTION_MOVE:
-				m_scrollView.requestDisallowInterceptTouchEvent(true);
+				mScrollView.requestDisallowInterceptTouchEvent(true);
 				return false;
 			default: 
 				return true;
@@ -147,19 +147,19 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 	}
 	
 	private class AddSpot extends AsyncTask<LatLng, Void, Spots>{
-		private Context m_context;
-		private ProgressDialog m_progressDialog;
+		private Context mContext;
+		private ProgressDialog mProgressDialog;
 		
 		public AddSpot(Context context){
-			this.m_context = context;
+			this.mContext = context;
 		}
 		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			m_progressDialog = new ProgressDialog(m_context);
-			m_progressDialog.setMessage("Ajout du spot..."); //TODO getressource
-			m_progressDialog.show();
+			mProgressDialog = new ProgressDialog(mContext);
+			mProgressDialog.setMessage("Ajout du spot..."); //TODO getressource
+			mProgressDialog.show();
 		}
 		
 		@Override
@@ -172,14 +172,14 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 				
 				Spots spot = new Spots();
 				
-				float note = m_ratingBar.getRating();
+				float note = mRatingBar.getRating();
 				
-				spot.setName(m_editName.getText().toString());
-				spot.setDescription(m_editDescription.getText().toString());
+				spot.setName(mEditName.getText().toString());
+				spot.setDescription(mEditDescription.getText().toString());
 				spot.setLatitude(params[0].latitude);
 				spot.setLongitude(params[0].longitude);
 				spot.setTotalNote(note);
-				spot.setType(m_type);
+				spot.setType(mType);
 				
 				response = service.insertSpots(spot).execute();
 				
@@ -191,7 +191,7 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 		
 		@Override
 		protected void onPostExecute(Spots spot) {
-			m_progressDialog.dismiss();
+			mProgressDialog.dismiss();
 
 			if(spot != null){
 				finish();
@@ -209,7 +209,7 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 			break;
 		case R.id.add_spot_valider: 
 			//TODO Vérif tout renseigné
-			LatLng params = new LatLng(m_spot.getPosition().latitude, m_spot.getPosition().longitude);
+			LatLng params = new LatLng(mSpot.getPosition().latitude, mSpot.getPosition().longitude);
 			new AddSpot(this).execute(params);
 			break;
 		default:
@@ -239,9 +239,9 @@ public class rms_add_spot extends FragmentActivity implements OnTouchListener, O
 		}
 		
 		if(isChecked){
-			m_type  += choice;
+			mType  += choice;
 		} else {
-			m_type -= choice;
+			mType -= choice;
 		}
 	}
 	

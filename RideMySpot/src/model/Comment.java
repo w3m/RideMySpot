@@ -6,9 +6,9 @@ public class Comment {
 	private long ID_Spot;
 	private long ID_User;
 
-	private String m_user;
-	private String m_text;
-	private double m_note;
+	private String mUser;
+	private String mText;
+	private double mNote;
 	
 	public Comment(long iD_Spot, long iD_User,String user, String text, double note){
 		setID_Spot(iD_Spot);
@@ -43,27 +43,27 @@ public class Comment {
 	}
 
 	public String getUser() {
-		return m_user;
+		return mUser;
 	}
 
 	public void setUser(String user) {
-		this.m_user = user;
+		this.mUser = user;
 	}
 
 	public String getText() {
-		return m_text;
+		return mText;
 	}
 
 	public void setText(String text) {
-		this.m_text = text;
+		this.mText = text;
 	}
 
 	public double getNote() {
-		return m_note;
+		return mNote;
 	}
 
 	public void setNote(double note) {
-		this.m_note = note;
+		this.mNote = note;
 	}
 	
 }
