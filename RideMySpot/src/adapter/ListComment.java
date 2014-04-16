@@ -70,7 +70,6 @@ public class ListComment extends BaseAdapter{
 		
 		
 		if(!mComments.isEmpty() && mComments.size()>position){
-			//Log.d("rms_debug", mComments.get(position).getUser());
 			Comment comment = mComments.get(position);
 			mName.setText(comment.getUser());
 			mRate.setRating((float) comment.getNote());

@@ -34,6 +34,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 import com.w3m.ridemyspot.R;
 
+import database.SQLiteSpot;
 import entity.Rmsendpoint;
 import entity.model.Spots;
 
@@ -145,6 +146,50 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 				return true;
 		} 
 	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.add_spot_annuler:
+			finish();
+			break;
+		case R.id.add_spot_valider: 
+			//TODO Vérif tout renseigné
+			LatLng params = new LatLng(mSpot.getPosition().latitude, mSpot.getPosition().longitude);
+			new AddSpot(this).execute(params);
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		int choice;
+		switch (buttonView.getId()) {
+		case R.id.add_spot_roller:
+			choice = Spot.ROLLER;
+			break;
+		case R.id.add_spot_bmx:
+			choice = Spot.BMX;
+			break;
+		case R.id.add_spot_skate:
+			choice = Spot.SKATE;
+			break;
+		case R.id.add_spot_skatepark:
+			choice = Spot.SKATEPARK;
+			break;
+		default:
+			choice = 0;
+			break;
+		}
+		
+		if(isChecked){
+			mType  += choice;
+		} else {
+			mType -= choice;
+		}
+	}
 	
 	private class AddSpot extends AsyncTask<LatLng, Void, Spots>{
 		private Context mContext;
@@ -194,54 +239,14 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 			mProgressDialog.dismiss();
 
 			if(spot != null){
+				SQLiteSpot databaseSpot = new SQLiteSpot(mContext);
+				databaseSpot.OpenDB();
+				databaseSpot.insertEntitySpots(spot);
+				databaseSpot.CloseDB();
 				finish();
 			} else {
 				Toast.makeText(getBaseContext(), "Le Spot n'a pas été ajouté!", Toast.LENGTH_LONG).show();
 			}
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.add_spot_annuler:
-			finish();
-			break;
-		case R.id.add_spot_valider: 
-			//TODO Vérif tout renseigné
-			LatLng params = new LatLng(mSpot.getPosition().latitude, mSpot.getPosition().longitude);
-			new AddSpot(this).execute(params);
-			break;
-		default:
-			break;
-		}
-	}
-
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		int choice;
-		switch (buttonView.getId()) {
-		case R.id.add_spot_roller:
-			choice = Spot.ROLLER;
-			break;
-		case R.id.add_spot_bmx:
-			choice = Spot.BMX;
-			break;
-		case R.id.add_spot_skate:
-			choice = Spot.SKATE;
-			break;
-		case R.id.add_spot_skatepark:
-			choice = Spot.SKATEPARK;
-			break;
-		default:
-			choice = 0;
-			break;
-		}
-		
-		if(isChecked){
-			mType  += choice;
-		} else {
-			mType -= choice;
 		}
 	}
 	

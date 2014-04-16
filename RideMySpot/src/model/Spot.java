@@ -15,7 +15,6 @@ public class Spot implements Parcelable {
 	public final static int SKATEPARK= 1 << 3;
 
 	private long ID;
-	private String MarkerID;
 	private String mName;
 	private String mAdress;
 	private String mDescription;
@@ -30,10 +29,9 @@ public class Spot implements Parcelable {
 	
 	public Spot(){}
 
-	public Spot(long id,String name, String adress, String description, double position_lat, double position_long, int type, float totalNote, int nbNote, boolean favorite, int score, boolean hasScore){
+	public Spot(long id,String name, String description, double position_lat, double position_long, int type, float totalNote, int nbNote, boolean favorite, int score, boolean hasScore){
 		this.setID(id);
 		this.setName(name);
-		this.setAdress(adress);
 		this.setDescription(description);
 		this.setPosition_lat(position_lat);
 		this.setPosition_long(position_long);
@@ -55,14 +53,6 @@ public class Spot implements Parcelable {
 
 	public void setID(long iD) {
 		ID = iD;
-	}
-	
-	public String getMarkerID() {
-		return MarkerID;
-	}
-
-	public void setMarkerID(String markerID) {
-		MarkerID = markerID;
 	}
 	
 	public String getName() {
@@ -122,7 +112,7 @@ public class Spot implements Parcelable {
 	}
 
 	public int getNbNote() {
-		return mScore;
+		return mNbNote;
 	}
 
 	public void setNbNote(int nbNote) {
@@ -149,7 +139,7 @@ public class Spot implements Parcelable {
 		this.mFavorite = favorite;
 	}
 
-	public boolean isHasScrore() {
+	public boolean isHasScore() {
 		return mHasScore;
 	}
 
@@ -186,7 +176,6 @@ public class Spot implements Parcelable {
 
     protected Spot(Parcel in) {
         ID = in.readLong();
-        MarkerID = in.readString();
         mName = in.readString();
         mAdress = in.readString();
         mDescription = in.readString();
@@ -208,7 +197,6 @@ public class Spot implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(ID);
-        dest.writeString(MarkerID);
         dest.writeString(mName);
         dest.writeString(mAdress);
         dest.writeString(mDescription);

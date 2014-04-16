@@ -10,15 +10,22 @@
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.SupportMapFragment" />
 	
-    <model.MultiSpinner 
-        android:id="@+id/multi_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        />
+		<LinearLayout 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:background="@drawable/abc_ab_bottom_solid_light_holo"
+	        >
+	    <model.MultiSpinner 
+	        android:id="@+id/map_multi_spinner"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        />
+    </LinearLayout>
+    
     <ImageButton 
         android:id="@+id/map_location"
-        android:src="@drawable/podcast"
+        android:src="@drawable/ic_action_location_found"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"

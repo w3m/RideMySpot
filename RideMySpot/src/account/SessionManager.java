@@ -32,7 +32,7 @@ import entity.model.CollectionResponseUsers;
 import entity.model.Users;
  
 public class SessionManager {
-    SharedPreferences pref;
+    SharedPreferences mSharedPreference;
      
     Editor mEditor;
     Context mContext;
@@ -50,23 +50,27 @@ public class SessionManager {
     public static final String KEY_NAME = "USER_NAME";
     public static final String KEY_EMAIL = "USER_EMAIL";
     public static final String KEY_TYPE = "USER_TYPE";
+    public static final String KEY_CHK_VOTE = "USER_CHK_VOTE";
+    public static final String KEY_NB_CHK_VOTE = "USER_NB_CHK_VOTE";
      
     // Constructor
     public SessionManager(Context context){
         this.mContext = context;
-        pref = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        mSharedPreference = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
     }
      
     /**
      * Create login session
      * */
     public void createLoginSession(String id, String name, String email, String type){
-        mEditor = pref.edit();
+        mEditor = mSharedPreference.edit();
         mEditor.putBoolean(IS_LOGIN, true);
         mEditor.putString(KEY_ID, id);
         mEditor.putString(KEY_NAME, name);
         mEditor.putString(KEY_EMAIL, email);
         mEditor.putString(KEY_TYPE, type);
+        mEditor.putBoolean(KEY_CHK_VOTE, false);
+        mEditor.putInt(KEY_NB_CHK_VOTE, 0);
         mEditor.commit();
     }   
      
@@ -115,10 +119,10 @@ public class SessionManager {
      * */
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
-        user.put(KEY_ID, pref.getString(KEY_ID, null));
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-        user.put(KEY_TYPE, pref.getString(KEY_TYPE, null));
+        user.put(KEY_ID, mSharedPreference.getString(KEY_ID, null));
+        user.put(KEY_NAME, mSharedPreference.getString(KEY_NAME, null));
+        user.put(KEY_EMAIL, mSharedPreference.getString(KEY_EMAIL, null));
+        user.put(KEY_TYPE, mSharedPreference.getString(KEY_TYPE, null));
         return user;
     }
      
@@ -138,12 +142,32 @@ public class SessionManager {
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(i);
     }
-     
+
+    public boolean getChkVote(){
+ 	   return mSharedPreference.getBoolean(KEY_CHK_VOTE, false);
+    }  
+    
+    public void putChkVote(boolean check){
+ 	   mEditor = mSharedPreference.edit();
+        mEditor.putBoolean(KEY_CHK_VOTE, check);
+        mEditor.commit();
+    }
+    
+    public int getNbChkVote(){
+ 	   return mSharedPreference.getInt(KEY_NB_CHK_VOTE, 0);
+    }  
+    
+    public void putNbChkVote(int nbChk){
+ 	   mEditor = mSharedPreference.edit();
+       mEditor.putInt(KEY_NB_CHK_VOTE, nbChk);
+       mEditor.commit();
+    }
+    
     /**
      * Quick check for login
      * **/
     public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGIN, false);
+        return mSharedPreference.getBoolean(IS_LOGIN, false);
     }
     
     public String[] getAccountNames() {

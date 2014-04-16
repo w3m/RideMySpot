@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical" 
     android:background="@android:color/background_light">
     <TextView 
         android:id="@+id/info_spot_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="blablabla"
+       	android:layout_centerHorizontal="true"/>
+    
+    <TextView 
+        android:id="@+id/info_spot_nbrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12"
+       	android:layout_below="@id/info_spot_name"/>
+    
     <RatingBar 
         android:id="@+id/info_spot_globalnote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
        	android:numStars="5"
        	android:stepSize="0.5"
-       	android:layout_gravity="center_horizontal"
-       	style="?android:attr/ratingBarStyleSmall"/>
+       	style="?android:attr/ratingBarStyleSmall"
+       	android:layout_marginLeft="3dp"
+       	android:layout_marginRight="8dp"
+        android:layout_toRightOf="@id/info_spot_nbrate"
+       	android:layout_below="@id/info_spot_name"
+       	android:layout_centerHorizontal="true"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/info_spot_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/info_spot_globalnote"
+       	android:layout_below="@id/info_spot_name"
+        android:src="@drawable/heart_empty_x16" />
+</RelativeLayout>

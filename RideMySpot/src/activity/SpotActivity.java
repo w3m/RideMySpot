@@ -3,11 +3,13 @@ package activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import taskLoader.CommentTaskLoader;
 import model.Comment;
 import model.Spot;
 import account.SessionManager;
 import adapter.ListComment;
 import android.app.AlertDialog;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +21,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Display;
@@ -32,6 +36,7 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -44,22 +49,23 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 import com.w3m.ridemyspot.R;
 
+import database.SQLiteSpot;
 import entity.Rmsendpoint;
 import entity.model.CollectionResponseComments;
 import entity.model.Comments;
 
-public class SpotActivity extends ActionBarActivity implements OnItemClickListener, OnClickListener, android.view.View.OnClickListener{
+public class SpotActivity extends ActionBarActivity implements OnItemClickListener, OnClickListener, android.view.View.OnClickListener, LoaderManager.LoaderCallbacks<List<Comment>>{
 
+	private static final int NB_VOTE_SCORE_MIN = 4;
+	
 	private SessionManager mSessionManager;
 	
 	private Spot mSpot;
 	private ArrayList<Comment> mComments;
 
-	private Intent intent;
-	
 	private ListView mListComment;
-	private EditText mDialog_com;
-	private RatingBar mDialog_rate;
+	private EditText mDialogCom;
+	private RatingBar mDialogRate;
 
 	private ImageButton mVotePlus;
 	private ImageButton mVoteMoins;
@@ -70,7 +76,8 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 	
 	private View mPopupView;
 	private PopupWindow mPopupWindow;
-	
+
+	private SQLiteSpot mDatabaseSpot;
 	
 	/*Changement de rotation changer l'ordre 
 	 * des layout pour les diffÃ©rents Ã©crans
@@ -102,7 +109,12 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		mIdUser = mSessionManager.getUserDetails().get(SessionManager.KEY_ID);
 
 		getSupportActionBar().setTitle(mSpot.getStringTypes().toString());
-		new ListComments().execute();
+		//new ListComments(this).execute();
+		Bundle bundle = new Bundle();
+		bundle.putLong(CommentTaskLoader.ID_SPOT, mSpot.getID());
+		//getLoaderManager().initLoader(0, bundle, this);
+		
+		mDatabaseSpot = new SQLiteSpot(this);
 	}
 	
 	private void populateComment() {
@@ -130,15 +142,34 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		mPopupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		mPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		mPopupWindow.setContentView(mPopupView);
-		if(getScreenOrientation() == Configuration.ORIENTATION_PORTRAIT)
+		if(getScreenOrientation() == Configuration.ORIENTATION_PORTRAIT){
 			mPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, getSupportActionBar().getHeight());
-		else
+		} else {
 			mPopupWindow.showAsDropDown(view, 0, 0);
+		}
 		
+		if(!mSessionManager.getChkVote()){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			final View alertView = LayoutInflater.from(this).inflate(R.layout.info_vote, null);
+
+			CheckBox chkBox = (CheckBox) alertView.findViewById(R.id.info_vote_checkbox);
+			if(mSessionManager.getNbChkVote() < NB_VOTE_SCORE_MIN){
+				chkBox.setVisibility(View.GONE);
+			}
+			mSessionManager.putNbChkVote(mSessionManager.getNbChkVote()+1);
+			chkBox.setOnClickListener(SpotActivity.this);
+			
+			builder.setTitle("Information");
+			builder.setView(alertView);
+			builder.setNegativeButton("Valider", this);
+			
+			builder.create().show();
+		}
 	}
 	
 	//TODO Enlever les deprecated
 	//http://stackoverflow.com/questions/2795833/check-orientation-on-android-phone
+	@SuppressWarnings("deprecation")
 	public int getScreenOrientation()
 	{
 	    Display getOrient = getWindowManager().getDefaultDisplay();
@@ -224,7 +255,7 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 			String uri = "http://maps.google.com/maps?" +
 					"saddr="+(userLocation.getLatitude())+","+(userLocation.getLongitude())+
 					"&daddr="+mSpot.getPosition_lat()+","+mSpot.getPosition_long();
-			intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 			startActivity(intent);
 			break;
 		case R.id.menu_stview:
@@ -253,7 +284,6 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 				return;
 		
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			AlertDialog alertDialog;
 			final View alertView = LayoutInflater.from(this).inflate(R.layout.add_comment, null);
 	
 			builder.setTitle(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
@@ -261,11 +291,10 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 			builder.setPositiveButton("Valider", this);
 			builder.setNegativeButton("Annuler", this);
 			
-			mDialog_com = (EditText) alertView.findViewById(R.id.add_comment_text);
-			mDialog_rate = (RatingBar) alertView.findViewById(R.id.add_comment_rate);
+			mDialogCom = (EditText) alertView.findViewById(R.id.add_comment_text);
+			mDialogRate = (RatingBar) alertView.findViewById(R.id.add_comment_rate);
 			
-			alertDialog = builder.create();
-			alertDialog.show(); 
+			builder.create().show();
 	}
 
 	@Override
@@ -282,53 +311,90 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		
 	}
 	
-	private class ListComments extends AsyncTask<Void, Void, CollectionResponseComments>{
-		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
-		
-		@Override
-		protected CollectionResponseComments doInBackground(Void... params) {
-			CollectionResponseComments comments = null;
-			try{
-				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-				Rmsendpoint service = builder.build();
-				comments = service.listComments().setPIdSpot(mSpot.getID()).execute();
-			} catch (Exception e){
-				Log.d("impossible de récupérer les commmentaires", e.getMessage(), e);//TODO getressource
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+		case R.id.vote_plus:
+		case R.id.vote_moins:
+			
+			if(!mSpot.isHasScore()){
+				boolean vote = false;
+				if(view.getId() == R.id.vote_plus)
+					vote = true;
+				new AddScore().execute(vote);
+				mPopupWindow.dismiss();
+			} else {
+				Toast.makeText(this, "Vous avez déjà votez pour ce spot!", Toast.LENGTH_SHORT).show();
 			}
-			return comments;
-		}
-		
-		@Override
-		protected void onPostExecute(CollectionResponseComments comments) {
-			super.onPostExecute(comments);
-			if(comments != null){
-				if(mComments == null){
-					mComments = new ArrayList<Comment>();
-				} else {
-					mComments.clear();
-				}
-		        List<Comments> _list = comments.getItems();
-			    if(_list != null){
-			        for (Comments comment : _list) {
-			        	Comment item = new Comment(
-			        			comment.getIdSpot(),
-			        			comment.getIdUser(),
-			        			comment.getUser(),
-			        			comment.getText(),
-			        			comment.getNote()
-			        			);
-			        	mComments.add(item);
-						Log.d("###########", "" + comment.getUser());
-			        }
-		        }
-			    populateComment();
+			
+			break;
+
+		case R.id.info_vote_checkbox:
+			if(((CheckBox) view).isChecked()){
+				mSessionManager.putChkVote(true);
+			} else {
+				mSessionManager.putChkVote(false);
 			}
+			break;
+		default:
+			break;
 		}
 	}
+	
+//	private class ListComments extends AsyncTask<Void, Void, CollectionResponseComments>{
+//		private Context mContext;
+//		
+//		public ListComments (Context context){
+//			mContext = context;
+//		}
+//		
+//		@Override
+//		protected void onPreExecute() {
+//			super.onPreExecute();
+//		}
+//		
+//		@Override
+//		protected CollectionResponseComments doInBackground(Void... params) {
+//			CollectionResponseComments comments = null;
+//			try{
+//				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+//				Rmsendpoint service = builder.build();
+//				comments = service.listComments().setPIdSpot(mSpot.getID()).execute();
+//			} catch (Exception e){
+//				Log.d("impossible de récupérer les commmentaires", e.getMessage(), e);//TODO getressource
+//				Toast.makeText(mContext, "Un problème c'est produit avec le chargement des commentaires. Nouveau chargement en cours !", Toast.LENGTH_SHORT).show();
+//				new ListComments(mContext).execute(); //TODO: a voir si pose pas de problème sinon reste sur return null
+//				//return null;
+//			}
+//			return comments;
+//		}
+//		
+//		@Override
+//		protected void onPostExecute(CollectionResponseComments comments) {
+//			super.onPostExecute(comments);
+//			if(mComments == null){
+//				mComments = new ArrayList<Comment>();
+//			} else {
+//				mComments.clear();
+//			}
+//			if(comments != null){
+//		        List<Comments> _list = comments.getItems();
+//			    if(_list != null){
+//			        for (Comments comment : _list) {
+//			        	Comment item = new Comment(
+//			        			comment.getIdSpot(),
+//			        			comment.getIdUser(),
+//			        			comment.getUser(),
+//			        			comment.getText(),
+//			        			comment.getNote()
+//			        			);
+//			        	mComments.add(item);
+//			        }
+//		        }
+//			}
+//		    populateComment();
+//		}
+//	}
 		
 	private class AddComment extends AsyncTask<Void, Void, Comments>{
 		private Context mContext;
@@ -342,7 +408,7 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		protected void onPreExecute() {
 			super.onPreExecute();
 			mProgressDialog = new ProgressDialog(mContext);
-			mProgressDialog.setMessage("Ajout du spot..."); //TODO getressource
+			mProgressDialog.setMessage("Ajout du commentaire..."); //TODO getressource
 			mProgressDialog.show();
 		}
 		
@@ -358,8 +424,8 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 				
 				comment.setIdSpot(mSpot.getID());
 				comment.setIdUser(Long.parseLong(mIdUser));
-				comment.setNote(mDialog_rate.getRating());
-				comment.setText(mDialog_com.getText().toString());
+				comment.setNote(mDialogRate.getRating());
+				comment.setText(mDialogCom.getText().toString());
 				
 				response = service.insertComments(comment).execute();
 				
@@ -384,6 +450,9 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 				);
 				mSpot.setTotalNote(mSpot.getTotalNote()+comment.getNote());
 				mSpot.setNbNote(mSpot.getNbNote()+1);
+				mDatabaseSpot.OpenDB();
+				mDatabaseSpot.updateSpot(mSpot);
+				mDatabaseSpot.CloseDB();
 				((RatingBar) findViewById(R.id.spot_globalnote)).setRating(mSpot.getGlobalNote());
 				populateComment();
 				
@@ -412,6 +481,14 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 			}
 			return null;
 		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			mSpot.setFavorite(true);
+			mDatabaseSpot.OpenDB();
+			mDatabaseSpot.updateSpot(mSpot);
+			mDatabaseSpot.CloseDB();
+		}
 	}
 	
 	private class RemoveFavorite extends AsyncTask<Void, Void, Void>{
@@ -429,6 +506,14 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 				Log.d("impossible de supprimer le favori", e.getMessage(), e);//TODO getressource
 			}
 			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			mSpot.setFavorite(false);
+			mDatabaseSpot.OpenDB();
+			mDatabaseSpot.updateSpot(mSpot);
+			mDatabaseSpot.CloseDB();
 		}
 	}
 	
@@ -449,15 +534,32 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 			}
 			return null;
 		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			mSpot.setHasScore(true);
+			mDatabaseSpot.OpenDB();
+			mDatabaseSpot.updateSpot(mSpot);
+			mDatabaseSpot.CloseDB();
+		}
 	}
 
 	@Override
-	public void onClick(View view) {
-		boolean vote = false;
-		if(view.getId() == R.id.vote_plus)
-			vote = true;
-		new AddScore().execute(vote);
-		mPopupWindow.dismiss();
+	public Loader<List<Comment>> onCreateLoader(int id, Bundle bundle) {
+		return new CommentTaskLoader(this, bundle);
 	}
+
+	@Override
+	public void onLoadFinished(Loader<List<Comment>> loader, List<Comment> listComment) {
+		mComments.addAll(listComment);
+		populateComment();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<List<Comment>> loader) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

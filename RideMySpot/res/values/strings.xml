@@ -1,14 +1,28 @@
 <resources>
 
     <string name="app_name">Ride My Spot</string>
-    <string name="menu_maps_list">Liste</string>
-    <string name="text_all_spot">Tous les Spots</string>
+    <string name="site_name">www.ridemyspot.com</string>
+    <string name="support_mail">support@ridemyspot.com</string>
+    <string name="contact_mail">contact@ridemyspot.com</string>
+    
+	<string name="empty"></string>
+	
+	<string name="text_valider">Valider</string>
+	<string name="text_annuler">Annuler</string>
+	
+	<string name="text_roller">Roller</string>
+	<string name="text_skatepark">Skatepark</string>
+	<string name="text_skate">Skate</string>
+	<string name="text_bmx">BMX</string>
+ 
     <string-array name="navigation_drawer_menu">
         <item>Mes Favoris</item>
         <item>Paramètres Perso</item>
-        <item>Contacter w3m</item>
+        <item>Contacter le Support</item>
         <item>Mentions légales</item>
     </string-array>
+    
+    <string name="text_all_spot">Tous les Spots</string>
     <string-array name="maps_filter_list">
         <item>Roller</item>
         <item>Skate</item>
@@ -16,29 +30,28 @@
         <item>Skatepark</item>
         <item>Favoris</item>
     </string-array>
-    <string name="menu_maps_add">Ajouter un spot</string>
+    
+    <string name="menu_maps_add">Ajouter un spot au centre de la carte</string>
+    <string name="menu_maps_refresh">Actualiser</string>
+    <string name="menu_maps_list">Liste</string>
+    
+	<string name="menu_list_map">Return to Map</string>
+    
 	<string name="add_spot_map_info">Vous pouvez déplacer le point par appui long sur celui ci</string>
 	<string name="add_spot_name">Entrer un nom</string>
-	<string name="text_roller">Roller</string>
-	<string name="text_skatepark">Skatepark</string>
-	<string name="text_skate">Skate</string>
-	<string name="text_bmx">BMX</string>
 	<string name="add_spot_radio">Type de spot :</string>
 	<string name="add_spot_description">Entrez votre description</string>
-	<string name="text_valider">Valider</string>
-	<string name="text_annuler">Annuler</string>
 	
 	<string name="menu_spot_fav">Favoris</string>
 	<string name="menu_spot_share">Partager</string>
 	<string name="menu_spot_stview">Street View</string>
 	<string name="menu_spot_nav">Navigation</string>
 	<string name="menu_spot_vote">Voter</string>
-	<string name="add_comment_text">Entrer votre commentaire</string>
-	
-	<string name="empty"></string>
 	
 	<string name="vote_moins">Vote moins</string>
 	<string name="vote_plus">Vote plus</string>
+	
+	<string name="add_comment_text">Entrer votre commentaire</string>
 	
 	<string name="icon_url">http://www.tehkseven.net/300-icons-103164/</string>
 </resources>
