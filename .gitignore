@@ -18,3 +18,5 @@ local.properties
 
 #private key for mapV2
 secret.xml
+*.classpath
+*.properties

@@ -31,11 +31,19 @@
         <item>Favoris</item>
     </string-array>
     
+    
+    <string name="string_sort_name">Nom de Spot</string>
+    <string name="string_sort_note">Note Globale</string>
+    <string name="string_sort_nb_note">Nombre de Note</string>
+    <string name="string_sort_distance">Distance</string>
+    <string name="string_sort_fav">Favoris</string>
+    
     <string name="menu_maps_add">Ajouter un spot au centre de la carte</string>
     <string name="menu_maps_refresh">Actualiser</string>
     <string name="menu_maps_list">Liste</string>
     
-	<string name="menu_list_map">Return to Map</string>
+	<string name="menu_list_map">Carte</string>
+	<string name="menu_list_sort">Trier la liste</string>
     
 	<string name="add_spot_map_info">Vous pouvez déplacer le point par appui long sur celui ci</string>
 	<string name="add_spot_name">Entrer un nom</string>
