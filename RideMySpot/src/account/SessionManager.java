@@ -204,7 +204,7 @@ private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers>
 				Rmsendpoint service = builder.build();
 				User = service.listUsers().setPAdress(params[0]).execute();
 			} catch (Exception e){
-				Log.d("impossible de récupérer les users", e.getMessage(), e);//TODO getressource
+				Log.d("impossible de rÃ©cupÃ©rer les users", e.getMessage(), e);//TODO getressource
 			}
 			return User;
 		}

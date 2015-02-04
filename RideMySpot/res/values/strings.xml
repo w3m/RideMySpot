@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Ride My Spot</string>
@@ -30,7 +31,6 @@
         <item>Skatepark</item>
         <item>Favoris</item>
     </string-array>
-    
     
     <string name="string_sort_name">Nom de Spot</string>
     <string name="string_sort_note">Note Globale</string>

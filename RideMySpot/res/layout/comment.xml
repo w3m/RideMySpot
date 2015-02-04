@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:orientation="vertical" >
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/comment_linearlayout"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -12,21 +13,26 @@
         	    android:id="@+id/comment_image"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true"
         	    android:src="@drawable/user_3"/>
 	      	<TextView 
 		        android:id="@+id/comment_name"
 		        android:layout_width="wrap_content"
-		        android:layout_gravity="center_vertical"
-		        android:layout_height="wrap_content"/>
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/comment_image"
+		        android:layout_centerVertical="true"
+		        android:paddingLeft="5dp"/>
 	      	<RatingBar 
 		        android:id="@+id/comment_rate"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="5dp"
-		        android:layout_gravity="center_vertical"
+		        android:layout_alignParentRight="true"
+		        android:layout_centerVertical="true"
 		        style="?android:attr/ratingBarStyleSmall"/>
-	</LinearLayout>
+	</RelativeLayout>
     <TextView 
+        android:padding="5dp"
         android:id="@+id/comment_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>  

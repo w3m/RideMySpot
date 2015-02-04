@@ -5,13 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 import model.Spot;
-import adapter.ListSpot;
+import adapter.ListSpotAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.w3m.ridemyspot.R;
 import comparator.SpotComparator;
 
@@ -42,11 +45,16 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 	
 	private ListView mListViewSort;
 	
+	private AdView mAdView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_spot);
 
+		ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		//Location Initialization
 		mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
@@ -61,10 +69,15 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 		mDatabaseSpot.CloseDB();
 
 		Collections.sort(mSpot, new SpotComparator(SpotComparator.COMPARE_BY_NAME, mLocation));
-		ListSpot adapter = new ListSpot(this, mSpot, mLocation);
+		ListSpotAdapter adapter = new ListSpotAdapter(this, mSpot, mLocation);
 		mListView = (ListView) findViewById(R.id.listview_spot);
 		mListView.setAdapter(adapter);
 		mListView.setOnItemClickListener(this);
+		
+		// Recherchez AdView comme ressource et chargez une demande.
+	    mAdView = (AdView)this.findViewById(R.id.listview_spot_adview);
+	    AdRequest adRequest = new AdRequest.Builder().build();
+	    mAdView.loadAd(adRequest);
 	}
 	
 	@Override
@@ -79,12 +92,20 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 	
 	@Override
 	protected void onPause() {
+		mAdView.pause();
 		super.onPause();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		mAdView.resume();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		mAdView.destroy();
+		super.onDestroy();
 	}
 	
 	@Override
@@ -97,30 +118,31 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int index = 0;
 		switch (item.getItemId()) {
-		case R.id.menu_map:
-			Intent intent = new Intent(ListSpotActivity.this, MapActivity.class);
-			startActivity(intent);
-			finish();
-			return true;
-		case R.id.menu_sort_name:
-			index = SpotComparator.COMPARE_BY_NAME;
-			break;
-		case R.id.menu_sort_note:
-			index = SpotComparator.COMPARE_BY_NOTE;
-			break;
-		case R.id.menu_sort_nb_note:
-			index = SpotComparator.COMPARE_BY_NB_NOTE;
-			break;
-		case R.id.menu_sort_distance:
-			index = SpotComparator.COMPARE_BY_DISTANCE;
-			break;
-		case R.id.menu_sort_fav:
-			index = SpotComparator.COMPARE_BY_FAV;
-			break;
-		default:
+			case R.id.menu_map:
+			case android.R.id.home:
+				Intent intent = new Intent(ListSpotActivity.this, MapActivity.class);
+				startActivity(intent);
+				finish();
+				return true;
+			case R.id.menu_sort_name:
+				index = SpotComparator.COMPARE_BY_NAME;
+				break;
+			case R.id.menu_sort_note:
+				index = SpotComparator.COMPARE_BY_NOTE;
+				break;
+			case R.id.menu_sort_nb_note:
+				index = SpotComparator.COMPARE_BY_NB_NOTE;
+				break;
+			case R.id.menu_sort_distance:
+				index = SpotComparator.COMPARE_BY_DISTANCE;
+				break;
+			case R.id.menu_sort_fav:
+				index = SpotComparator.COMPARE_BY_FAV;
+				break;
+			default:
 		}
 		Collections.sort(mSpot, new SpotComparator(index, mLocation));
-		ListSpot adapter = new ListSpot(this, mSpot, mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+		ListSpotAdapter adapter = new ListSpotAdapter(this, mSpot, mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		adapter.notifyDataSetChanged();
 		mListView.setAdapter(adapter);
 		mPopupWindow.dismiss();

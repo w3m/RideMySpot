@@ -2,6 +2,7 @@ package activity;
 
 
 import model.Spot;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -154,9 +155,15 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 			finish();
 			break;
 		case R.id.add_spot_valider: 
-			//TODO Vérif tout renseigné
-			LatLng params = new LatLng(mSpot.getPosition().latitude, mSpot.getPosition().longitude);
-			new AddSpot(this).execute(params);
+			if(mEditName.getText().toString().length() < 10 
+					|| mType == 0 
+					|| mRatingBar.getRating() == 0 
+					|| mEditDescription.getText().toString().length() < 20){
+				Toast.makeText(this, "Vous devez renseigner tous les champs!", Toast.LENGTH_SHORT).show();
+			} else {
+				LatLng params = new LatLng(mSpot.getPosition().latitude, mSpot.getPosition().longitude);
+				new AddSpot(this).execute(params);
+			}
 			break;
 		default:
 			break;
@@ -245,7 +252,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 				databaseSpot.CloseDB();
 				finish();
 			} else {
-				Toast.makeText(getBaseContext(), "Le Spot n'a pas été ajouté!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "Le Spot n'a pas ï¿½tï¿½ ajoutï¿½!", Toast.LENGTH_LONG).show();
 			}
 		}
 	}

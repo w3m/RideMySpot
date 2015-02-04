@@ -10,7 +10,8 @@ public class Comment {
 	private String mText;
 	private double mNote;
 	
-	public Comment(long iD_Spot, long iD_User,String user, String text, double note){
+	public Comment(long iD, long iD_Spot, long iD_User,String user, String text, double note){
+		setID(iD);
 		setID_Spot(iD_Spot);
 		setID_User(iD_User);
 		setUser(user);

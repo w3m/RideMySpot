@@ -2,84 +2,96 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical" 
-    android:background="@android:color/background_light">
-    
-    <ImageView 
+    android:background="@android:color/background_light"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <ImageView
         android:id="@+id/list_spot_fck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_next_item"
-       	android:layout_centerVertical="true"
-       	android:layout_alignParentRight="true"
-       	/>
-    
-    <ImageView 
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_action_next_item" />
+
+    <ImageView
         android:id="@+id/list_spot_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/image_64x64"
-       	android:layout_alignParentTop="true"
-       	android:layout_alignParentLeft="true"
-       	android:layout_marginRight="5dp"/>
-        
-    <TextView 
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/image_64x64" />
+
+    <TextView
         android:id="@+id/list_spot_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/list_spot_icon"/>
-    
-    <LinearLayout 
-	    android:id="@+id/list_spot_linearlayout"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/list_spot_icon" />
+
+    <LinearLayout
+        android:id="@+id/list_spot_linearlayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@id/list_spot_name"
+        android:layout_centerHorizontal="true"
         android:layout_toRightOf="@id/list_spot_icon"
-       	android:layout_below="@id/list_spot_name"
-       	android:orientation="horizontal"
-        >
-	    <TextView 
-	        android:id="@+id/list_spot_nbrate"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"/>
-	    
-	    <RatingBar 
-	        android:id="@+id/list_spot_globalnote"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	       	android:numStars="5"
-	       	android:stepSize="0.5"
-	       	style="?android:attr/ratingBarStyleSmall"
-	       	android:layout_marginLeft="3dp"
-	       	android:layout_marginRight="8dp"/>
-	    
-	    <ImageView
-	        android:id="@+id/list_spot_favorite"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/heart_empty_x16" />
-	</LinearLayout>
-    
-    <TextView 
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/list_spot_nbrate"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:gravity="center" />
+
+        <RatingBar
+            android:id="@+id/list_spot_globalnote"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5" />
+
+        <ImageView
+            android:id="@+id/list_spot_favorite"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="1dp"
+            android:padding="6dp"
+            android:src="@drawable/heart_empty_x16" />
+    </LinearLayout>
+
+    <TextView
         android:id="@+id/list_spot_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       	android:layout_below="@id/list_spot_linearlayout"
-       	android:layout_toLeftOf="@id/list_spot_fck"
-       	android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/list_spot_linearlayout"
+        android:layout_toLeftOf="@id/list_spot_fck" />
 
-    <TextView 
-        android:id="@+id/list_spot_nbkm"
+    <LinearLayout
+        android:id="@+id/list_spot_linearlayout_pointer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_height="25dp"
+        android:layout_below="@id/list_spot_name"
+        android:layout_centerHorizontal="true"
         android:layout_toLeftOf="@id/list_spot_fck"
-       	android:layout_below="@id/list_spot_name"/>
-    
-    <ImageView
-        android:id="@+id/list_spot_pointer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/list_spot_nbkm"
-       	android:layout_below="@id/list_spot_name"
-        android:src="@drawable/droplet" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/list_spot_nbkm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp" />
+
+        <ImageView
+            android:id="@+id/list_spot_pointer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/droplet" />
+    </LinearLayout>
+
 </RelativeLayout>

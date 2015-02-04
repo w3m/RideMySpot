@@ -37,8 +37,8 @@ public class CommentTaskLoader extends AsyncTaskLoader<List<Comment>> {
 			Rmsendpoint service = builder.build();
 			comments = service.listComments().setPIdSpot(mIdSpot).execute();
 		} catch (Exception e){
-			Log.d("impossible de récupérer les commmentaires", e.getMessage(), e);//TODO getressource
-			Toast.makeText(getContext(), "Un problème c'est produit avec le chargement des commentaires. Nouveau chargement en cours !", Toast.LENGTH_SHORT).show();
+			Log.d("impossible de rï¿½cupï¿½rer les commmentaires", e.getMessage(), e);//TODO getressource
+			Toast.makeText(getContext(), "Un problï¿½me c'est produit avec le chargement des commentaires. Nouveau chargement en cours !", Toast.LENGTH_SHORT).show();
 		}
 		
 		if(mComments == null){
@@ -51,6 +51,7 @@ public class CommentTaskLoader extends AsyncTaskLoader<List<Comment>> {
 		    if(_list != null){
 		        for (Comments comment : _list) {
 		        	Comment item = new Comment(
+		        			comment.getId(),
 		        			comment.getIdSpot(),
 		        			comment.getIdUser(),
 		        			comment.getUser(),

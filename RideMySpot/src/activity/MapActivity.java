@@ -9,7 +9,7 @@ import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
 import account.SessionManager;
-import adapter.InfoSpot;
+import adapter.InfoSpotAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -26,6 +26,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -62,6 +64,8 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	public List<Spot> mSpot = new ArrayList<Spot>();
 	public HashMap<String, Spot> mHmSpot = new HashMap<String, Spot>();
 	
+	private AdView mAdView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,6 +96,11 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		findViewById(R.id.map_location).setOnClickListener(this);
 
 		mDatabaseSpot = new SQLiteSpot(this);
+		
+		// Recherchez AdView comme ressource et chargez une demande.
+	    mAdView = (AdView)this.findViewById(R.id.map_adView);
+	    AdRequest adRequest = new AdRequest.Builder().build();
+	    mAdView.loadAd(adRequest);
 	}
 	
 	private void populateMap() {
@@ -132,13 +141,15 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		
 		//Redraw user's last know location
 		Location userLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-		user = mMap.addMarker(new MarkerOptions()
-	    	.position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
-	    	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
-	    );
+		if(userLocation != null){
+			user = mMap.addMarker(new MarkerOptions()
+		    	.position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
+		    	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+		    );
+		}
 		
 
-		mMap.setInfoWindowAdapter(new InfoSpot(this, mHmSpot));
+		mMap.setInfoWindowAdapter(new InfoSpotAdapter(this, mHmSpot));
 	}
 	
 	private boolean containsAny(List<String> type, List<String> stringTypes, boolean fav) {
@@ -157,14 +168,15 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	
 	@Override
 	protected void onStop() {
-		super.onStop();
 	    mLocationManager.removeUpdates(this);
+		super.onStop();
 	}
 	
 	@Override
 	protected void onPause() {
-		super.onPause();
 	    mLocationManager.removeUpdates(this);
+	    mAdView.pause();
+		super.onPause();
 	}
 	
 	@Override
@@ -172,8 +184,15 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		super.onResume();
 		removeExistingAddSpot();
 		populateMap();
+		mAdView.resume();
 	}
 
+	@Override
+	protected void onDestroy() {
+		mAdView.destroy();
+		super.onDestroy();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_maps, menu);	
@@ -181,7 +200,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		return super.onCreateOptionsMenu(menu);
 	}
 	
-//	@Override   //TODO faire laoding au démarrage et faire tourner le mrefresh!!
+//	@Override   //TODO faire laoding au dï¿½marrage et faire tourner le mrefresh!!
 //	public boolean onPrepareOptionsMenu(Menu menu) {
 //		new ListSpots(this).execute();
 //		return super.onPrepareOptionsMenu(menu);
@@ -315,7 +334,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 				Rmsendpoint service = builder.build();
 				spots = service.listSpots().setPIdUser(Long.parseLong(mSessionManager.getUserDetails().get(SessionManager.KEY_ID))).execute();
 			} catch (Exception e){
-				Log.d("impossible de récupérer les spots", e.getMessage(), e);//TODO getressource
+				Log.d("impossible de rï¿½cupï¿½rer les spots", e.getMessage(), e);//TODO getressource
 			}
 			return spots;
 		}
