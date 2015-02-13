@@ -17,6 +17,7 @@ gen/
 local.properties
 
 #private key for mapV2
+string.xml
 secret.xml
 *.classpath
 *.properties

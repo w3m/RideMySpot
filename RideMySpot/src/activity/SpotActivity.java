@@ -385,13 +385,12 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		switch (view.getId()) {
 		case R.id.vote_plus:
 		case R.id.vote_moins:
-			
+			mPopupWindow.dismiss();
 			if(!mSpot.isHasScore()){
 				boolean vote = false;
 				if(view.getId() == R.id.vote_plus)
 					vote = true;
 				new AddScore().execute(vote);
-				mPopupWindow.dismiss();
 			} else {
 				Toast.makeText(this, "Vous avez déjà voté pour ce spot!", Toast.LENGTH_SHORT).show();
 			}
