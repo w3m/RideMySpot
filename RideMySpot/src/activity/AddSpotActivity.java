@@ -2,7 +2,6 @@ package activity;
 
 
 import model.Spot;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +14,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -49,10 +48,10 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 	private Button mValidate;
 	private Button mCancel;
 
-	private RadioButton mCheckRoller;
-	private RadioButton mCheckBmx;
-	private RadioButton mCheckSkate;
-	private RadioButton mCheckSkatepark;
+	private CheckBox mCheckRoller;
+	private CheckBox mCheckBmx;
+	private CheckBox mCheckSkate;
+	private CheckBox mCheckSkatepark;
 	
 	private RatingBar mRatingBar;
 
@@ -93,10 +92,10 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 		mValidate.setOnClickListener(this);
 		mCancel.setOnClickListener(this);
 
-		mCheckRoller = (RadioButton) findViewById(R.id.add_spot_roller);
-		mCheckBmx = (RadioButton) findViewById(R.id.add_spot_bmx);
-		mCheckSkate = (RadioButton) findViewById(R.id.add_spot_skate);
-		mCheckSkatepark = (RadioButton) findViewById(R.id.add_spot_skatepark);
+		mCheckRoller = (CheckBox) findViewById(R.id.add_spot_roller);
+		mCheckBmx = (CheckBox) findViewById(R.id.add_spot_bmx);
+		mCheckSkate = (CheckBox) findViewById(R.id.add_spot_skate);
+		mCheckSkatepark = (CheckBox) findViewById(R.id.add_spot_skatepark);
 		mCheckRoller.setOnCheckedChangeListener(this);
 		mCheckBmx.setOnCheckedChangeListener(this);
 		mCheckSkate.setOnCheckedChangeListener(this);
@@ -155,11 +154,21 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 			finish();
 			break;
 		case R.id.add_spot_valider: 
-			if(mEditName.getText().toString().length() < 10 
-					|| mType == 0 
-					|| mRatingBar.getRating() == 0 
-					|| mEditDescription.getText().toString().length() < 20){
-				Toast.makeText(this, "Vous devez renseigner tous les champs!", Toast.LENGTH_SHORT).show();
+			String check = "";
+			if(mEditName.getText().toString().length() < 10 ){
+				check += " Minimum 10 caractères pour le nom";
+			}
+			if(mType == 0 ){
+				check += " Renseigner le type du spot";
+			} 
+			if(mEditDescription.getText().toString().length() < 20){
+				check += " Minimum 20 caractères pour la description";
+			} 
+			if (mRatingBar.getRating() == 0 ){
+				check += " Renseigner une note";
+			}
+			if(!"".equals(check)){
+				Toast.makeText(this, "Vous devez renseigner tous les champs:" + check, Toast.LENGTH_LONG).show();
 			} else {
 				LatLng params = new LatLng(mSpot.getPosition().latitude, mSpot.getPosition().longitude);
 				new AddSpot(this).execute(params);

@@ -64,14 +64,14 @@
 	   	    android:orientation="horizontal"
 	   	    android:layout_below="@id/add_spot_text_radiobutton">
 	   	   
-	   	    <RadioButton
+	   	    <CheckBox
 	   	        android:id="@+id/add_spot_roller"
 	   	        android:layout_width="0dp"
 	   	        android:layout_height="wrap_content"
 	   	        android:text="@string/text_roller"
 	      		android:layout_weight="1"/>
 	   	    
-	   	    <RadioButton
+	   	    <CheckBox
 	   	        android:id="@+id/add_spot_skatepark"
 	   	        android:layout_width="0dp"
 	   	        android:layout_height="wrap_content"
@@ -86,14 +86,14 @@
 	   	    android:orientation="horizontal"
 	   	    android:layout_below="@id/linearradio1">
 	   	    
-	   	    <RadioButton
+	   	    <CheckBox
 	   	        android:id="@+id/add_spot_skate"
 	   	        android:layout_width="0dp"
 	   	        android:layout_height="wrap_content"
 	   	        android:text="@string/text_skate" 
 	      		android:layout_weight="1"/>
 	
-	   	    <RadioButton
+	   	    <CheckBox
 	   	        android:id="@+id/add_spot_bmx"
 	   	        android:layout_width="0dp"
 	   	        android:layout_height="wrap_content"

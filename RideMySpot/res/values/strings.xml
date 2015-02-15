@@ -46,9 +46,9 @@
 	<string name="menu_list_sort">Trier la liste</string>
     
 	<string name="add_spot_map_info">Vous pouvez déplacer le point par appui long sur celui ci</string>
-	<string name="add_spot_name">Entrer un nom</string>
+	<string name="add_spot_name">Entrer un nom (min. 10 caractères)</string>
 	<string name="add_spot_radio">Type de spot :</string>
-	<string name="add_spot_description">Entrez votre description</string>
+	<string name="add_spot_description">Entrez votre description (min. 20 caractères)</string>
 	
 	<string name="menu_spot_fav">Favoris</string>
 	<string name="menu_spot_share">Partager</string>
