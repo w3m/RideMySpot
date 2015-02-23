@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -342,18 +343,21 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		@Override
 		protected void onPostExecute(CollectionResponseSpots spots) {
 			super.onPostExecute(spots);
-
+			
+			if(mRefresh != null){
+				((AnimationDrawable)mRefresh.getIcon()).stop();
+				mRefresh.setIcon(m_context.getResources().getDrawable(R.drawable.map_loader));
+			}
+			
 			if(spots != null && spots.getItems() != null){
 			    
 				mDatabaseSpot.OpenDB();
 				mDatabaseSpot.insertListEntitySpots(spots.getItems());
 				mDatabaseSpot.CloseDB();
-
-				if(mRefresh != null){
-					((AnimationDrawable)mRefresh.getIcon()).stop();
-					mRefresh.setIcon(m_context.getResources().getDrawable(R.drawable.map_loader));
-				}
+				
 				populateMap();
+			} else {
+				Toast.makeText(m_context, "Un problème est survenu pendant la récupération des spots!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

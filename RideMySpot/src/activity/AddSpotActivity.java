@@ -2,6 +2,7 @@ package activity;
 
 
 import model.Spot;
+import account.SessionManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -60,6 +61,9 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 	
 	private Marker mSpot;
 	private int mType = 0;
+
+	private SessionManager mSessionManager;
+	private String mIdUser;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,8 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 		
 		mTransparentImage.setOnTouchListener(this);
 		
+		mSessionManager = new SessionManager(this);
+		mIdUser = mSessionManager.getUserDetails().get(SessionManager.KEY_ID);
 	}
 
 	private void initializeView() {
@@ -235,6 +241,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 				
 				float note = mRatingBar.getRating();
 				
+				spot.setIdUser(Long.parseLong(mIdUser));
 				spot.setName(mEditName.getText().toString());
 				spot.setDescription(mEditDescription.getText().toString());
 				spot.setLatitude(params[0].latitude);
@@ -261,7 +268,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 				databaseSpot.CloseDB();
 				finish();
 			} else {
-				Toast.makeText(getBaseContext(), "Le Spot n'a pas �t� ajout�!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "Le Spot n'a pas été ajouté!", Toast.LENGTH_LONG).show();
 			}
 		}
 	}

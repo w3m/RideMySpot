@@ -8,9 +8,9 @@ public class Comment {
 
 	private String mUser;
 	private String mText;
-	private double mNote;
+	private float mNote;
 	
-	public Comment(long iD, long iD_Spot, long iD_User,String user, String text, double note){
+	public Comment(long iD, long iD_Spot, long iD_User,String user, String text, float note){
 		setID(iD);
 		setID_Spot(iD_Spot);
 		setID_User(iD_User);
@@ -59,11 +59,11 @@ public class Comment {
 		this.mText = text;
 	}
 
-	public double getNote() {
+	public float getNote() {
 		return mNote;
 	}
 
-	public void setNote(double note) {
+	public void setNote(float note) {
 		this.mNote = note;
 	}
 	

@@ -336,7 +336,7 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 					            dialog.dismiss();
-								//new RemoveComment().execute(mComments.get(position-1).getID());
+								new RemoveComment().execute(mComments.get(position-1));
 					        }
 					    });
 					alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Annuler", new OnClickListener() {
@@ -534,45 +534,48 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		}
 	}
 
-//	private class RemoveComment extends AsyncTask<Long, Void, Comments>{
-//		
-//		@Override
-//		protected Comments doInBackground(Long... params) {
-//			Comments response = null;
-//			try{
-//				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-//				Rmsendpoint service = builder.build();
-//				response = service.removeComments(params[0]).execute();
-//				
-//			} catch (Exception e){
-//				Log.d("impossible de supprimer le commentaire", e.getMessage(), e);//TODO getressource
-//			}
-//			return response;
-//		}
-//		
-//		@Override
-//		protected void onPostExecute(Comments comment) {
-//			if(comment != null){
-//				int index = 0;
-//				for(int i = 0; i < mComments.size(); i++){
-//					if(mComments.get(i).getID() == comment.getId()){
-//						index = i;
-//					}
-//				}
-//				mComments.remove(index);
-//				
-//				mSpot.setTotalNote(mSpot.getTotalNote()-comment.getNote());
-//				mSpot.setNbNote(mSpot.getNbNote()-1);
-//				mDatabaseSpot.OpenDB();
-//				mDatabaseSpot.updateSpot(mSpot);
-//				mDatabaseSpot.CloseDB();
-//				((RatingBar) findViewById(R.id.spot_globalnote)).setRating(mSpot.getGlobalNote());
-//				populateComment();
-//				
-//			} else {
-//				Toast.makeText(getBaseContext(), "Le commentaire n'a pas été supprimé!", Toast.LENGTH_LONG).show();
-//			}
-//	}
+	private class RemoveComment extends AsyncTask<Comment, Void, Void>{
+		
+		Comment _comment;
+		
+		@Override
+		protected Void doInBackground(Comment... params) {
+			_comment = params[0];
+			try{
+				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+				Rmsendpoint service = builder.build();
+				service.removeComments(_comment.getID()).execute();
+				
+			} catch (Exception e){
+				Log.d("impossible de supprimer le commentaire", e.getMessage(), e);//TODO getressource
+			}
+			return null;
+		}
+		
+		//@Override
+		protected void onPostExecute(Void result) {
+			if(_comment != null){
+				int index = 0;
+				for(int i = 0; i < mComments.size(); i++){
+					if(mComments.get(i).getID() == _comment.getID()){
+						index = i;
+					}
+				}
+				mComments.remove(index);
+				
+				mSpot.setTotalNote(mSpot.getTotalNote()-_comment.getNote());
+				mSpot.setNbNote(mSpot.getNbNote()-1);
+				mDatabaseSpot.OpenDB();
+				mDatabaseSpot.updateSpot(mSpot);
+				mDatabaseSpot.CloseDB();
+				((RatingBar) findViewById(R.id.spot_globalnote)).setRating(mSpot.getGlobalNote());
+				populateComment();
+				
+			} else {
+				Toast.makeText(getBaseContext(), "Le commentaire n'a pas été supprimé!", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
 	
 	private class AddFavorite extends AsyncTask<Void, Void, Void>{
 		
