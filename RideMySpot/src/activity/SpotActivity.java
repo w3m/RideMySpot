@@ -572,7 +572,7 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		protected void onPreExecute() {
 			super.onPreExecute();
 			mProgressDialog = new ProgressDialog(mContext);
-			mProgressDialog.setMessage("Ajout du commentaire..."); //TODO getressource
+			mProgressDialog.setMessage("Suppression du commentaire..."); //TODO getressource
 			mProgressDialog.show();
 		}
 		

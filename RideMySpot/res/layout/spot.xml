@@ -30,14 +30,14 @@
                 android:id="@+id/spot_text_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/spot_text_adress"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
             
             <TextView
                 android:id="@+id/spot_text_type"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/spot_text_adress"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
 
