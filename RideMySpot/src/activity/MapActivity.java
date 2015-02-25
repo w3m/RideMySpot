@@ -76,6 +76,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		if(!mSessionManager.isLoggedIn()){
 			Intent intent = new Intent(this, SplashScreenActivity.class);
 		    startActivity(intent);
+		    finish();
 		}
 		
 		//Location Initialization
@@ -102,6 +103,8 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	    mAdView = (AdView)this.findViewById(R.id.map_adView);
 	    AdRequest adRequest = new AdRequest.Builder().build();
 	    mAdView.loadAd(adRequest);
+	    
+	    new ListSpots(this).execute();
 	}
 	
 	private void populateMap() {
@@ -184,7 +187,6 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	protected void onResume() {
 		super.onResume();
 		removeExistingAddSpot();
-		populateMap();
 		mAdView.resume();
 	}
 
@@ -262,6 +264,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 
 	@Override
 	public void onItemsSelected(boolean[] selected) {
+		//Permet de rafraichir l'affichage selon le type de spot sélectionné
 		populateMap();
 	}
 
@@ -335,7 +338,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 				Rmsendpoint service = builder.build();
 				spots = service.listSpots().setPIdUser(Long.parseLong(mSessionManager.getUserDetails().get(SessionManager.KEY_ID))).execute();
 			} catch (Exception e){
-				Log.d("impossible de rï¿½cupï¿½rer les spots", e.getMessage(), e);//TODO getressource
+				Log.d("impossible de récupérer les spots", e.getMessage(), e);//TODO getressource
 			}
 			return spots;
 		}
@@ -357,7 +360,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 				
 				populateMap();
 			} else {
-				Toast.makeText(m_context, "Un problÃ¨me est survenu pendant la rÃ©cupÃ©ration des spots!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(m_context, "Impossible de rafraichir la liste des spots!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

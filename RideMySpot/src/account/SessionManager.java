@@ -85,8 +85,6 @@ public class SessionManager {
         	
 	    	String listAdress[] = getAccountNames();
 	    	if(listAdress.length > 1){
-	    		//TODO Laisser l'utilisateur choisir son mail pour se connecter
-	    		//AlertDialog
 	    		mDialog = new Dialog(mContext);
 	            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 	            View convertView = (View) inflater.inflate(R.layout.email, null);
@@ -94,6 +92,7 @@ public class SessionManager {
 	            mDialog.setContentView(convertView);
 	            ListView lv = (ListView) convertView.findViewById(R.id.listView1);
 	            lv.setAdapter(new ArrayAdapter<String>(mContext,android.R.layout.simple_list_item_1,listAdress));
+	            mDialog.setCancelable(false);
 	            mDialog.show();
 	            
 	            lv.setOnItemClickListener(new OnItemClickListener() {
@@ -204,7 +203,7 @@ private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers>
 				Rmsendpoint service = builder.build();
 				User = service.listUsers().setPAdress(params[0]).execute();
 			} catch (Exception e){
-				Log.d("impossible de rÃ©cupÃ©rer les users", e.getMessage(), e);//TODO getressource
+				Log.d("impossible de récupérer les informations du compte", e.getMessage(), e);//TODO getressource
 			}
 			return User;
 		}

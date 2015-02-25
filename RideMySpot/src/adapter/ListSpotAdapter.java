@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Spot;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
-import android.hardware.GeomagneticField;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.view.LayoutInflater;
@@ -18,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,9 +25,8 @@ public class ListSpotAdapter extends BaseAdapter{
 
 	private ArrayList<Spot> mSpots;
 	private LayoutInflater mLayoutInflater;
-	private Context mContext;
 
-	private ImageView mIcon;
+	//private ImageView mIcon;
 	private TextView mName;
 	private TextView mNbRate;
 	private RatingBar mRate;
@@ -44,29 +39,28 @@ public class ListSpotAdapter extends BaseAdapter{
 	private float mHeading;
 	private float mBearing;
 	
-	private SensorManager mSensorManager;
-	private GeomagneticField mUserGeoPoint;
+//	private SensorManager mSensorManager;
+//	private GeomagneticField mUserGeoPoint;
 	private float[] mMatrixOrientation = new float[16];
 	private float[] mOrientation = new float[3];	
 		
 	public ListSpotAdapter(Context context, List<Spot> list, Location location){
-		mContext = context;
 		mLocation = location;
 		
 		if(mLocation != null){
-			mUserGeoPoint = new GeomagneticField(
-					Double.valueOf(location.getLatitude()).floatValue(), 
-					Double.valueOf(location.getLongitude()).floatValue(),
-					Double.valueOf(location.getAltitude()).floatValue(),
-					System.currentTimeMillis()
-			);
+//			mUserGeoPoint = new GeomagneticField(
+//					Double.valueOf(location.getLatitude()).floatValue(), 
+//					Double.valueOf(location.getLongitude()).floatValue(),
+//					Double.valueOf(location.getAltitude()).floatValue(),
+//					System.currentTimeMillis()
+//			);
 		}
 		
 		mSpots = new ArrayList<Spot>();
 		mSpots.addAll(list);
 		mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+//		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 		SensorManager.getOrientation(mMatrixOrientation, mOrientation);
 	}
 	
@@ -97,7 +91,6 @@ public class ListSpotAdapter extends BaseAdapter{
 		return position;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		RelativeLayout view = (RelativeLayout) convertView;
@@ -161,7 +154,6 @@ public class ListSpotAdapter extends BaseAdapter{
 		String result;
 		if(distance > 1000){
 			double value = distance / 1000;
-
 			result = String.valueOf(round(value, 2)) + "km"; //TODO Ressource!
 		} else {
 			result = String.valueOf(distance) + "m"; //TODO Ressource!
