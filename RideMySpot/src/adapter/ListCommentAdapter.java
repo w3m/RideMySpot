@@ -17,7 +17,7 @@ import com.w3m.ridemyspot.R;
 
 public class ListCommentAdapter extends BaseAdapter{
 
-	private ArrayList<Comment> mComments;
+	private ArrayList<Comment> mListComments;
 	private LayoutInflater mLayoutInflater;
 
 	private ImageView mImage;
@@ -29,23 +29,23 @@ public class ListCommentAdapter extends BaseAdapter{
 	
 	public ListCommentAdapter(Context context, ArrayList<Comment> list){
 		mContext = context;
-		mComments = new ArrayList<Comment>();
-		mComments.addAll(list);
+		mListComments = new ArrayList<Comment>();
+		mListComments.addAll(list);
 		mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	@Override
 	public int getCount() {
-		if (!mComments.isEmpty()){
-			return mComments.size()+1;
+		if (!mListComments.isEmpty()){
+			return mListComments.size()+1;
 		}
 		return 1;// for the add comment item button
 	}
 
 	@Override
 	public Object getItem(int position) {
-		if (mComments.size() != 0)
-			return mComments.get(position);
+		if (mListComments.size() != 0)
+			return mListComments.get(position);
 		return null;
 	}
 
@@ -69,8 +69,8 @@ public class ListCommentAdapter extends BaseAdapter{
 		mText = (TextView) view.findViewById(R.id.comment_text);
 		
 		
-		if(!mComments.isEmpty() && mComments.size()>position){
-			Comment comment = mComments.get(position);
+		if(!mListComments.isEmpty() && mListComments.size()>position){
+			Comment comment = mListComments.get(position);
 			mName.setText(comment.getUser());
 			mRate.setRating((float) comment.getNote());
 			mText.setText(comment.getText());

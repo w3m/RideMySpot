@@ -19,7 +19,7 @@ import com.w3m.ridemyspot.R;
 import entity.Rmsendpoint;
 import entity.model.Users;
 
-public class AddUserActivity extends Activity{
+public class AddUserActivity extends Activity implements OnClickListener{
 
 	public String mAdress;
 	private String mType;
@@ -42,13 +42,7 @@ public class AddUserActivity extends Activity{
 	private void initializeView() {
 		mName = (EditText) findViewById(R.id.add_user_name);
 		mValidate = (Button) findViewById(R.id.add_user_validate);
-		mValidate.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				new AddUser().execute();
-			}
-		});
+		mValidate.setOnClickListener(this);
 	}
 
 	@Override
@@ -74,19 +68,34 @@ public class AddUserActivity extends Activity{
 	public void onRadioButtonClicked(View radioButton) {
 		switch (radioButton.getId()) {
 		case R.id.add_user_roller:
-			mType = "Roller";
+			mType = getString(R.string.text_roller);
 			break;
 		case R.id.add_user_bmx:
-			mType = "BMX";
+			mType = getString(R.string.text_bmx);
 			break;
 		case R.id.add_user_skate:
-			mType = "Skate";
+			mType = getString(R.string.text_skate);
 			break;
 		default:
 			break;
 		}
 	}
-	
+
+	@Override
+	public void onClick(View v) {
+		String check = "";
+		if (mName.getText().toString().equals("")){
+			check += getString(R.string.add_user_minimum_name);
+		}
+		if(mType.equals("")){
+			check += getString(R.string.add_user_minimum_type);
+		} 
+		if(!"".equals(check)){
+			Toast.makeText(this, getString(R.string.add_user_minimum_error_text) + check, Toast.LENGTH_LONG).show();
+		} else {
+			new AddUser().execute();
+		}
+	}
 	
 	private class AddUser extends AsyncTask<Void, Void, Users>{
 		
@@ -110,7 +119,7 @@ public class AddUserActivity extends Activity{
 				response = service.insertUsers(User).execute();
 				
 			} catch (Exception e){
-				Log.d("impossible d'ajouter le user", e.getMessage(), e);//TODO getressource
+				Log.d(getString(R.string.add_user_loading_error_log), e.getMessage(), e);
 			}
 			return response;
 		}
@@ -129,9 +138,10 @@ public class AddUserActivity extends Activity{
 	            startActivity(intent);
 	            finish();
 			} else {
-				Toast.makeText(getBaseContext(), "L'utilisateur n'a pas été ajouté!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), getString(R.string.add_user_loading_error), Toast.LENGTH_LONG).show();
 			}
 			
 		}
 	}
+
 }

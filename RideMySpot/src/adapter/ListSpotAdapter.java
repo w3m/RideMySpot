@@ -23,7 +23,7 @@ import com.w3m.ridemyspot.R;
 
 public class ListSpotAdapter extends BaseAdapter{
 
-	private ArrayList<Spot> mSpots;
+	private ArrayList<Spot> mListSpots;
 	private LayoutInflater mLayoutInflater;
 
 	//private ImageView mIcon;
@@ -39,14 +39,17 @@ public class ListSpotAdapter extends BaseAdapter{
 	private float mHeading;
 	private float mBearing;
 	
+	private Context mContext;
+	
 //	private SensorManager mSensorManager;
 //	private GeomagneticField mUserGeoPoint;
 	private float[] mMatrixOrientation = new float[16];
 	private float[] mOrientation = new float[3];	
 		
 	public ListSpotAdapter(Context context, List<Spot> list, Location location){
-		mLocation = location;
+		mContext = context;
 		
+		mLocation = location;
 		if(mLocation != null){
 //			mUserGeoPoint = new GeomagneticField(
 //					Double.valueOf(location.getLatitude()).floatValue(), 
@@ -56,8 +59,8 @@ public class ListSpotAdapter extends BaseAdapter{
 //			);
 		}
 		
-		mSpots = new ArrayList<Spot>();
-		mSpots.addAll(list);
+		mListSpots = new ArrayList<Spot>();
+		mListSpots.addAll(list);
 		mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 //		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -66,8 +69,8 @@ public class ListSpotAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		if (!mSpots.isEmpty()){
-			return mSpots.size();
+		if (!mListSpots.isEmpty()){
+			return mListSpots.size();
 		}
 		return 0;// for the add Spot item button
 	}
@@ -81,8 +84,8 @@ public class ListSpotAdapter extends BaseAdapter{
 	
 	@Override
 	public Object getItem(int position) {
-		if (mSpots.size() != 0)
-			return mSpots.get(position);
+		if (mListSpots.size() != 0)
+			return mListSpots.get(position);
 		return null;
 	}
 
@@ -109,9 +112,9 @@ public class ListSpotAdapter extends BaseAdapter{
 		mPointer = (ImageView) view.findViewById(R.id.list_spot_pointer);
 		
 		
-		if(!mSpots.isEmpty() && mSpots.size()>position){
+		if(!mListSpots.isEmpty() && mListSpots.size()>position){
 
-			Spot spot = mSpots.get(position);
+			Spot spot = mListSpots.get(position);
 			
 			mName.setText(spot.getName());
 			mNbRate.setText(String.valueOf(spot.getNbNote()));
@@ -133,7 +136,7 @@ public class ListSpotAdapter extends BaseAdapter{
 				mBearing = mLocation.bearingTo(location);
 				mHeading = mOrientation[0];
 //				mHeading += mUserGeoPoint.getDeclination();
-				mHeading = (mBearing - mHeading) * -1; //TODO Ameliorer pr�cision
+				mHeading = (mBearing - mHeading) * -1; //TODO Ameliorer precision
 //				
 				Matrix matrix = new Matrix();
 				matrix.postRotate(normalizeDegree(mHeading), 16f, 16f);
@@ -154,9 +157,9 @@ public class ListSpotAdapter extends BaseAdapter{
 		String result;
 		if(distance > 1000){
 			double value = distance / 1000;
-			result = String.valueOf(round(value, 2)) + "km"; //TODO Ressource!
+			result = String.valueOf(round(value, 2)) + mContext.getString(R.string.text_long_distance);
 		} else {
-			result = String.valueOf(distance) + "m"; //TODO Ressource!
+			result = String.valueOf(distance) + mContext.getString(R.string.text_small_distance);
 		}
 		return result;
 	}

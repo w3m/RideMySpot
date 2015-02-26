@@ -35,7 +35,7 @@ import database.SQLiteSpot;
 public class ListSpotActivity extends ActionBarActivity implements OnItemClickListener, LocationListener{
 	
 	private SQLiteSpot mDatabaseSpot;
-	private List<Spot> mSpot;
+	private List<Spot> mListSpot;
 	
 	private LocationManager mLocationManager;
 	private Location mLocation;
@@ -63,13 +63,13 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 		
 		//Retrieve spot from local database
 		mDatabaseSpot = new SQLiteSpot(this);
-		mSpot = new ArrayList<Spot>();
+		mListSpot = new ArrayList<Spot>();
 		mDatabaseSpot.OpenDB();
-		mSpot = mDatabaseSpot.getListSpot();
+		mListSpot = mDatabaseSpot.getListSpot();
 		mDatabaseSpot.CloseDB();
 
-		Collections.sort(mSpot, new SpotComparator(SpotComparator.COMPARE_BY_NAME, mLocation));
-		ListSpotAdapter adapter = new ListSpotAdapter(this, mSpot, mLocation);
+		Collections.sort(mListSpot, new SpotComparator(SpotComparator.COMPARE_BY_NAME, mLocation));
+		ListSpotAdapter adapter = new ListSpotAdapter(this, mListSpot, mLocation);
 		mListView = (ListView) findViewById(R.id.listview_spot);
 		mListView.setAdapter(adapter);
 		mListView.setOnItemClickListener(this);
@@ -141,8 +141,8 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 				break;
 			default:
 		}
-		Collections.sort(mSpot, new SpotComparator(index, mLocation));
-		ListSpotAdapter adapter = new ListSpotAdapter(this, mSpot, mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+		Collections.sort(mListSpot, new SpotComparator(index, mLocation));
+		ListSpotAdapter adapter = new ListSpotAdapter(this, mListSpot, mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		adapter.notifyDataSetChanged();
 		mListView.setAdapter(adapter);
 		mPopupWindow.dismiss();
@@ -163,10 +163,16 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 		mPopupWindow.setTouchInterceptor(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_OUTSIDE){
-					mPopupWindow.dismiss();
-				}
-				return false;
+				switch (event.getAction()) {
+					case MotionEvent.ACTION_OUTSIDE:
+						mPopupWindow.dismiss();
+						return false;
+					case MotionEvent.ACTION_UP:
+						v.performClick();
+						return true;
+					default: 
+						return true;
+				} 
 			}
 		});
 		mPopupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -180,7 +186,7 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 			long id) {
 		if(parent.getId() == R.id.listview_spot){
 			Intent intent = new Intent(this, SpotActivity.class);
-			intent.putExtra("spot", mSpot.get(position));
+			intent.putExtra(SpotActivity.EXTRA_SPOT, mListSpot.get(position));
 			startActivity(intent);
 		} else {
 			

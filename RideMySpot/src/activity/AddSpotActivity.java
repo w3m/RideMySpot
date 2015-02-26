@@ -41,6 +41,8 @@ import entity.model.Spots;
 
 public class AddSpotActivity extends FragmentActivity implements OnTouchListener, OnClickListener, OnCheckedChangeListener{
 	
+	public final static String EXTRA_POSITION = "POSITION";
+	
 	private GoogleMap mMap;
 	
 	private ScrollView mScrollView;
@@ -59,7 +61,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 	private EditText mEditName;
 	private EditText mEditDescription;
 	
-	private Marker mSpot;
+	private Marker mMarkerSpot;
 	private int mType = 0;
 
 	private SessionManager mSessionManager;
@@ -73,12 +75,12 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 		initializeView();
 		
 		Intent intent = getIntent();
-		LatLng position = (LatLng) intent.getExtras().get("position");
+		LatLng position = (LatLng) intent.getExtras().get(EXTRA_POSITION);
 		
-		mSpot = mMap.addMarker(new MarkerOptions()
+		mMarkerSpot = mMap.addMarker(new MarkerOptions()
         .position(position)
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.map)));
-		mSpot.setDraggable(true);
+		mMarkerSpot.setDraggable(true);
 		
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 17));
 		
@@ -144,6 +146,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 			case MotionEvent.ACTION_UP:
 				// Allow ScrollView to intercept touch events.
 				mScrollView.requestDisallowInterceptTouchEvent(false);
+				v.performClick();
 				return true;
 			case MotionEvent.ACTION_MOVE:
 				mScrollView.requestDisallowInterceptTouchEvent(true);
@@ -162,21 +165,21 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 		case R.id.add_spot_valider: 
 			String check = "";
 			if(mEditName.getText().toString().length() < 10 ){
-				check += " Minimum 10 caractères pour le nom";
+				check += getString(R.string.add_spot_minimum_name);
 			}
 			if(mType == 0 ){
-				check += " Renseigner le type du spot";
+				check += getString(R.string.add_spot_minimum_type);
 			} 
 			if(mEditDescription.getText().toString().length() < 20){
-				check += " Minimum 20 caractères pour la description";
+				check += getString(R.string.add_spot_minimum_description);
 			} 
 			if (mRatingBar.getRating() == 0 ){
-				check += " Renseigner une note";
+				check += getString(R.string.add_spot_minimum_rating);
 			}
 			if(!"".equals(check)){
-				Toast.makeText(this, "Vous devez renseigner tous les champs:" + check, Toast.LENGTH_LONG).show();
+				Toast.makeText(this, getString(R.string.add_spot_minimum_error_text) + check, Toast.LENGTH_LONG).show();
 			} else {
-				LatLng params = new LatLng(mSpot.getPosition().latitude, mSpot.getPosition().longitude);
+				LatLng params = new LatLng(mMarkerSpot.getPosition().latitude, mMarkerSpot.getPosition().longitude);
 				new AddSpot(this).execute(params);
 			}
 			break;
@@ -225,7 +228,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 		protected void onPreExecute() {
 			super.onPreExecute();
 			mProgressDialog = new ProgressDialog(mContext);
-			mProgressDialog.setMessage("Ajout du spot..."); //TODO getressource
+			mProgressDialog.setMessage(getString(R.string.add_spot_loading));
 			mProgressDialog.show();
 		}
 		
@@ -252,7 +255,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 				response = service.insertSpots(spot).execute();
 				
 			} catch (Exception e){
-				Log.d("impossible d'ajouter le spot", e.getMessage(), e);//TODO getressource
+				Log.d(getString(R.string.add_spot_loading_error_log), e.getMessage(), e);
 			}
 			return response;
 		}
@@ -268,7 +271,7 @@ public class AddSpotActivity extends FragmentActivity implements OnTouchListener
 				databaseSpot.CloseDB();
 				finish();
 			} else {
-				Toast.makeText(getBaseContext(), "Le Spot n'a pas été ajouté!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), getString(R.string.add_spot_loading_error), Toast.LENGTH_LONG).show();
 			}
 		}
 	}

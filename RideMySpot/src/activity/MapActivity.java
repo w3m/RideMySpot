@@ -54,15 +54,15 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	private LocationManager mLocationManager;
 	private SessionManager mSessionManager;
 
-	private Marker addSpot;
-	private Marker user;
+	private Marker markerAddSpot;
+	private Marker markerUser;
 	
 	private MultiSpinner multiSpinner;
 	private MenuItem mRefresh;
 	
 	private SQLiteSpot mDatabaseSpot;
 	
-	public List<Spot> mSpot = new ArrayList<Spot>();
+	public List<Spot> mListSpot = new ArrayList<Spot>();
 	public HashMap<String, Spot> mHmSpot = new HashMap<String, Spot>();
 	
 	private AdView mAdView;
@@ -110,13 +110,13 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	private void populateMap() {
 		
 		mDatabaseSpot.OpenDB();
-		if(!mSpot.isEmpty()){
-			mSpot.clear();
+		if(!mListSpot.isEmpty()){
+			mListSpot.clear();
 		}
-		mSpot = mDatabaseSpot.getListSpot();
+		mListSpot = mDatabaseSpot.getListSpot();
 		mDatabaseSpot.CloseDB();
 		
-		mMap.clear();    //On peut aussi jouer sur la visibilitÃ©... optimise le fais de pas avoir Ã  recrÃ©er les marker!!
+		mMap.clear();    //On peut aussi jouer sur la visibilitÃ©... optimise le fais de pas avoir a recreer les marker!!
 							//Du coup un populatemap() pour tout les points et un filtermarker() pour le filtre (le faire sur le clicklistener du filtre!)
 		
 		List<String> type = Arrays.asList(multiSpinner.getSelectedItem().toString().split(", "));
@@ -128,7 +128,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 			mHmSpot.clear();
 		}
 		
-		for (Spot spot : mSpot) {
+		for (Spot spot : mListSpot) {
 			//If the spot is in the type scope
 			if(containsAny(type, spot.getStringTypes(), spot.isFavorite())){
 				//We add it to the map and retrieve his ID
@@ -146,7 +146,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		//Redraw user's last know location
 		Location userLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 		if(userLocation != null){
-			user = mMap.addMarker(new MarkerOptions()
+			markerUser = mMap.addMarker(new MarkerOptions()
 		    	.position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
 		    	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
 		    );
@@ -187,6 +187,9 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	protected void onResume() {
 		super.onResume();
 		removeExistingAddSpot();
+		if(mListSpot.size() != 0){
+			populateMap();
+		}
 		mAdView.resume();
 	}
 
@@ -203,12 +206,6 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		return super.onCreateOptionsMenu(menu);
 	}
 	
-//	@Override   //TODO faire laoding au dï¿½marrage et faire tourner le mrefresh!!
-//	public boolean onPrepareOptionsMenu(Menu menu) {
-//		new ListSpots(this).execute();
-//		return super.onPrepareOptionsMenu(menu);
-//	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -220,7 +217,6 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 			startActivity(intent);
 			return true;
 		case R.id.menu_add:
-			//Get the user location to add the new spot here
 			add_spot(mMap.getCameraPosition().target);
 			return true;
 		default:
@@ -234,11 +230,11 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		v.vibrate(200);
 		removeExistingAddSpot();
 			
-		addSpot = mMap.addMarker(new MarkerOptions()
+		markerAddSpot = mMap.addMarker(new MarkerOptions()
         .position(marker)
         .icon(BitmapDescriptorFactory
         .fromResource(R.drawable.map)));
-		addSpot.setDraggable(true);
+		markerAddSpot.setDraggable(true);
 	}
 	
 	@Override
@@ -249,7 +245,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		marker.hideInfoWindow();
-		if(marker.equals(addSpot))
+		if(marker.equals(markerAddSpot))
 			add_spot(marker.getPosition());
 		else
 			removeExistingAddSpot();
@@ -258,23 +254,23 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 
 	private void add_spot(LatLng position){
 		Intent intent = new Intent(MapActivity.this, AddSpotActivity.class);
-		intent.putExtra("position", position);
+		intent.putExtra(AddSpotActivity.EXTRA_POSITION, position);
 		startActivity(intent);
 	}
 
 	@Override
 	public void onItemsSelected(boolean[] selected) {
-		//Permet de rafraichir l'affichage selon le type de spot sélectionné
+		//Permet de rafraichir l'affichage selon le type de spot selectionner
 		populateMap();
 	}
 
 	@Override
 	public void onLocationChanged(Location location) {
-		if(user!=null)
-			if(user.isVisible())
-				user.remove();
+		if(markerUser!=null)
+			if(markerUser.isVisible())
+				markerUser.remove();
 		
-		user = mMap.addMarker(new MarkerOptions()
+		markerUser = mMap.addMarker(new MarkerOptions()
         	.position(new LatLng(location.getLatitude(), location.getLongitude()))
         	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
         );
@@ -305,14 +301,14 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	@Override
 	public void onInfoWindowClick(Marker marker) {
 		Intent intent = new Intent(MapActivity.this, SpotActivity.class);
-		intent.putExtra("spot", mHmSpot.get(marker.getId()));
+		intent.putExtra(SpotActivity.EXTRA_SPOT, mHmSpot.get(marker.getId()));
 		startActivity(intent);
 	}
 	
 	public void removeExistingAddSpot(){
-		if(addSpot!=null)
-			if(addSpot.isVisible())
-				addSpot.remove();
+		if(markerAddSpot!=null)
+			if(markerAddSpot.isVisible())
+				markerAddSpot.remove();
 	}
 	
 	private class ListSpots extends AsyncTask<Void, Void, CollectionResponseSpots>{
@@ -338,7 +334,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 				Rmsendpoint service = builder.build();
 				spots = service.listSpots().setPIdUser(Long.parseLong(mSessionManager.getUserDetails().get(SessionManager.KEY_ID))).execute();
 			} catch (Exception e){
-				Log.d("impossible de récupérer les spots", e.getMessage(), e);//TODO getressource
+				Log.d(getString(R.string.maps_loading_spot_error_log), e.getMessage(), e);
 			}
 			return spots;
 		}
@@ -360,7 +356,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 				
 				populateMap();
 			} else {
-				Toast.makeText(m_context, "Impossible de rafraichir la liste des spots!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(m_context, getString(R.string.maps_loading_spot_error), Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
