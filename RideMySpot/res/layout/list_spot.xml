@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    >
-    <ListView 
-    android:id="@+id/listview_spot"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_marginBottom="60dp"
-    android:dividerHeight="2dp" /> 
-    
+    android:layout_height="fill_parent" >
+
+    <ListView
+        android:id="@+id/listview_spot"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="60dp"
+        android:dividerHeight="2dp" />
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/listview_spot_adview"
         android:layout_width="wrap_content"
@@ -20,6 +20,5 @@
         android:layout_marginBottom="10dp"
         ads:adSize="BANNER"
         ads:adUnitId="@string/ad_banner_key" />
-    
-</RelativeLayout>
 
+</RelativeLayout>

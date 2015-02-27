@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.w3m.ridemyspot.R;
@@ -26,15 +25,6 @@ public class ListSpotAdapter extends BaseAdapter{
 	private ArrayList<Spot> mListSpots;
 	private LayoutInflater mLayoutInflater;
 
-	//private ImageView mIcon;
-	private TextView mName;
-	private TextView mNbRate;
-	private RatingBar mRate;
-	private TextView mDescription;
-	private ImageView mFavorite;
-	private TextView mNbKm;
-	private ImageView mPointer;
-	
 	private Location mLocation;
 	private float mHeading;
 	private float mBearing;
@@ -94,34 +84,52 @@ public class ListSpotAdapter extends BaseAdapter{
 		return position;
 	}
 
+	static class ViewHolder {
+//private ImageView mIcon;
+		TextView mName;
+		TextView mNbRate;
+		RatingBar mRate;
+		TextView mDescription;
+		ImageView mFavorite;
+		TextView mNbKm;
+//		ImageView mPointer;
+		}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		RelativeLayout view = (RelativeLayout) convertView;
-		if(view == null){
-			view = (RelativeLayout) mLayoutInflater.inflate(R.layout.list_spot_item, view);
+		ViewHolder viewHolder;
+		
+		if(convertView == null){
+			convertView = mLayoutInflater.inflate(R.layout.list_spot_item, parent, false);
+		
+			viewHolder = new ViewHolder();
+			viewHolder.mName = (TextView) convertView.findViewById(R.id.list_spot_name);
+			viewHolder.mNbRate = (TextView) convertView.findViewById(R.id.list_spot_nbrate);
+			viewHolder.mRate = (RatingBar) convertView.findViewById(R.id.list_spot_globalnote);
+			viewHolder.mDescription = (TextView) convertView.findViewById(R.id.list_spot_description);
+			viewHolder.mFavorite = (ImageView) convertView.findViewById(R.id.list_spot_favorite);
+			viewHolder.mNbKm = (TextView) convertView.findViewById(R.id.list_spot_nbkm);
+			
+//			viewHolder.mPointer = mNbKm.getBackground(); //TODO get drawable to draw the rotatematrix
+			
+			convertView.setTag(viewHolder);
 		} else {
-			view = (RelativeLayout) convertView;
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		mName = (TextView) view.findViewById(R.id.list_spot_name);
-		mNbRate = (TextView) view.findViewById(R.id.list_spot_nbrate);
-		mRate = (RatingBar) view.findViewById(R.id.list_spot_globalnote);
-		mDescription = (TextView) view.findViewById(R.id.list_spot_description);
-		mFavorite = (ImageView) view.findViewById(R.id.list_spot_favorite);
-		mNbKm = (TextView) view.findViewById(R.id.list_spot_nbkm);
-		mPointer = (ImageView) view.findViewById(R.id.list_spot_pointer);
+		
 		
 		
 		if(!mListSpots.isEmpty() && mListSpots.size()>position){
 
 			Spot spot = mListSpots.get(position);
 			
-			mName.setText(spot.getName());
-			mNbRate.setText(String.valueOf(spot.getNbNote()));
-			mRate.setRating((float) spot.getGlobalNote());
-			mDescription.setText(spot.getDescription());
+			viewHolder.mName.setText(spot.getName());
+			viewHolder.mNbRate.setText(String.valueOf(spot.getNbNote()));
+			viewHolder.mRate.setRating((float) spot.getGlobalNote());
+			viewHolder.mDescription.setText(spot.getDescription());
 			if(spot.isFavorite()){
-				mFavorite.setImageResource(R.drawable.heart_full_x16);
+				viewHolder.mFavorite.setImageResource(R.drawable.heart_full_x16);
 			}
 
 			
@@ -131,7 +139,7 @@ public class ListSpotAdapter extends BaseAdapter{
 			
 
 			if(mLocation != null){
-				mNbKm.setText(convertDistance(mLocation.distanceTo(location)));
+				viewHolder.mNbKm.setText(convertDistance(mLocation.distanceTo(location)));
 				
 				mBearing = mLocation.bearingTo(location);
 				mHeading = mOrientation[0];
@@ -140,17 +148,17 @@ public class ListSpotAdapter extends BaseAdapter{
 //				
 				Matrix matrix = new Matrix();
 				matrix.postRotate(normalizeDegree(mHeading), 16f, 16f);
-//				mPointer.setScaleType(ScaleType.MATRIX);
-//				mPointer.setImageMatrix(matrix);
+//				viewHolder.mPointer.setScaleType(ScaleType.MATRIX);
+//				viewHolder.mPointer.setImageMatrix(matrix);
 			} else {
-				mNbKm.setVisibility(View.GONE);
-				mPointer.setVisibility(View.GONE);
+				viewHolder.mNbKm.setVisibility(View.GONE);
+				//viewHolder.mPointer.setVisibility(View.GONE);
 			}
 			
 			
 		}
 		
-		return view;
+		return convertView;
 	}
 	
 	private String convertDistance(float distance){

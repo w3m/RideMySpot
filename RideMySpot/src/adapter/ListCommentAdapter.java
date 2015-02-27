@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -20,11 +19,6 @@ public class ListCommentAdapter extends BaseAdapter{
 	private ArrayList<Comment> mListComments;
 	private LayoutInflater mLayoutInflater;
 
-	private ImageView mImage;
-	private TextView mName;
-	private RatingBar mRate;
-	private TextView mText;
-	
 	private Context mContext;
 	
 	public ListCommentAdapter(Context context, ArrayList<Comment> list){
@@ -54,39 +48,41 @@ public class ListCommentAdapter extends BaseAdapter{
 		return position;
 	}
 
+	static class ViewHolder {
+		ImageView mImage;
+		TextView mName;
+		RatingBar mRate;
+		TextView mText;
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LinearLayout view = (LinearLayout) convertView;
-		if(view == null){
-			view = (LinearLayout) mLayoutInflater.inflate(R.layout.comment, view);
+		ViewHolder viewHolder;
+		
+		if(convertView == null){
+			convertView = mLayoutInflater.inflate(R.layout.comment, parent, false);
+			
+			viewHolder = new ViewHolder();
+			viewHolder.mImage = (ImageView) convertView.findViewById(R.id.comment_image);
+			viewHolder.mName = (TextView) convertView.findViewById(R.id.comment_name);
+			viewHolder.mRate = (RatingBar) convertView.findViewById(R.id.comment_rate);
+			viewHolder.mText = (TextView) convertView.findViewById(R.id.comment_text);
+			
+			convertView.setTag(viewHolder);
 		} else {
-			view = (LinearLayout) convertView;
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		
-		mImage = (ImageView) view.findViewById(R.id.comment_image);
-		mName = (TextView) view.findViewById(R.id.comment_name);
-		mRate = (RatingBar) view.findViewById(R.id.comment_rate);
-		mText = (TextView) view.findViewById(R.id.comment_text);
-		
 		
 		if(!mListComments.isEmpty() && mListComments.size()>position){
 			Comment comment = mListComments.get(position);
-			mName.setText(comment.getUser());
-			mRate.setRating((float) comment.getNote());
-			mText.setText(comment.getText());
-			
-			view.setClickable(false);
-			
+			viewHolder.mName.setText(comment.getUser());
+			viewHolder.mRate.setRating((float) comment.getNote());
+			viewHolder.mText.setText(comment.getText());
 		} else {
-			mImage.setVisibility(View.GONE);
-			mName.setVisibility(View.GONE);
-			mRate.setVisibility(View.GONE);
-			mText.setVisibility(View.GONE);
-			
-			mLayoutInflater.inflate(R.layout.add_comment_item, view);
+			convertView = (TextView) mLayoutInflater.inflate(R.layout.add_comment_item, parent, false);
 		}
 		
-		return view;
+		return convertView;
 	}
 	
 

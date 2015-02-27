@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent" 
-    android:padding="5dp">
+    android:layout_height="fill_parent"
+    android:padding="5dp" >
 
     <LinearLayout
         android:id="@+id/spot_linear_head"
@@ -13,10 +13,16 @@
 
         <ImageView
             android:id="@+id/spot_imageview"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="left"
-            android:contentDescription="@string/empty"
+            android:layout_gravity="center"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="2dp"
+            android:contentDescription="@string/image_content_description"
             android:scaleType="fitCenter"
             android:src="@drawable/image_64x64" />
 
@@ -30,7 +36,7 @@
                 android:id="@+id/spot_text_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
-            
+
             <TextView
                 android:id="@+id/spot_text_type"
                 android:layout_width="fill_parent"
@@ -55,9 +61,9 @@
         android:id="@+id/spot_text_desciption"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_below="@id/spot_linear_head"
         android:layout_marginBottom="5dp"
-        android:layout_below="@id/spot_linear_head" />
+        android:layout_marginTop="5dp" />
 
     <Gallery
         android:id="@+id/spot_gallery"

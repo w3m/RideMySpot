@@ -3,139 +3,145 @@
     android:id="@+id/add_spot_scrollview"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-	<RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    android:focusable="true"
-	    android:focusableInTouchMode="true">
 
-	    <RelativeLayout
-    		android:id="@+id/add_spot_map_layout"
-    		android:layout_width="match_parent"
-    		android:layout_height="200dp">
-    		
-			<fragment
-	        android:id="@+id/add_spot_map"
-	        android:layout_width="match_parent"
-			android:layout_height="match_parent"
-	        class="com.google.android.gms.maps.SupportMapFragment"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" >
 
-		    <ImageView
-		        android:id="@+id/add_spot_transparent_image"
-		        android:layout_width="match_parent"
-		        android:layout_height="match_parent"
-		        android:src="@android:color/transparent"/>
-	    </RelativeLayout>
-            
-		<TextView 
-		    android:id="@+id/add_spot_map_info"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="@string/add_spot_map_info"
-		    android:layout_below="@id/add_spot_map_layout"
-			android:gravity="center_horizontal"
-		    android:textStyle="italic"/>
-		<TextView 
-		    android:id="@+id/add_spot_adresse"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_below="@id/add_spot_map_info"/>
-		<EditText
-		    android:id="@+id/add_spot_edit_name"
-		    android:inputType="text"
-		    android:hint="@string/add_spot_name"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_below="@id/add_spot_adresse"/>
-		
-		<TextView
-	         android:id="@+id/add_spot_text_radiobutton"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:text="@string/add_spot_radio" 
-	         android:gravity="left"
-	         android:layout_below="@id/add_spot_edit_name"/>
-	
-	   	<LinearLayout 
-	   	    android:id="@+id/linearradio1"
-	   	    android:layout_width="fill_parent"
-	   	    android:layout_height="wrap_content"
-	   	    android:orientation="horizontal"
-	   	    android:layout_below="@id/add_spot_text_radiobutton">
-	   	   
-	   	    <CheckBox
-	   	        android:id="@+id/add_spot_roller"
-	   	        android:layout_width="0dp"
-	   	        android:layout_height="wrap_content"
-	   	        android:text="@string/text_roller"
-	      		android:layout_weight="1"/>
-	   	    
-	   	    <CheckBox
-	   	        android:id="@+id/add_spot_skatepark"
-	   	        android:layout_width="0dp"
-	   	        android:layout_height="wrap_content"
-	   	        android:text="@string/text_skatepark" 
-	      		android:layout_weight="1"/>
-	
-	   	</LinearLayout>
-	   	<LinearLayout 
-	   	    android:id="@+id/linearradio2"
-	   	    android:layout_width="fill_parent"
-	   	    android:layout_height="wrap_content"
-	   	    android:orientation="horizontal"
-	   	    android:layout_below="@id/linearradio1">
-	   	    
-	   	    <CheckBox
-	   	        android:id="@+id/add_spot_skate"
-	   	        android:layout_width="0dp"
-	   	        android:layout_height="wrap_content"
-	   	        android:text="@string/text_skate" 
-	      		android:layout_weight="1"/>
-	
-	   	    <CheckBox
-	   	        android:id="@+id/add_spot_bmx"
-	   	        android:layout_width="0dp"
-	   	        android:layout_height="wrap_content"
-	   	        android:text="@string/text_bmx" 
-	      		android:layout_weight="1"/>
-	   
-	   	</LinearLayout>
-	
-	   	<RatingBar android:id="@+id/add_spot_rating"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical|center_horizontal" 
-			android:layout_below="@id/linearradio2"/>
-		
-	   	<EditText 
-	   	    android:id="@+id/add_spot_edit_description"
-	   	    android:layout_width="fill_parent"
-	   	    android:layout_height="wrap_content"
-	   	    android:inputType="text"
-	   	    android:hint="@string/add_spot_description"
-	   	    android:layout_below="@id/add_spot_rating"/>
-	   	
-	   	<LinearLayout
-	        android:id="@+id/linearLayout1"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	    	android:orientation="horizontal"
-	    	android:paddingTop="15dp"
-	    	android:layout_below="@id/add_spot_edit_description">
-		    <Button 
-	        android:id="@+id/add_spot_annuler"
-	        android:layout_width="0dip"
-	        android:layout_height="wrap_content"
-	        android:text="@string/text_annuler"
-	        android:layout_weight="1"/>
-		    <Button 
-	        android:id="@+id/add_spot_valider"
-	        android:layout_width="0dip"
-	        android:layout_height="wrap_content"
-	        android:text="@string/text_valider"
-	        android:layout_weight="1"/>
-		</LinearLayout>
-	   	
-	</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/add_spot_map_layout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <fragment
+                android:id="@+id/add_spot_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.google.android.gms.maps.SupportMapFragment" />
+
+            <ImageView
+                android:id="@+id/add_spot_transparent_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/image_content_description"
+                android:src="@android:color/transparent" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/add_spot_map_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_spot_map_layout"
+            android:gravity="center_horizontal"
+            android:text="@string/add_spot_map_info"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/add_spot_adresse"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_spot_map_info" />
+
+        <EditText
+            android:id="@+id/add_spot_edit_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_spot_adresse"
+            android:hint="@string/add_spot_name"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/add_spot_text_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_spot_edit_name"
+            android:gravity="start"
+            android:text="@string/add_spot_radio" />
+
+        <LinearLayout
+            android:id="@+id/linearradio1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_spot_text_radiobutton"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/add_spot_roller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_roller" />
+
+            <CheckBox
+                android:id="@+id/add_spot_skatepark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_skatepark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearradio2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearradio1"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/add_spot_skate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_skate" />
+
+            <CheckBox
+                android:id="@+id/add_spot_bmx"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_bmx" />
+        </LinearLayout>
+
+        <RatingBar
+            android:id="@+id/add_spot_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearradio2"
+            android:layout_gravity="center_vertical|center_horizontal" />
+
+        <EditText
+            android:id="@+id/add_spot_edit_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_spot_rating"
+            android:hint="@string/add_spot_description"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_spot_edit_description"
+            android:orientation="horizontal"
+            android:paddingTop="15dp" >
+
+            <Button
+                android:id="@+id/add_spot_annuler"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_annuler" />
+
+            <Button
+                android:id="@+id/add_spot_valider"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_valider" />
+        </LinearLayout>
+    </RelativeLayout>
+
 </ScrollView>

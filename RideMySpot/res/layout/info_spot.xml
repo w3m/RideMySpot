@@ -39,8 +39,10 @@
             android:id="@+id/info_spot_favorite"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:padding="6dp"
             android:layout_marginLeft="1dp"
+            android:layout_marginStart="1dp"
+            android:contentDescription="@string/image_content_description"
+            android:padding="6dp"
             android:src="@drawable/heart_empty_x16" />
     </LinearLayout>
 

@@ -22,32 +22,33 @@
         android:id="@+id/add_user_type"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
-	    <RadioButton
-	        android:id="@+id/add_user_roller"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/text_roller" 
-        	android:onClick="onRadioButtonClicked"/>
-	
-	    <RadioButton
-	        android:id="@+id/add_user_skate"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/text_skate" 
-        	android:onClick="onRadioButtonClicked"/>
-	
-	    <RadioButton
-	        android:id="@+id/add_user_bmx"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/text_bmx" 
-        	android:onClick="onRadioButtonClicked"/>
+
+        <RadioButton
+            android:id="@+id/add_user_roller"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/text_roller" />
+
+        <RadioButton
+            android:id="@+id/add_user_skate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/text_skate" />
+
+        <RadioButton
+            android:id="@+id/add_user_bmx"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/text_bmx" />
     </RadioGroup>
-    
-    <Button 
+
+    <Button
         android:id="@+id/add_user_validate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_valider"/>
+        android:text="@string/text_valider" />
 
 </LinearLayout>

@@ -6,8 +6,6 @@
     <string name="support_mail">support@ridemyspot.com</string>
     <string name="contact_mail">contact@ridemyspot.com</string>
     
-	<string name="empty"></string>
-	
 	<string name="text_valider">Valider</string>
 	<string name="text_annuler">Annuler</string>
 	<string name="text_information">Information</string>
@@ -26,6 +24,9 @@
         <item>Contacter le Support</item>
         <item>Mentions légales</item>
     </string-array>
+    
+    <!-- SplashScreenActivity -->
+	<string name="splashscreen_text">Please wait&#8230;</string>
     
     <!-- AddUserActivity -->
 	<string name="add_user_login">Login :</string>
@@ -76,7 +77,7 @@
 	<string name="add_spot_minimum_rating"> Renseigner une note</string>
 	<string name="add_spot_minimum_error_text">Vous devez renseigner tous les champs :</string>
 	
-	<string name="add_spot_loading">Ajout du spot...</string>
+	<string name="add_spot_loading">Ajout du spot&#8230;</string>
 	<string name="add_spot_loading_error">Une erreur est survenue pendant l\'ajout du spot!</string>
 	<string name="add_spot_loading_error_log">Exception in insertSpot service</string>
 	
@@ -93,17 +94,17 @@
 	
 	<string name="spot_already_vote_error">Vous avez déjà voté ce spot!</string>
 	
-    <string name="spot_loading_comment_error">Une erreur est survenue pendant la récupération des commentaires! Nouveau chargement en cours...</string>
+    <string name="spot_loading_comment_error">Une erreur est survenue pendant la récupération des commentaires! Nouveau chargement en cours&#8230;</string>
     <string name="spot_loading_comment_error_log">Exception in listComments service</string>
     
     <!-- TODO voir comment alléger les string avec une sélection du premier mot selon l'action -->
-	<string name="spot_add_comment">Ajout du commentaire...</string>
+	<string name="spot_add_comment">Ajout du commentaire&#8230;</string>
 	<string name="spot_add_comment_error">Le commentaire n\'a pas pu être ajouté!</string>
 	<string name="spot_add_comment_error_log">Exception in insertComments service</string>
-	<string name="spot_delete_comment">Suppression du commentaire...</string>
+	<string name="spot_delete_comment">Suppression du commentaire&#8230;</string>
 	<string name="spot_delete_comment_error">Le commentaire n\'a pas pu être supprimé!</string>
 	<string name="spot_delete_comment_error_log">Exception in removeComments service</string>
-	<string name="spot_update_comment">Mise à jour du commentaire...</string>
+	<string name="spot_update_comment">Mise à jour du commentaire&#8230;</string>
 	<string name="spot_update_comment_error">Le commentaire n\'a pas pu être mis à jour!</string>
 	<string name="spot_update_comment_error_log">Exception in updateComments service</string>
 	
@@ -119,6 +120,9 @@
 	<string name="spot_add_score_error">Le vote n\'a pas pu être pris en compte!</string>
 	<string name="spot_add_score_error_log">Exception in addScore service</string>
     
+	<string name="add_comment_item_text">Ajouter un commentaire</string>
+	
+	<string name="image_content_description"></string>
 	
 	<string name="vote_moins">Vote moins</string>
 	<string name="vote_plus">Vote plus</string>
@@ -126,4 +130,8 @@
 	<string name="add_comment_text">Entrer votre commentaire</string>
 	
 	<string name="icon_url">http://www.tehkseven.net/300-icons-103164/</string>
+	
+	<string name="info_vote_text">Attention vous ne pouvez voter qu\'une seule fois par spot !</string>
+	<string name="info_vote_text_remove">Ne plus me montrer ce message de merde !</string>
+	
 </resources>

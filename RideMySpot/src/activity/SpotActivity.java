@@ -9,6 +9,7 @@ import model.Comment;
 import model.Spot;
 import account.SessionManager;
 import adapter.ListCommentAdapter;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -165,6 +166,7 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 	}
 
 	
+	@SuppressLint("RtlHardcoded")
 	public void showPopup(MenuItem menuItem){
 		mPopupWindow.setTouchable(true);
 		mPopupWindow.setFocusable(true);

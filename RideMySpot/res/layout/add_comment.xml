@@ -3,28 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView 
-	    android:id="@+id/add_comment_name"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" 
-	    android:singleLine="true"
-	    android:paddingBottom="10dip"/>  
- 
-  <EditText 
-	    android:id="@+id/add_comment_text"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:lines="3"
-	    android:paddingBottom="10dip"
-	    android:hint="@string/add_comment_text"/>  
-    
-  <RatingBar 
-	    android:id="@+id/add_comment_rate"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_vertical|center_horizontal"
-		android:paddingTop="15dp"/>
-    
+
+    <TextView
+        android:id="@+id/add_comment_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/add_comment_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/add_comment_text"
+        android:lines="3"
+        android:paddingBottom="10dip" />
+
+    <RatingBar
+        android:id="@+id/add_comment_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:paddingTop="15dp" />
 
 </LinearLayout>
