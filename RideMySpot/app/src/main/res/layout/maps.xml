@@ -33,7 +33,7 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_banner_key" />
+        ads:adUnitId="@string/ad_banner_key_debug" />
 
     <ImageButton
         android:id="@+id/map_location"

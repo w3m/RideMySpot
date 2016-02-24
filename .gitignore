@@ -1,6 +1,7 @@
 # built application files
 *.apk
 *.ap_
+*.keystore
 
 # files for the dex VM
 *.dex
@@ -17,11 +18,27 @@ gen/
 # Local configuration file (sdk path, etc)
 local.properties
 
-#private key for mapV2
+#private key
+android.gradle
 string.xml
 secret.xml
+
+#eclispe ?
 *.classpath
 *.properties
 
 #mac data file
 .DS_Store
+
+#.idea
+workspace.xml
+tasks.xml
+dataSources.ids
+datasources.xml
+gradle.xml
+dictionaries/
+*.idea/libraries/
+*.iws
+RideMySpot/.idea/libraries/
+RideMySpot/.gradle/
+*.gradle/

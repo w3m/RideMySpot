@@ -1,23 +1,18 @@
 apply plugin: 'com.android.application'
-
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    signingConfigs {
+        compileSdkVersion 23
+        buildToolsVersion "23.0.2"
 
-    defaultConfig {
-        applicationId "com.w3m.ridemyspot"
-        minSdkVersion 10
-        targetSdkVersion 23
-        multiDexEnabled true
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        defaultConfig {
+            applicationId "com.w3m.ridemyspot"
+            minSdkVersion 10
+            targetSdkVersion 23
+            multiDexEnabled true
         }
     }
 }
+apply from: '../../RideMySpotRastafari/android.gradle'
 
 dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'

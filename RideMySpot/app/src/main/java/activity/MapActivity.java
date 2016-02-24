@@ -176,7 +176,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		//Redraw user's last know location
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+                == PackageManager.PERMISSION_GRANTED){
             Location userLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             if(userLocation != null){
                 markerUser = mMap.addMarker(new MarkerOptions()
@@ -213,7 +213,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	protected void onStop() {
         if (ContextCompat.checkSelfPermission(this,
             Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED){
+            == PackageManager.PERMISSION_GRANTED && mLocationManager != null){
             mLocationManager.removeUpdates(this);
         }
 		super.onStop();
@@ -223,7 +223,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	protected void onPause() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+                == PackageManager.PERMISSION_GRANTED && mLocationManager != null){
             mLocationManager.removeUpdates(this);
         }
 	    mAdView.pause();
@@ -326,7 +326,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+                == PackageManager.PERMISSION_GRANTED) {
             mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         }
@@ -374,7 +374,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+                == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.removeUpdates(this);
         }
 	}
@@ -394,7 +394,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		case R.id.map_location:
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED){
+                    == PackageManager.PERMISSION_GRANTED){
                     mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
                 }
 			break;
