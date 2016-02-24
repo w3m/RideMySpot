@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/background_light"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/info_spot_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:id="@+id/info_spot_globalnote_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@id/info_spot_name"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/info_spot_nbrate"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:gravity="center" />
+
+        <RatingBar
+            android:id="@+id/info_spot_globalnote"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5" />
+
+        <ImageView
+            android:id="@+id/info_spot_favorite"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginStart="1dp"
+            android:contentDescription="@string/image_content_description"
+            android:padding="6dp"
+            android:src="@drawable/heart_empty_x16" />
+    </LinearLayout>
+
+</RelativeLayout>

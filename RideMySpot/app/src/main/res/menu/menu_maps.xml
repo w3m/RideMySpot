@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:ridemyspot="http://schemas.android.com/apk/res-auto"  >
+	<item
+		android:id="@+id/menu_refresh_spot"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_maps_refresh"
+		android:icon="@drawable/map_loader"
+		/>
+	<item
+		android:id="@+id/menu_list"
+		ridemyspot:showAsAction="ifRoom|withText"
+		android:title="@string/menu_maps_list"
+		android:icon="@drawable/ic_action_view_as_list"
+		/>
+	<item	    
+		android:id="@+id/menu_add"
+		ridemyspot:showAsAction="ifRoom"
+		android:title="@string/menu_maps_add"
+		android:icon="@drawable/ic_action_new"
+		/>
+</menu>

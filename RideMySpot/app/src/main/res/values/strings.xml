@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ride My Spot</string>
+    <string name="site_name">www.ridemyspot.com</string>
+    <string name="support_mail">support@ridemyspot.com</string>
+    <string name="contact_mail">contact@ridemyspot.com</string>
+    
+	<string name="text_valider">Valider</string>
+	<string name="text_annuler">Annuler</string>
+	<string name="text_information">Information</string>
+	
+	<string name="text_roller">Roller</string>
+	<string name="text_skatepark">Skatepark</string>
+	<string name="text_skate">Skate</string>
+	<string name="text_bmx">BMX</string>
+	
+	<string name="text_long_distance">km</string>
+	<string name="text_small_distance">m</string>
+ 
+    <string-array name="navigation_drawer_menu">
+        <item>Mes Favoris</item>
+        <item>Paramètres Perso</item>
+        <item>Contacter le Support</item>
+        <item>Mentions légales</item>
+    </string-array>
+    
+    <!-- SplashScreenActivity -->
+	<string name="splashscreen_text">Please wait&#8230;</string>
+    
+    <!-- AddUserActivity -->
+	<string name="add_user_login">Login :</string>
+	<string name="add_user_minimum_name"> Entrer un nom</string>
+	<string name="add_user_minimum_type"> Sélectionner une discipline</string>
+	<string name="add_user_minimum_error_text">Vous devez renseigner tous les champs :</string>
+	<string name="add_user_loading_error">Une erreur est survenue pendant l\'ajout de votre profil!</string>
+	<string name="add_user_loading_error_log">Exception in insertUsers service</string>
+    
+    <!-- MapActivity -->
+    <string name="menu_maps_add">Ajouter un spot au centre de la carte</string>
+    <string name="menu_maps_refresh">Actualiser</string>
+    <string name="menu_maps_list">Liste</string>
+    
+    <string name="maps_loading_spot_error">Une erreur est survenue pendant la récupération des spots!</string>
+    <string name="maps_loading_spot_error_log">Exception in listSpots service</string>
+    
+    <!-- MapActivity ListFilter -->
+    <string name="text_all_spot">Tous les Spots</string>
+    <string-array name="maps_filter_list">
+        <item>Roller</item>
+        <item>Skate</item>
+        <item>BMX</item>
+        <item>Skatepark</item>
+        <item>Favoris</item>
+    </string-array>
+    
+    <!-- ListSpotActivity -->
+	<string name="menu_list_map">Carte</string>
+	<string name="menu_list_sort">Trier la liste</string>
+    
+    <!-- ListSpotActivity ListFilter -->
+    <string name="string_sort_name">Nom de Spot</string>
+    <string name="string_sort_note">Note Globale</string>
+    <string name="string_sort_nb_note">Nombre de Note</string>
+    <string name="string_sort_distance">Distance</string>
+    <string name="string_sort_fav">Favoris</string>
+    
+	<!-- AddSpotActivity -->
+	<string name="add_spot_map_info">Vous pouvez déplacer le point par appui long sur celui ci</string>
+	<string name="add_spot_name">Entrer un nom (min. 10 caractères)</string>
+	<string name="add_spot_radio">Type de spot :</string>
+	<string name="add_spot_description">Entrez votre description (min. 20 caractères)</string>
+	
+	<string name="add_spot_minimum_name"> Minimum 10 caractères pour le nom</string>
+	<string name="add_spot_minimum_type"> Renseigner le type du spot</string>
+	<string name="add_spot_minimum_description"> Minimum 20 caractères pour la description</string>
+	<string name="add_spot_minimum_rating"> Renseigner une note</string>
+	<string name="add_spot_minimum_error_text">Vous devez renseigner tous les champs :</string>
+	
+	<string name="add_spot_loading">Ajout du spot&#8230;</string>
+	<string name="add_spot_loading_error">Une erreur est survenue pendant l\'ajout du spot!</string>
+	<string name="add_spot_loading_error_log">Exception in insertSpot service</string>
+	
+	<!-- SpotActivity -->
+	<string name="menu_spot_fav">Favoris</string>
+	<string name="menu_spot_share">Partager</string>
+	<string name="menu_spot_stview">Street View</string>
+	<string name="menu_spot_nav">Navigation</string>
+	<string name="menu_spot_vote">Voter</string>
+	
+	<string name="spot_already_comment_error">Vous avez déjà commenté ce spot!</string>
+	<string name="spot_comment_delete">Voulez vous supprimer ce commentaire?</string>
+	<string name="spot_comment_"></string>
+	
+	<string name="spot_already_vote_error">Vous avez déjà voté ce spot!</string>
+	
+    <string name="spot_loading_comment_error">Une erreur est survenue pendant la récupération des commentaires! Nouveau chargement en cours&#8230;</string>
+    <string name="spot_loading_comment_error_log">Exception in listComments service</string>
+    
+    <!-- TODO voir comment alléger les string avec une sélection du premier mot selon l'action -->
+	<string name="spot_add_comment">Ajout du commentaire&#8230;</string>
+	<string name="spot_add_comment_error">Le commentaire n\'a pas pu être ajouté!</string>
+	<string name="spot_add_comment_error_log">Exception in insertComments service</string>
+	<string name="spot_delete_comment">Suppression du commentaire&#8230;</string>
+	<string name="spot_delete_comment_error">Le commentaire n\'a pas pu être supprimé!</string>
+	<string name="spot_delete_comment_error_log">Exception in removeComments service</string>
+	<string name="spot_update_comment">Mise à jour du commentaire&#8230;</string>
+	<string name="spot_update_comment_error">Le commentaire n\'a pas pu être mis à jour!</string>
+	<string name="spot_update_comment_error_log">Exception in updateComments service</string>
+	
+	<string name="spot_add_favorite">Ajouter aux favoris</string>
+	<string name="spot_add_favorite_error">Le favoris n\'a pas pu être ajouté!</string>
+	<string name="spot_add_favorite_error_log">Exception in addFavorite service</string>
+	
+	<string name="spot_delete_favorite">Retirer des favoris</string>
+	<string name="spot_delete_favorite_error">Le favoris n\'a pas pu être retiré!</string>
+	<string name="spot_delete_favorite_error_log">Exception in removeFavorite service</string>
+	
+	<string name="spot_add_score">Ajouter un vote</string>
+	<string name="spot_add_score_error">Le vote n\'a pas pu être pris en compte!</string>
+	<string name="spot_add_score_error_log">Exception in addScore service</string>
+    
+	<string name="add_comment_item_text">Ajouter un commentaire</string>
+	
+	<string name="image_content_description"></string>
+	
+	<string name="vote_moins">Vote moins</string>
+	<string name="vote_plus">Vote plus</string>
+	
+	<string name="add_comment_text">Entrer votre commentaire</string>
+	
+	<string name="icon_url">http://www.tehkseven.net/300-icons-103164/</string>
+	
+	<string name="info_vote_text">Attention vous ne pouvez voter qu\'une seule fois par spot !</string>
+	<string name="info_vote_text_remove">Ne plus me montrer ce message de merde !</string>
+	
+</resources>
