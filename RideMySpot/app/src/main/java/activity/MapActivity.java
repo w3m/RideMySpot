@@ -144,13 +144,13 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		}
 		
 		//Redraw user's last know location
-		Location userLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+		/*Location userLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 		if(userLocation != null){
 			markerUser = mMap.addMarker(new MarkerOptions()
 		    	.position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
 		    	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
 		    );
-		}
+		}*/
 		
 
 		mMap.setInfoWindowAdapter(new InfoSpotAdapter(this, mHmSpot));

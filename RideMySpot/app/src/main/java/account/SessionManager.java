@@ -1,9 +1,5 @@
 package account;
 
-import java.util.HashMap;
-
-import activity.AddUserActivity;
-import activity.MapActivity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -27,6 +23,10 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 import com.w3m.ridemyspot.R;
 
+import java.util.HashMap;
+
+import activity.AddUserActivity;
+import activity.MapActivity;
 import entity.Rmsendpoint;
 import entity.model.CollectionResponseUsers;
 import entity.model.Users;
@@ -82,7 +82,7 @@ public class SessionManager {
     public void checkLogin(){
 
         if(!this.isLoggedIn()){
-        	
+
 	    	String listAdress[] = getAccountNames();
 	    	if(listAdress.length > 1){
 	    		mDialog = new Dialog(mContext);

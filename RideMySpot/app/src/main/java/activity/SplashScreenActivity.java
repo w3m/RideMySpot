@@ -3,12 +3,17 @@ package activity;
 import account.AbstractGetNameTask;
 import account.GetNameInForeground;
 import account.SessionManager;
+
+import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +31,8 @@ public class SplashScreenActivity extends Activity {
 	private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
 
 	SessionManager mSessionManager;
+
+	public static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 101;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -33,14 +40,72 @@ public class SplashScreenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// Splash screen view
 		setContentView(R.layout.splashscreen);
-		
-		mSessionManager = new SessionManager(this);
-		mSessionManager.checkLogin();	
-		
-		//syncGoogleAccount();
+
+
+		// Here, thisActivity is the current activity
+		if (ContextCompat.checkSelfPermission(this,
+				Manifest.permission.GET_ACCOUNTS)
+				!= PackageManager.PERMISSION_GRANTED) {
+
+			// Should we show an explanation?
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+					Manifest.permission.GET_ACCOUNTS)) {
+
+				// Show an expanation to the user *asynchronously* -- don't block
+				// this thread waiting for the user's response! After the user
+				// sees the explanation, try again to request the permission.
+
+			} else {
+
+				// No explanation needed, we can request the permission.
+
+				ActivityCompat.requestPermissions(this,
+						new String[]{Manifest.permission.GET_ACCOUNTS},
+						MY_PERMISSIONS_REQUEST_GET_ACCOUNTS);
+
+				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+				// app-defined int constant. The callback method gets the
+				// result of the request.
+			}
+		} else {
+			checkLogin();
+
+			//syncGoogleAccount();
+		}
 	}
 
-	
+	private void checkLogin(){
+		mSessionManager = new SessionManager(this);
+		mSessionManager.checkLogin();
+	}
+
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+		switch (requestCode) {
+			case MY_PERMISSIONS_REQUEST_GET_ACCOUNTS: {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0
+						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+					// permission was granted, yay! Do the
+					// contacts-related task you need to do.
+
+					checkLogin();
+
+				} else {
+
+					// permission denied, boo! Disable the
+					// functionality that depends on this permission.
+				}
+				return;
+			}
+
+			// other 'case' lines to check for other
+			// permissions this app might request
+		}
+	}
+
 	
 	private AbstractGetNameTask getTask(SplashScreenActivity activity, String email,
 			String scope) {
