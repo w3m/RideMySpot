@@ -9,7 +9,9 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,7 +51,7 @@ import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
 
-public class MapActivity extends ActionBarActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener{
+public class MapActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener{
 
 	private GoogleMap mMap;
 	private LocationManager mLocationManager;
@@ -63,8 +65,8 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	
 	private SQLiteSpot mDatabaseSpot;
 	
-	public List<Spot> mListSpot = new ArrayList<Spot>();
-	public HashMap<String, Spot> mHmSpot = new HashMap<String, Spot>();
+	public List<Spot> mListSpot = new ArrayList<>();
+	public HashMap<String, Spot> mHmSpot = new HashMap<>();
 	
 	private AdView mAdView;
 	
@@ -201,7 +203,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_maps, menu);	
-		mRefresh = (MenuItem) menu.findItem(R.id.menu_refresh_spot);
+		mRefresh = menu.findItem(R.id.menu_refresh_spot);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -354,7 +356,7 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 			
 			if(mRefresh != null){
 				((AnimationDrawable)mRefresh.getIcon()).stop();
-				mRefresh.setIcon(m_context.getResources().getDrawable(R.drawable.map_loader));
+				mRefresh.setIcon(ContextCompat.getDrawable(m_context, R.drawable.map_loader));
 			}
 			
 			if(spots != null && spots.getItems() != null){
