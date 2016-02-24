@@ -1,15 +1,5 @@
 package activity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import model.MultiSpinner;
-import model.MultiSpinner.MultiSpinnerListener;
-import model.Spot;
-import account.SessionManager;
-import adapter.InfoSpotAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -35,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,11 +35,21 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 import com.w3m.ridemyspot.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import account.SessionManager;
+import adapter.InfoSpotAdapter;
 import database.SQLiteSpot;
 import entity.Rmsendpoint;
 import entity.model.CollectionResponseSpots;
+import model.MultiSpinner;
+import model.MultiSpinner.MultiSpinnerListener;
+import model.Spot;
 
-public class MapActivity extends ActionBarActivity implements LocationListener, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener{
+public class MapActivity extends ActionBarActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener{
 
 	private GoogleMap mMap;
 	private LocationManager mLocationManager;
@@ -84,11 +85,9 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 //		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
 		//Maps Initialization
-		mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-		mMap.setOnMapLongClickListener(this);
-		mMap.setOnMapClickListener(this);
-		mMap.setOnMarkerClickListener(this);
-		mMap.setOnInfoWindowClickListener(this);
+		//mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+		mapFragment.getMapAsync(this);
 		
 		//Filter Initialization
 		List<String> Liste = Arrays.asList(getResources().getStringArray(R.array.maps_filter_list));
@@ -222,6 +221,16 @@ public class MapActivity extends ActionBarActivity implements LocationListener, 
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onMapReady(GoogleMap googleMap) {
+		mMap = googleMap;
+
+        mMap.setOnMapLongClickListener(this);
+        mMap.setOnMapClickListener(this);
+        mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 	}
 	
 	@Override
