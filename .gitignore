@@ -31,7 +31,7 @@ secret.xml
 .DS_Store
 
 #.idea
-workspace.xml
+RideMySpot/.idea/workspace.xml
 tasks.xml
 dataSources.ids
 datasources.xml
