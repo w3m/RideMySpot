@@ -1,7 +1,9 @@
 package activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -9,6 +11,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +72,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	public HashMap<String, Spot> mHmSpot = new HashMap<>();
 	
 	private AdView mAdView;
+
+    public static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +86,37 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		    startActivity(intent);
 		    finish();
 		}
-		
-		//Location Initialization
-		mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                Log.d("", "");
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            findLocation();
+        }
 
 		//Maps Initialization
-		//mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 		mapFragment.getMapAsync(this);
 		
@@ -145,13 +174,17 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		}
 		
 		//Redraw user's last know location
-		/*Location userLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-		if(userLocation != null){
-			markerUser = mMap.addMarker(new MarkerOptions()
-		    	.position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
-		    	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
-		    );
-		}*/
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            Location userLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            if(userLocation != null){
+                markerUser = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+                );
+            }
+        }
 		
 
 		mMap.setInfoWindowAdapter(new InfoSpotAdapter(this, mHmSpot));
@@ -168,18 +201,31 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		//mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED){
+//            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+//        }
 	}
 	
 	@Override
 	protected void onStop() {
-	    mLocationManager.removeUpdates(this);
+        if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED){
+            mLocationManager.removeUpdates(this);
+        }
 		super.onStop();
 	}
 	
 	@Override
 	protected void onPause() {
-	    mLocationManager.removeUpdates(this);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            mLocationManager.removeUpdates(this);
+        }
 	    mAdView.pause();
 		super.onPause();
 	}
@@ -275,6 +321,43 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		populateMap();
 	}
 
+    private void findLocation(){
+        //Location Initialization
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                    findLocation();
+
+                } else {
+                    Log.d("","");
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
 	@Override
 	public void onLocationChanged(Location location) {
 		if(markerUser!=null)
@@ -288,7 +371,12 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),14));
 		//mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-	    mLocationManager.removeUpdates(this);
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            mLocationManager.removeUpdates(this);
+        }
 	}
 
 	@Override
@@ -304,7 +392,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.map_location:
-				mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED){
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                }
 			break;
 		}
 	}
