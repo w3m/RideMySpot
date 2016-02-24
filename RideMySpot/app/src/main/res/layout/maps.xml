@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@android:drawable/screen_background_dark_transparent" >
+        android:background="@android:drawable/screen_background_light_transparent" >
 
         <model.MultiSpinner
             android:id="@+id/map_multi_spinner"
