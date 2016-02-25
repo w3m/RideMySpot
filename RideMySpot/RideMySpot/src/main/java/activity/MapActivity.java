@@ -86,8 +86,25 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		    startActivity(intent);
 		    finish();
 		} else {
+            mDatabaseSpot = new SQLiteSpot(this);
             new ListSpots(this).execute();
         }
+
+
+        //Maps Initialization
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        //Filter Initialization
+        List<String> Liste = Arrays.asList(getResources().getStringArray(R.array.maps_filter_list));
+        multiSpinner = (MultiSpinner) findViewById(R.id.map_multi_spinner);
+        multiSpinner.setItems(Liste, getResources().getString(R.string.text_all_spot), this);
+
+        // Recherchez AdView comme ressource et chargez une demande.
+        mAdView = (AdView)this.findViewById(R.id.map_adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
 
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
@@ -117,24 +134,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         } else {
             findLocation();
         }
-
-		//Maps Initialization
-		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-		mapFragment.getMapAsync(this);
-		
-		//Filter Initialization
-		List<String> Liste = Arrays.asList(getResources().getStringArray(R.array.maps_filter_list));
-		multiSpinner = (MultiSpinner) findViewById(R.id.map_multi_spinner);
-		multiSpinner.setItems(Liste, getResources().getString(R.string.text_all_spot), this);
-		
-		findViewById(R.id.map_location).setOnClickListener(this);
-
-		mDatabaseSpot = new SQLiteSpot(this);
-		
-		// Recherchez AdView comme ressource et chargez une demande.
-	    mAdView = (AdView)this.findViewById(R.id.map_adView);
-	    AdRequest adRequest = new AdRequest.Builder().build();
-	    mAdView.loadAd(adRequest);
 	}
 	
 	private void populateMap() {
@@ -279,6 +278,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         mMap.setOnMapClickListener(this);
         mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(this);
+
+        findViewById(R.id.map_location).setOnClickListener(this);
 	}
 	
 	@Override
@@ -301,11 +302,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
 	@Override
 	public boolean onMarkerClick(Marker marker) {
-		marker.hideInfoWindow();
-		if(marker.equals(markerAddSpot))
-			add_spot(marker.getPosition());
-		else
-			removeExistingAddSpot();
+        marker.hideInfoWindow();
+		if(marker.equals(markerAddSpot)) {
+            add_spot(marker.getPosition());
+        } else if(marker.getPosition().equals(mMap.getCameraPosition().target)){
+            intentSpot(marker);
+        } else {
+            removeExistingAddSpot();
+        }
 		return false;
 	}
 
@@ -403,10 +407,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
 	@Override
 	public void onInfoWindowClick(Marker marker) {
-		Intent intent = new Intent(MapActivity.this, SpotActivity.class);
-		intent.putExtra(SpotActivity.EXTRA_SPOT, mHmSpot.get(marker.getId()));
-		startActivity(intent);
+		intentSpot(marker);
 	}
+
+    private void intentSpot(Marker marker){
+        Intent intent = new Intent(MapActivity.this, SpotActivity.class);
+        intent.putExtra(SpotActivity.EXTRA_SPOT, mHmSpot.get(marker.getId()));
+        startActivity(intent);
+    }
 	
 	public void removeExistingAddSpot(){
 		if(markerAddSpot!=null)
