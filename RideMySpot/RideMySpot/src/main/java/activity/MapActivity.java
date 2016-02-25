@@ -85,7 +85,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			Intent intent = new Intent(this, SplashScreenActivity.class);
 		    startActivity(intent);
 		    finish();
-		}
+		} else {
+            new ListSpots(this).execute();
+        }
 
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
@@ -133,8 +135,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	    mAdView = (AdView)this.findViewById(R.id.map_adView);
 	    AdRequest adRequest = new AdRequest.Builder().build();
 	    mAdView.loadAd(adRequest);
-	    
-	    new ListSpots(this).execute();
 	}
 	
 	private void populateMap() {
