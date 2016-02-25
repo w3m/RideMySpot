@@ -35,6 +35,8 @@ public class AddUserActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.add_user);
 		initializeView();
 
+		mType = "";
+
 		mSessionManager = new SessionManager(this);
 		mAdress = getIntent().getStringExtra(SessionManager.KEY_EMAIL);
 	}
@@ -84,13 +86,17 @@ public class AddUserActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		String check = "";
-		if (mName.getText().toString().equals("")){
-			check += getString(R.string.add_user_minimum_name);
+		boolean checkName = false;
+		boolean checkType = false;
+		if (mName.getText().toString().length() < 3){
+			check += " " + getString(R.string.add_user_minimum_name);
+			checkName = true;
 		}
-		if(mType.equals("")){
-			check += getString(R.string.add_user_minimum_type);
+		if(mType.length() <= 0){
+			check += " " + getString(R.string.add_user_minimum_type);
+			checkType = true;
 		} 
-		if(!"".equals(check)){
+		if(checkName || checkType){
 			Toast.makeText(this, getString(R.string.add_user_minimum_error_text) + check, Toast.LENGTH_LONG).show();
 		} else {
 			new AddUser().execute();
