@@ -68,8 +68,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	
 	private SQLiteSpot mDatabaseSpot;
 	
-	public List<Spot> mListSpot = new ArrayList<>();
-	public HashMap<String, Spot> mHmSpot = new HashMap<>();
+	public List<Spot> mListSpot = new ArrayList<Spot>();
+	public HashMap<String, Spot> mHmSpot = new HashMap<String, Spot>();
 	
 	private AdView mAdView;
 
