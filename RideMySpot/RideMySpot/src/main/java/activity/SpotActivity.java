@@ -110,7 +110,7 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		mIdUser = mSessionManager.getUserDetails().get(SessionManager.KEY_ID);
 
 		new ListComments(this).execute();
-		
+
 		mDatabaseSpot = new SQLiteSpot(this);
 		
 		// Recherchez AdView comme ressource et chargez une demande.

@@ -184,7 +184,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
                 );
             }
         }
-		
+
 
 		mMap.setInfoWindowAdapter(new InfoSpotAdapter(this, mHmSpot));
 	}

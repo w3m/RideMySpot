@@ -217,11 +217,7 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
                     mTextViewLoading.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.VISIBLE);
                     dialog.dismiss();
-                    if(isAlreadySignin == REQUEST_GET_ACCOUNTS_FOR_ALREADY_SIGNIN) {
-                        new ListUsers().execute(mAdress);
-                    } else {
-                        new AddUser().execute();
-                    }
+                    new ListUsers(isAlreadySignin).execute(mAdress);
                 }
             }
         });
@@ -260,6 +256,13 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
 
 
     private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers> {
+
+        int isAlreadySignin;
+
+        ListUsers (int isAlreadySignin){
+            this.isAlreadySignin = isAlreadySignin;
+        }
+
         @Override
         protected CollectionResponseUsers doInBackground(String... params) {
             CollectionResponseUsers User = null;
@@ -276,14 +279,23 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
 
         @Override
         protected void onPostExecute(CollectionResponseUsers User) {
-            if(User != null && User.getItems() != null && User.getItems().get(0) != null){
-                Users user = User.getItems().get(0);
-                mSessionManager = new SessionManager(SplashScreenActivity.this);
-                mSessionManager.createLoginSession(user.getId().toString(), user.getName(), user.getAdress(), user.getType());
-                returnToMap();
+            if(isAlreadySignin == REQUEST_GET_ACCOUNTS_FOR_ALREADY_SIGNIN) {
+                if(User != null && User.getItems() != null && User.getItems().get(0) != null){
+                    Users user = User.getItems().get(0);
+                    mSessionManager = new SessionManager(SplashScreenActivity.this);
+                    mSessionManager.createLoginSession(user.getId().toString(), user.getName(), user.getAdress(), user.getType());
+                    returnToMap();
+                } else {
+                    Toast.makeText(getBaseContext(), getString(R.string.add_user_already_loading_error), Toast.LENGTH_LONG).show();
+                    returnToSplashScreen();
+                }
             } else {
-                Toast.makeText(getBaseContext(), getString(R.string.add_user_already_loading_error), Toast.LENGTH_LONG).show();
-                returnToSplashScreen();
+                if(User != null && User.getItems() != null && User.getItems().get(0) != null){
+                    Toast.makeText(getBaseContext(), getString(R.string.add_user_already_error), Toast.LENGTH_LONG).show();
+                    returnToSplashScreen();
+                } else {
+                    new AddUser().execute();
+                }
             }
         }
     }
