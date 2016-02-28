@@ -1,54 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="350dp"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
 
-    <TextView
-        android:layout_width="fill_parent"
+
+    <LinearLayout
+        android:id="@+id/add_user_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dip"
-        android:singleLine="true"
-        android:text="@string/add_user_login" />
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp">
 
-    <EditText
-        android:id="@+id/add_user_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:paddingBottom="10dip" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"/>
 
-    <RadioGroup
-        android:id="@+id/add_user_type"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <RadioButton
-            android:id="@+id/add_user_roller"
+        <TextView
+            android:id="@+id/add_user_header_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="onRadioButtonClicked"
-            android:text="@string/text_roller" />
-
-        <RadioButton
-            android:id="@+id/add_user_skate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onRadioButtonClicked"
-            android:text="@string/text_skate" />
-
-        <RadioButton
-            android:id="@+id/add_user_bmx"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onRadioButtonClicked"
-            android:text="@string/text_bmx" />
-    </RadioGroup>
+            android:singleLine="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:textSize="30sp"
+            android:text="@string/add_user_title"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_user_validate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_valider" />
+        android:layout_alignParentBottom="true"
+        android:text="@string/text_valider"/>
 
-</LinearLayout>
+    <ScrollView
+        android:id="@+id/add_user_scrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:layout_below="@id/add_user_header"
+        android:layout_above="@id/add_user_validate">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/add_user_description_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dip"
+                android:text="@string/add_user_description"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/add_user_name_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:text="@string/add_user_login"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/add_user_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:paddingBottom="10dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:text="@string/add_user_email"
+                android:textStyle="bold"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/add_user_email_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="gone"
+                    android:src="@android:drawable/ic_menu_more"/>
+
+                <EditText
+                    android:id="@+id/add_user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/add_user_email_button"
+                    android:paddingBottom="10dip" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/add_user_type_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:text="@string/add_user_type"
+                android:textStyle="bold"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:id="@+id/add_user_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/add_user_roller"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/text_roller" />
+
+                <RadioButton
+                    android:id="@+id/add_user_skate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/add_user_roller"
+                    android:text="@string/text_skate" />
+
+                <RadioButton
+                    android:id="@+id/add_user_scooter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="invisible"
+                    android:text="@string/text_scooter" />
+
+                <RadioButton
+                    android:id="@+id/add_user_bmx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/add_user_scooter"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/text_bmx" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

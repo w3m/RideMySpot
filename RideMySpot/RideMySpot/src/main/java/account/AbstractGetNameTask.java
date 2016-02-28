@@ -8,7 +8,6 @@ import java.net.URL;
 
 import org.json.JSONException;
 
-import activity.AddUserActivity;
 import activity.SplashScreenActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -83,10 +82,10 @@ public abstract class AbstractGetNameTask extends AsyncTask<Void, Void, Void> {
 			GOOGLE_USER_DATA = readResponse(is);
 			is.close();
 
-			Intent intent=new Intent(mActivity,AddUserActivity.class);
-			intent.putExtra("email_id", mEmail);
-			mActivity.startActivity(intent);
-			mActivity.finish();
+			//Intent intent=new Intent(mActivity,AddexUserActivity.class);
+			//intent.putExtra("email_id", mEmail);
+			//mActivity.startActivity(intent);
+			//mActivity.finish();
 			return;
 		} else if (sc == 401) {
 			GoogleAuthUtil.invalidateToken(mActivity, token);

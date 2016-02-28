@@ -25,7 +25,6 @@ import com.w3m.ridemyspot.R;
 
 import java.util.HashMap;
 
-import activity.AddUserActivity;
 import activity.MapActivity;
 import entity.Rmsendpoint;
 import entity.model.CollectionResponseUsers;
@@ -38,8 +37,6 @@ public class SessionManager {
     Context mContext;
     int PRIVATE_MODE = 0;
 	AccountManager mAccountManager;
-	String mAdress;
-	Dialog mDialog;
 	
     // Sharedpref file name
     private static final String PREF_NAME = "USER";
@@ -80,37 +77,6 @@ public class SessionManager {
      * Else won't do anything
      * */
     public void checkLogin(){
-
-        if(!this.isLoggedIn()){
-
-	    	String listAdress[] = getAccountNames();
-	    	if(listAdress.length > 1){
-	    		mDialog = new Dialog(mContext);
-	            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-	            View convertView = (View) inflater.inflate(R.layout.email, null);
-	            mDialog.setTitle("Choisissez votre compte");
-	            mDialog.setContentView(convertView);
-	            ListView lv = (ListView) convertView.findViewById(R.id.listView1);
-	            lv.setAdapter(new ArrayAdapter<String>(mContext,android.R.layout.simple_list_item_1,listAdress));
-	            mDialog.setCancelable(false);
-	            mDialog.show();
-	            
-	            lv.setOnItemClickListener(new OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						mAdress = parent.getItemAtPosition(position).toString();
-			    		new ListUsers().execute(mAdress);
-			    		mDialog.dismiss();
-					}
-				});
-	    	} else {
-	            mAdress = listAdress[0];
-	    		new ListUsers().execute(mAdress);
-	    	}
-        } else {
-        	returnToMap();
-        }
     }
      
     /**
@@ -123,23 +89,6 @@ public class SessionManager {
         user.put(KEY_EMAIL, mSharedPreference.getString(KEY_EMAIL, null));
         user.put(KEY_TYPE, mSharedPreference.getString(KEY_TYPE, null));
         return user;
-    }
-     
-    /**
-     * Clear session details
-     * */
-    public void logoutUser(){
-        // Clearing all data from Shared Preferences
-        mEditor.clear();
-        mEditor.commit();
-         
-        // After logout redirect user to Loging Activity
-        Intent i = new Intent(mContext, AddUserActivity.class);
-        // Closing all the Activities
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        // Add new Flag to start new Activity
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(i);
     }
 
     public boolean getChkVote(){
@@ -168,18 +117,8 @@ public class SessionManager {
     public boolean isLoggedIn(){
         return mSharedPreference.getBoolean(IS_LOGIN, false);
     }
-    
-    public String[] getAccountNames() {
-		mAccountManager = AccountManager.get(mContext);
-		Account[] accounts = mAccountManager
-				.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-		String[] names = new String[accounts.length];
-		for (int i = 0; i < names.length; i++) {
-			names[i] = accounts[i].name;
-		}
-		return names;
-	}
 
+	/*
 	public boolean isNetworkAvailable() {
 
 		ConnectivityManager cm = (ConnectivityManager) mContext
@@ -192,47 +131,5 @@ public class SessionManager {
 		Log.e("Network Testing", "***Not Available***");
 		return false;
 	}
-	
-private class ListUsers extends AsyncTask<String, Void, CollectionResponseUsers>{
-		
-		@Override
-		protected CollectionResponseUsers doInBackground(String... params) {
-			CollectionResponseUsers User = null;
-			try{
-				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-				Rmsendpoint service = builder.build();
-				User = service.listUsers().setPAdress(params[0]).execute();
-			} catch (Exception e){
-				Log.d("impossible de récupérer les informations du compte", e.getMessage(), e);//TODO getressource
-			}
-			return User;
-		}
-		
-
-		@Override
-		protected void onPostExecute(CollectionResponseUsers User) {
-			if(User != null && User.getItems() != null && User.getItems().get(0) != null){
-				Users user = User.getItems().get(0);
-				createLoginSession(user.getId().toString(), user.getName(), user.getAdress(), user.getType());
-				returnToMap();
-			}else{
-				 // user is not logged in redirect him to Login Activity
-	            Intent intent = new Intent(mContext, AddUserActivity.class);
-	            intent.putExtra(KEY_EMAIL, mAdress);
-	            // Add new Flag to start new Activity and closing all the activities
-	            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	            mContext.startActivity(intent);
-			}
-		}
-	}
-
-	public void returnToMap() {
-		 // user is not logged in redirect him to Login Activity
-		Intent intent = new Intent(mContext, MapActivity.class);
-		// Closing all the Activities
-		intent.putExtra(KEY_EMAIL, mAdress);
-		// Add new Flag to start new Activity and closing all the activities
-	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	    mContext.startActivity(intent);
-	}
+	*/
 }
