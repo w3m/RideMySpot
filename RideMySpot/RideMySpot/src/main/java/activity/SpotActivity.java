@@ -125,12 +125,7 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		((TextView) findViewById(R.id.spot_text_type)).setText(mSpot.getStringTypes().toString());
 		((TextView) findViewById(R.id.spot_text_desciption)).setText(mSpot.getDescription());
 
-		String adress = getAdressFromLocation(mSpot.getPosition());
-		if("".equals(adress)){
-			((TextView) findViewById(R.id.spot_text_adress)).setVisibility(View.GONE);
-		} else {
-			((TextView) findViewById(R.id.spot_text_adress)).setText(adress);
-		}
+		getAdressFromLocation(mSpot.getPosition());
 		
 		mListViewComment = (ListView) findViewById(R.id.spot_list_comment);
 		View headerView = new View(this);
@@ -140,24 +135,33 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		mListViewComment.setOnItemLongClickListener(this);
 	}
 	
-	private String getAdressFromLocation(LatLng locations){
-		LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		List<String>  providerList = locationManager.getAllProviders();   
-		String _Location = "";
-		if(null!=locations && null!=providerList && providerList.size()>0){                 
-			double longitude = locations.longitude;
-			double latitude = locations.latitude;
-			Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-			try {
-			    List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
-			    if(null!=listAddresses && listAddresses.size()>0){
-			        _Location = listAddresses.get(0).getAddressLine(0);
-			    }
-			} catch (IOException e) {
-			    e.printStackTrace();
+	private void getAdressFromLocation(final LatLng locations){
+		new Thread(new Runnable() {
+			public void run() {
+				LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+				List<String>  providerList = locationManager.getAllProviders();
+				if(null!=locations && null!=providerList && providerList.size()>0){
+					double longitude = locations.longitude;
+					double latitude = locations.latitude;
+					Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+					try {
+						final List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if(null!=listAddresses && listAddresses.size()>0){
+									((TextView) findViewById(R.id.spot_text_adress)).setText(listAddresses.get(0).getAddressLine(0));
+								} else {
+									findViewById(R.id.spot_text_adress).setVisibility(View.GONE);
+								}
+							}
+						});
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
-		}
-		return _Location;
+		}).start();
 	}
 	
 	private void populateComment() {
@@ -165,7 +169,6 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 		mListViewComment.setAdapter(listCommentAdapter);
 	}
 
-	
 	@SuppressLint("RtlHardcoded")
 	public void showPopup(MenuItem menuItem){
 		mPopupWindow.setTouchable(true);
