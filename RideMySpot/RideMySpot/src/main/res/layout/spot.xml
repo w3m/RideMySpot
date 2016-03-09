@@ -5,10 +5,19 @@
     android:layout_height="fill_parent"
     android:padding="5dp" >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/spot_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/RMSActionBar"/>
+
     <LinearLayout
         android:id="@+id/spot_linear_head"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/spot_toolbar"
         android:orientation="horizontal" >
 
         <ImageView
@@ -33,6 +42,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:layout_marginTop="5dp"
                 android:id="@+id/spot_text_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />

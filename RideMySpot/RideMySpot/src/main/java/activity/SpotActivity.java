@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -88,6 +89,8 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 	private SQLiteSpot mDatabaseSpot;
 	
 	private AdView mAdView;
+
+	private Toolbar mSpotToolbar;
 	
 	/*Changement de rotation changer l'ordre 
 	 * des layout pour les differents ecrans
@@ -99,6 +102,9 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spot);
+
+		mSpotToolbar = (Toolbar) findViewById(R.id.spot_toolbar);
+		setSupportActionBar(mSpotToolbar);
 	
 		Intent intent = getIntent();
 		mSpot = intent.getParcelableExtra(EXTRA_SPOT);
