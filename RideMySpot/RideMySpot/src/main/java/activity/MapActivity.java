@@ -277,7 +277,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		
 		for (Spot spot : mListSpot) {
 			//If the spot is in the type scope
-			if(containsAny(type, spot.getStringTypes(), spot.isFavorite())){
+			if((containsAny(type, spot.getStringTypes()) || showFavorite(type, spot.isFavorite()))){
 				//We add it to the map and retrieve his ID
 				String markerID = mMap.addMarker(new MarkerOptions()
 	    			.position(spot.getPosition())
@@ -306,10 +306,18 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
 		mMap.setInfoWindowAdapter(new InfoSpotAdapter(this, mHmSpot));
 	}
-	
-	private boolean containsAny(List<String> type, List<String> stringTypes, boolean fav) {
+
+	private boolean showFavorite(List<String> type, boolean isFavorite) {
+		if(!type.contains(getString(R.string.text_favorite))){
+			return false;
+		} else {
+			return isFavorite;
+		}
+	}
+
+	private boolean containsAny(List<String> type, List<String> spotTypes) {
 		for (String text : type){
-			if(stringTypes.contains(text) || fav)
+			if(spotTypes.contains(text))
 				return true;
 		}
 		return false;
@@ -332,7 +340,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
             Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED && mLocationManager != null){
             mLocationManager.removeUpdates(this);
-        }
+		}
 		super.onStop();
 	}
 	
@@ -365,7 +373,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_maps, menu);	
+		getMenuInflater().inflate(R.menu.menu_maps, menu);
 		mRefresh = menu.findItem(R.id.menu_refresh_spot);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -422,7 +430,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	
 	@Override
 	public void onMapClick(LatLng point) {
-		removeExistingAddSpot();				
+		removeExistingAddSpot();
 	}
 
 	@Override
@@ -515,8 +523,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		
 		markerUser = mMap.addMarker(new MarkerOptions()
         	.position(new LatLng(location.getLatitude(), location.getLongitude()))
-        	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
-        );
+						.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+		);
 		
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
 		//mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
