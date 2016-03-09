@@ -49,6 +49,8 @@ public class SessionManager {
     public static final String KEY_TYPE = "USER_TYPE";
     public static final String KEY_CHK_VOTE = "USER_CHK_VOTE";
     public static final String KEY_NB_CHK_VOTE = "USER_NB_CHK_VOTE";
+
+    public static final String KEY_TUTORIAL_MAP = "KEY_TUTORIAL_MAP";
      
     // Constructor
     public SessionManager(Context context){
@@ -66,9 +68,7 @@ public class SessionManager {
         mEditor.putString(KEY_NAME, name);
         mEditor.putString(KEY_EMAIL, email);
         mEditor.putString(KEY_TYPE, type);
-        mEditor.putBoolean(KEY_CHK_VOTE, false);
-        mEditor.putInt(KEY_NB_CHK_VOTE, 0);
-        mEditor.commit();
+        mEditor.apply();
     }   
      
     /**
@@ -98,7 +98,7 @@ public class SessionManager {
     public void putChkVote(boolean check){
  	   mEditor = mSharedPreference.edit();
         mEditor.putBoolean(KEY_CHK_VOTE, check);
-        mEditor.commit();
+        mEditor.apply();
     }
     
     public int getNbChkVote(){
@@ -108,7 +108,18 @@ public class SessionManager {
     public void putNbChkVote(int nbChk){
  	   mEditor = mSharedPreference.edit();
        mEditor.putInt(KEY_NB_CHK_VOTE, nbChk);
-       mEditor.commit();
+       mEditor.apply();
+    }
+
+
+    public boolean tutorialMapHasShown(){
+        if(!mSharedPreference.getBoolean(KEY_TUTORIAL_MAP, false)){
+            mEditor = mSharedPreference.edit();
+            mEditor.putBoolean(KEY_TUTORIAL_MAP, true);
+            mEditor.apply();
+            return false;
+        }
+        return mSharedPreference.getBoolean(KEY_TUTORIAL_MAP, false);
     }
     
     /**

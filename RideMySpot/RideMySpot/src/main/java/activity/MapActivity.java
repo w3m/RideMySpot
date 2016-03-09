@@ -150,24 +150,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
             findLocation();
         }
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setPositiveButton(getString(R.string.text_valider), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				showTutorial();
-			}
-		});
-		builder.setNegativeButton(getString(R.string.text_annuler), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				isTutorialFinished = true;
-			}
-		});
-		builder.setTitle(getString(R.string.app_name));
-		builder.setMessage(getString(R.string.maps_help_popup_description));
-		builder.setIcon(R.drawable.ic_launcher);
-		AlertDialog alertDialog = builder.create();
-		alertDialog.setCanceledOnTouchOutside(false);
-		alertDialog.show();
-
 	}
 
 	final static int HELP_GEOLOC = 4;
@@ -474,9 +456,29 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        }
+			mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		}
+
+		if(!mSessionManager.tutorialMapHasShown()){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setPositiveButton(getString(R.string.text_valider), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					showTutorial();
+				}
+			});
+			builder.setNegativeButton(getString(R.string.text_annuler), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					isTutorialFinished = true;
+				}
+			});
+			builder.setTitle(getString(R.string.app_name));
+			builder.setMessage(getString(R.string.maps_help_popup_description));
+			builder.setIcon(R.drawable.ic_launcher);
+			AlertDialog alertDialog = builder.create();
+			alertDialog.setCanceledOnTouchOutside(false);
+			alertDialog.show();
+		}
     }
 
     @Override
@@ -516,7 +518,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         	.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
         );
 		
-		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),14));
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
 		//mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
 
         if (ContextCompat.checkSelfPermission(this,
