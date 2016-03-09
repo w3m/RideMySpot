@@ -2,6 +2,7 @@ package activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
@@ -13,15 +14,22 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.PointTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +39,7 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -53,8 +62,9 @@ import entity.model.CollectionResponseSpots;
 import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
+import utils.ToolbarActionItemTarget;
 
-public class MapActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener{
+public class MapActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener, OnShowcaseEventListener{
 
 	private GoogleMap mMap;
 	private LocationManager mLocationManager;
@@ -65,8 +75,10 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	
 	private MultiSpinner multiSpinner;
 	private MenuItem mRefresh;
-	
+
 	private SQLiteSpot mDatabaseSpot;
+
+	private Toolbar mMapToolbar;
 	
 	public List<Spot> mListSpot = new ArrayList<Spot>();
 	public HashMap<String, Spot> mHmSpot = new HashMap<String, Spot>();
@@ -79,6 +91,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);
+
+		mMapToolbar = (Toolbar) findViewById(R.id.map_toolbar);
+		setSupportActionBar(mMapToolbar);
 
 		mSessionManager = new SessionManager(this);
 		if(!mSessionManager.isLoggedIn()){
@@ -134,10 +149,131 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         } else {
             findLocation();
         }
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setPositiveButton(getString(R.string.text_valider), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				showTutorial();
+			}
+		});
+		builder.setNegativeButton(getString(R.string.text_annuler), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				isTutorialFinished = true;
+			}
+		});
+		builder.setTitle(getString(R.string.app_name));
+		builder.setMessage(getString(R.string.maps_help_popup_description));
+		builder.setIcon(R.drawable.ic_launcher);
+		AlertDialog alertDialog = builder.create();
+		alertDialog.setCanceledOnTouchOutside(false);
+		alertDialog.show();
+
 	}
-	
+
+	final static int HELP_GEOLOC = 4;
+	final static int HELP_FILTER = 3;
+	final static int HELP_REFRESHMENU = 0;
+	final static int HELP_ADDSPOTMENU = 2;
+	final static int HELP_LISTMENU = 1;
+	final static int HELP_ADDSPOT = 5;
+
+	private int mHelpStep = 0;
+	private boolean isTutorialFinished = false;
+	private boolean hasToShowLongClick = false;
+
+	private void showTutorial(){
+		if(mHelpStep < 5){
+			constructShowcaseView(mHelpStep);
+			mHelpStep++;
+		} else {
+			isTutorialFinished = true;
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setPositiveButton(getString(R.string.text_valider), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					hasToShowLongClick = true;
+				}
+			});
+			builder.setNegativeButton(getString(R.string.text_annuler), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+				}
+			});
+			builder.setTitle(getString(R.string.maps_help_popup_title));
+			builder.setMessage(getString(R.string.maps_help_popup_addspot_description));
+			builder.setIcon(R.drawable.ic_launcher);
+			AlertDialog alertDialog = builder.create();
+			alertDialog.setCanceledOnTouchOutside(false);
+			alertDialog.show();
+		}
+	}
+
+	private void constructShowcaseView(int step){
+		Target target;
+		int title, description;
+
+		switch (step){
+			case HELP_GEOLOC :
+				target = new ViewTarget(R.id.map_location, MapActivity.this);
+				title = R.string.maps_help_geoloc_title;
+				description = R.string.maps_help_geoloc_description;
+				break;
+			case HELP_FILTER :
+				target = new ViewTarget(R.id.map_multi_spinner, MapActivity.this);
+				title = R.string.maps_help_filter_title;
+				description = R.string.maps_help_filter_description;
+				break;
+			case HELP_REFRESHMENU:
+				target = new ToolbarActionItemTarget(mMapToolbar, R.id.menu_refresh_spot);
+				title = R.string.maps_help_refresh_title;
+				description = R.string.maps_help_refresh_description;
+				break;
+			case HELP_ADDSPOTMENU :
+				target = new ToolbarActionItemTarget(mMapToolbar, R.id.menu_add);
+				title = R.string.maps_help_addspot_title;
+				description = R.string.maps_help_addspotmenu_description;
+				break;
+			case HELP_LISTMENU :
+				target = new ToolbarActionItemTarget(mMapToolbar, R.id.menu_list);
+				title = R.string.maps_help_listmenu_title;
+				description = R.string.maps_help_listmenu_description;
+				break;
+			case HELP_ADDSPOT :
+				Projection projection = mMap.getProjection();
+				target = new PointTarget(projection.toScreenLocation(markerAddSpot.getPosition()).x, projection.toScreenLocation(markerAddSpot.getPosition()).y);
+				title = R.string.maps_help_addspot_title;
+				description = R.string.maps_help_addspot_description;
+				break;
+			default:
+				return;
+		}
+
+		new ShowcaseView.Builder(this)
+				.setTarget(target)
+				.setContentTitle(title)
+				.setStyle(R.style.CustomShowcaseTheme)
+				.setContentText(description)
+				.hideOnTouchOutside()
+				.setShowcaseEventListener(this)
+				.build();
+	}
+
+	@Override
+	public void onShowcaseViewHide(ShowcaseView showcaseView) {
+		if(!isTutorialFinished){
+			showTutorial();
+		}
+	}
+
+	@Override
+	public void onShowcaseViewDidHide(ShowcaseView showcaseView) {}
+
+	@Override
+	public void onShowcaseViewShow(ShowcaseView showcaseView) {}
+
+	@Override
+	public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {}
+
 	private void populateMap() {
-		
+
 		mDatabaseSpot.OpenDB();
 		if(!mListSpot.isEmpty()){
 			mListSpot.clear();
@@ -287,12 +423,19 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		v.vibrate(200);
 		removeExistingAddSpot();
+
+		//TODO move camera to zoom
 			
 		markerAddSpot = mMap.addMarker(new MarkerOptions()
         .position(marker)
         .icon(BitmapDescriptorFactory
         .fromResource(R.drawable.map)));
 		markerAddSpot.setDraggable(true);
+
+		if(hasToShowLongClick){
+			constructShowcaseView(HELP_ADDSPOT);
+			hasToShowLongClick = false;
+		}
 	}
 	
 	@Override

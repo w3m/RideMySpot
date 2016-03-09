@@ -9,6 +9,7 @@
 	<string name="text_valider">Valider</string>
 	<string name="text_annuler">Annuler</string>
 	<string name="text_information">Information</string>
+	<string name="text_next">Suivant</string>
 	
 	<string name="text_roller">Roller</string>
 	<string name="text_skatepark">Skatepark</string>
@@ -65,8 +66,24 @@
         <item>Skatepark</item>
         <item>Favoris</item>
     </string-array>
-    
-    <!-- ListSpotActivity -->
+
+	<!-- MapActivity HelpOverlay -->
+	<string name="maps_help_popup_title">Tutoriel</string>
+	<string name="maps_help_popup_description">Voulez vous voir le tutoriel?</string>
+	<string name="maps_help_popup_addspot_description">Vous pouvez aussi ajouter un spot où vous le souhaitez en laissant votre doigt appuyé plus de 3 secondes sur la carte.\nVoulez vous essayer?</string>
+	<string name="maps_help_geoloc_title">Géolocalisation</string>
+	<string name="maps_help_geoloc_description">Ce bouton vous permet de recentrer la carte sur votre position GPS.</string>
+	<string name="maps_help_filter_title">Filtre</string>
+	<string name="maps_help_filter_description">Déroulez la liste pour choisir les types de spots que vous souhaitez voir apparaître sur la carte.</string>
+	<string name="maps_help_refresh_title">Rafraîchissement</string>
+	<string name="maps_help_refresh_description">Ce bouton vous permet de rafraîchir la liste de spot.</string>
+	<string name="maps_help_addspot_title">Ajouter un spot</string>
+	<string name="maps_help_addspotmenu_description">Ce bouton vous permet d\'ajouter un spot au centre de la carte.</string>
+	<string name="maps_help_addspot_description">Cliquez sur le marqueur qui vient d\'apparaître pour accèder à l\'écran d\'ajout de spot.</string>
+	<string name="maps_help_listmenu_title">Liste de spot</string>
+	<string name="maps_help_listmenu_description">Ce bouton vous permet d\'accèder à l\'écran des spots sous forme de liste.</string>
+
+	<!-- ListSpotActivity -->
 	<string name="menu_list_map">Carte</string>
 	<string name="menu_list_sort">Trier la liste</string>
     

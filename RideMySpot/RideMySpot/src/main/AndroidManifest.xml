@@ -1,11 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.w3m.ridemyspot"
-    android:versionCode="6"
-    android:versionName="0.1.4" >
-
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="21" />
+    package="com.w3m.ridemyspot">
 
     <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
     
@@ -33,14 +27,12 @@
         <activity 
             android:name="activity.SplashScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name="activity.MapActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -51,28 +43,26 @@
         <activity 
             android:name="activity.ListSpotActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:screenOrientation="portrait">
         </activity>
         
         <activity 
             android:name="activity.AddSpotActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:label="@string/app_name">
         </activity>
         
         <activity 
             android:name="activity.SpotActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light"
             android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow">
             <meta-data android:name="android.support.UI_OPTIONS"
                    android:value="splitActionBarWhenNarrow" />
         </activity>
         
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
     
         <meta-data
 		    android:name="com.google.android.gms.version"

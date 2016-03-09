@@ -1,11 +1,5 @@
 package activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import model.Spot;
-import adapter.ListSpotAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -13,7 +7,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,11 +23,17 @@ import android.widget.PopupWindow;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.w3m.ridemyspot.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import adapter.ListSpotAdapter;
 import comparator.SpotComparator;
-
 import database.SQLiteSpot;
+import model.Spot;
 
-public class ListSpotActivity extends ActionBarActivity implements OnItemClickListener, LocationListener{
+public class ListSpotActivity extends AppCompatActivity implements OnItemClickListener, LocationListener{
 	
 	private SQLiteSpot mDatabaseSpot;
 	private List<Spot> mListSpot;
@@ -52,8 +53,11 @@ public class ListSpotActivity extends ActionBarActivity implements OnItemClickLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_spot);
 
+		Toolbar myToolbar = (Toolbar) findViewById(R.id.list_toolbar);
+		setSupportActionBar(myToolbar);
+
 		ActionBar actionBar = getSupportActionBar();
-	    actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		//Location Initialization
 		mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
