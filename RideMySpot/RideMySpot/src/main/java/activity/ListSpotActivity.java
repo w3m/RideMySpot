@@ -55,9 +55,6 @@ public class ListSpotActivity extends AppCompatActivity implements OnItemClickLi
 
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.list_toolbar);
 		setSupportActionBar(myToolbar);
-
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		//Location Initialization
 		mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
