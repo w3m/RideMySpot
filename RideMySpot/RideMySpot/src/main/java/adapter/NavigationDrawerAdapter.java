@@ -1,6 +1,8 @@
 package adapter;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,13 @@ public class NavigationDrawerAdapter extends BaseAdapter
 {
     private final Context mContext;
     private String[] mDrawerItems;
+    private TypedArray mDrawerItemsDrawable;
 
     public NavigationDrawerAdapter(Context context)
     {
         mContext = context;
         mDrawerItems = context.getResources().getStringArray(R.array.navigation_drawer_menu);
+        mDrawerItemsDrawable = context.getResources().obtainTypedArray(R.array.navigation_drawer_menu_drawable);
     }
 
     @Override
@@ -51,7 +55,8 @@ public class NavigationDrawerAdapter extends BaseAdapter
         } else {
             viewHolder = (CompleteListViewHolder) view.getTag();
         }
-        //viewHolder.mIVItem.setImageResource(choice.icon);
+        //Log.d("###########", "int : " + mDrawerItemsDrawable.getDrawable(position));
+        viewHolder.mIVItem.setImageDrawable(mDrawerItemsDrawable.getDrawable(position));
         viewHolder.mTVItem.setText(mDrawerItems[position]);
         return view;
     }

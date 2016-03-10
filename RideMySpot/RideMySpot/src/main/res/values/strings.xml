@@ -22,12 +22,23 @@
 	<string name="text_small_distance">m</string>
  
     <string-array name="navigation_drawer_menu">
-        <item>Mes Favoris</item>
-        <item>Paramètres Perso</item>
-        <item>Contacter le Support</item>
-        <item>Mentions légales</item>
+		<item>Profil</item>
+		<item>Paramètres</item>
+		<item>Aides/Tutoriel</item>
+		<item>Mentions légales</item>
+		<item>Contacter le Support</item>
     </string-array>
-    
+	<!-- other idea for drawer
+	infos appli, Mes Favoris, mes commentaires, mes spots
+    -->
+	<integer-array name="navigation_drawer_menu_drawable">
+		<item>@drawable/ic_action_user</item>
+		<item>@drawable/ic_setting_dark</item>
+		<item>@drawable/ic_action_video</item>
+		<item>@drawable/ic_action_paste</item>
+		<item>@drawable/ic_action_mail</item>
+	</integer-array>
+
     <!-- SplashScreenActivity -->
 	<string name="splashscreen_rms_button">Créer un compte Ride My Spot</string>
 	<string name="splashscreen_already_button">J\'ai déjà un compte</string>

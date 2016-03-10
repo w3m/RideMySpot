@@ -9,11 +9,13 @@
 
     <ImageView
         android:id="@+id/navDrawerImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
         android:src="@android:drawable/ic_menu_delete"/>
 
     <TextView
@@ -21,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:gravity="center_vertical"
         android:textSize="14sp"
         android:textColor="@android:color/black"
         android:layout_toRightOf="@+id/navDrawerImageView"
         android:layout_toEndOf="@+id/navDrawerImageView"
-        android:gravity="center_vertical"
         android:paddingLeft="16dp"/>
 
 </RelativeLayout>

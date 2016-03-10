@@ -43,7 +43,7 @@
             android:layout_height="80dp"
             android:layout_above="@id/left_drawer_user_name"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/icon_velo"
             app:civ_border_width="2dp"
             app:civ_border_color="#FF000000"/>
     </RelativeLayout>
@@ -60,6 +60,7 @@
 
     <ListView
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
         android:id="@+id/left_drawer_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
