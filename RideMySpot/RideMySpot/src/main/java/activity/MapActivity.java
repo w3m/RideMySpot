@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +26,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
@@ -56,6 +62,7 @@ import java.util.List;
 
 import account.SessionManager;
 import adapter.InfoSpotAdapter;
+import adapter.NavigationDrawerAdapter;
 import database.SQLiteSpot;
 import entity.Rmsendpoint;
 import entity.model.CollectionResponseSpots;
@@ -64,7 +71,7 @@ import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
 import utils.ToolbarActionItemTarget;
 
-public class MapActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener, OnShowcaseEventListener{
+public class MapActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener, OnShowcaseEventListener, AdapterView.OnItemClickListener{
 
 	private GoogleMap mMap;
 	private LocationManager mLocationManager;
@@ -86,25 +93,53 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	private AdView mAdView;
 
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
-	
+
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);
 
-		mMapToolbar = (Toolbar) findViewById(R.id.map_toolbar);
-		setSupportActionBar(mMapToolbar);
-
 		mSessionManager = new SessionManager(this);
 		if(!mSessionManager.isLoggedIn()){
 			Intent intent = new Intent(this, SplashScreenActivity.class);
-		    startActivity(intent);
-		    finish();
+			startActivity(intent);
+			finish();
 		} else {
-            mDatabaseSpot = new SQLiteSpot(this);
-            new ListSpots(this).execute();
-        }
+			mDatabaseSpot = new SQLiteSpot(this);
+			new ListSpots(this).execute();
+		}
 
+		mMapToolbar = (Toolbar) findViewById(R.id.map_toolbar);
+		setSupportActionBar(mMapToolbar);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//getSupportActionBar().setHomeButtonEnabled(true);
+
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
+		mDrawerList.setAdapter(new NavigationDrawerAdapter(this));
+		mDrawerList.setOnItemClickListener(this);
+
+		((TextView)findViewById(R.id.left_drawer_user_name)).setText(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
+
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mMapToolbar, R.string.text_valider, R.string.text_annuler) {
+
+			public void onDrawerClosed(View view) {
+				super.onDrawerClosed(view);
+				invalidateOptionsMenu();
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+				invalidateOptionsMenu();
+			}
+		};
+
+		// Set the drawer toggle as the DrawerListener
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         //Maps Initialization
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -150,6 +185,19 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
             findLocation();
         }
 
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	final static int HELP_GEOLOC = 4;
@@ -375,11 +423,22 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_maps, menu);
 		mRefresh = menu.findItem(R.id.menu_refresh_spot);
+
+		/*
+		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		menu.findItem(R.id.menu_refresh_spot).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_list).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_add).setVisible(!drawerOpen);
+		*/
+
 		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
 		switch (item.getItemId()) {
 		case R.id.menu_refresh_spot:
 			new ListSpots(this).execute();
@@ -574,7 +633,12 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			if(markerAddSpot.isVisible())
 				markerAddSpot.remove();
 	}
-	
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+	}
+
 	private class ListSpots extends AsyncTask<Void, Void, CollectionResponseSpots>{
 		private Context m_context;
 		
