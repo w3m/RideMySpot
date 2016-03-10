@@ -1,7 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:padding ="10dp">
+    android:minHeight="48dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
 
     <ImageView
         android:id="@+id/navDrawerImageView"
@@ -10,15 +14,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"/>
+        android:src="@android:drawable/ic_menu_delete"/>
 
     <TextView
         android:id="@+id/navDrawerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
         android:layout_toRightOf="@+id/navDrawerImageView"
-        android:layout_toEndOf="@+id/navDrawerImageView"/>
+        android:layout_toEndOf="@+id/navDrawerImageView"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"/>
 
 </RelativeLayout>

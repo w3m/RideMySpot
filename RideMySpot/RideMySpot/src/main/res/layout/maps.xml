@@ -63,43 +63,6 @@
             android:src="@drawable/ic_action_location_found" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/common_plus_signin_btn_text_dark_disabled"
-        android:orientation="vertical" >
+    <include layout="@layout/left_drawer"/>
 
-        <ImageView
-            android:id="@+id/left_drawer_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/big_logo" />
-
-        <TextView
-            android:layout_alignBottom="@id/left_drawer_image_view"
-            android:id="@+id/left_drawer_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nickname"/>
-
-        <TextView
-            android:id="@+id/left_drawer_version"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"/>
-
-        <ListView
-            android:id="@+id/left_drawer_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@id/left_drawer_image_view"
-            android:layout_above="@id/left_drawer_version"
-            android:choiceMode="singleChoice" />
-    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

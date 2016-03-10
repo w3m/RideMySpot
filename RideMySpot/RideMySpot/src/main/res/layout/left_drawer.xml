@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/left_drawer"
+    android:layout_width="280dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:background="@color/common_plus_signin_btn_text_dark_disabled">
+
+    <ImageView
+        android:id="@+id/left_drawer_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_orange_dark" />
+
+    <RelativeLayout
+        android:id="@+id/left_drawer_header"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:paddingBottom="16dp"
+        android:layout_gravity="start">
+
+        <TextView
+            android:id="@+id/left_drawer_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textColor="@android:color/white"
+            android:layout_alignParentBottom="true"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_above="@id/left_drawer_user_name"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_launcher"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/left_drawer_version"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"/>
+
+    <ListView
+        android:layout_marginTop="8dp"
+        android:id="@+id/left_drawer_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/left_drawer_header"
+        android:layout_above="@id/left_drawer_version"
+        android:divider="@android:color/transparent"
+        android:choiceMode="singleChoice" />
+</RelativeLayout>
