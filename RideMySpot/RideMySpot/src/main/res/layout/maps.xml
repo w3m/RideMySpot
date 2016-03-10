@@ -84,11 +84,22 @@
             android:layout_height="wrap_content"
             android:text="Nickname"/>
 
+        <TextView
+            android:id="@+id/left_drawer_version"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"/>
+
         <ListView
             android:id="@+id/left_drawer_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/left_drawer_image_view"
+            android:layout_above="@id/left_drawer_version"
             android:choiceMode="singleChoice" />
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
@@ -19,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -123,7 +125,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		mDrawerList.setAdapter(new NavigationDrawerAdapter(this));
 		mDrawerList.setOnItemClickListener(this);
 
+		PackageInfo pInfo;
 		((TextView)findViewById(R.id.left_drawer_user_name)).setText(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
+		try {
+			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			((TextView)findViewById(R.id.left_drawer_version)).setText(pInfo.versionName);
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mMapToolbar, R.string.text_valider, R.string.text_annuler) {
 
