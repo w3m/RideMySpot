@@ -268,7 +268,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 				break;
 			case HELP_ADDSPOT :
 				Projection projection = mMap.getProjection();
-				target = new PointTarget(projection.toScreenLocation(markerAddSpot.getPosition()).x, projection.toScreenLocation(markerAddSpot.getPosition()).y);
+				target = new PointTarget(projection.toScreenLocation(markerAddSpot.getPosition()).x, projection.toScreenLocation(markerAddSpot.getPosition()).y + mMapToolbar.getHeight());
 				title = R.string.maps_help_addspot_title;
 				description = R.string.maps_help_addspot_description;
 				break;
