@@ -309,6 +309,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		if(!isTutorialFinished){
 			showTutorial();
 		}
+		if(mHelpStep == HELP_ADDSPOT && markerAddSpot !=null && markerAddSpot.isVisible()){
+			markerAddSpot.setVisible(false);
+		}
 	}
 
 	@Override
