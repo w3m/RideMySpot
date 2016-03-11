@@ -12,6 +12,9 @@
 	<string name="text_next">Suivant</string>
 	<string name="text_profil">Profil</string>
 	<string name="text_update">Mettre à jour</string>
+	<string name="text_parameters">Paramètres</string>
+	<string name="text_help_tutorial">Aide et Tutoriel</string>
+	<string name="text_disclaimer">Mentions légales</string>
 	
 	<string name="text_roller">Roller</string>
 	<string name="text_skatepark">Skatepark</string>
@@ -45,8 +48,15 @@
 	<string name="splashscreen_rms_button">Créer un compte Ride My Spot</string>
 	<string name="splashscreen_already_button">J\'ai déjà un compte</string>
 	<string name="splashscreen_text">Veuillez patienter&#8230;</string>
-    
-    <!-- AddUserDialog -->
+
+	<!-- ParametersDialog -->
+	<string name="parameters_geolocalisation">Géolocalisation</string>
+
+	<!-- Help/TutoDialog -->
+	<string name="help_tutorial_replay_map">Rejouer map</string>
+	<string name="help_tutorial_replay_list">Rejouer liste</string>
+
+	<!-- AddUserDialog -->
 	<string name="add_user_title">Bienvenue</string>
 	<string name="add_user_title_already_signin">Bienvenue</string>
 	<string name="add_user_description">Veuillez renseigner les champs suivant afin d\'accèder à l\'application</string>

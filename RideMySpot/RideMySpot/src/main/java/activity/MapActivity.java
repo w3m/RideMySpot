@@ -671,9 +671,72 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			case 0 :
 				alertDialogProfil();
 				break;
+			case 1 :
+				alertDialogParameters();
+				break;
+			case 2 :
+				alertDialogHelp();
+				break;
+			case 3 :
+				alertDialogDisclaimer();
+				break;
+			case 4 :
+				//email
+				//with the subject and content
+				break;
 		}
 	}
 
+	private void alertDialogDisclaimer(){
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.disclaimer);
+
+
+
+		Button dialogButton = (Button) dialog.findViewById(R.id.disclaimer_validate);
+		dialogButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
+
+	private void alertDialogHelp(){
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.help_tutorial);
+
+
+
+		Button dialogButton = (Button) dialog.findViewById(R.id.help_tutorial_validate);
+		dialogButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
+
+	private void alertDialogParameters(){
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.parameters);
+
+
+
+		Button dialogButton = (Button) dialog.findViewById(R.id.parameters_validate);
+		dialogButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
 
 	private void alertDialogProfil(){
 		final Dialog dialog = new Dialog(this);
