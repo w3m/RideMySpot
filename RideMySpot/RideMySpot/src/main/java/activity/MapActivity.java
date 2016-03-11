@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.github.amlcurran.showcaseview.targets.PointTarget;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
@@ -75,7 +76,7 @@ import entity.model.CollectionResponseSpots;
 import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
-import utils.ToolbarActionItemTarget;
+import utils.ToolbarHomeTarget;
 
 public class MapActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, OnMapLongClickListener, OnMapClickListener, OnMarkerClickListener, MultiSpinnerListener, OnClickListener, OnInfoWindowClickListener, OnShowcaseEventListener, AdapterView.OnItemClickListener{
 
@@ -121,8 +122,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
 		mMapToolbar = (Toolbar) findViewById(R.id.map_toolbar);
 		setSupportActionBar(mMapToolbar);
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		//getSupportActionBar().setHomeButtonEnabled(true);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
@@ -213,19 +212,20 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	final static int HELP_GEOLOC = 4;
-	final static int HELP_FILTER = 3;
-	final static int HELP_REFRESHMENU = 0;
-	final static int HELP_ADDSPOTMENU = 2;
-	final static int HELP_LISTMENU = 1;
-	final static int HELP_ADDSPOT = 5;
+	final static int HELP_DRAWER = 0;
+	final static int HELP_REFRESHMENU = 1;
+	final static int HELP_LISTMENU = 2;
+	final static int HELP_ADDSPOTMENU = 3;
+	final static int HELP_FILTER = 4;
+	final static int HELP_GEOLOC = 5;
+	final static int HELP_ADDSPOT = 6;
 
 	private int mHelpStep = 0;
 	private boolean isTutorialFinished = false;
 	private boolean hasToShowLongClick = false;
 
 	private void showTutorial(){
-		if(mHelpStep < 5){
+		if(mHelpStep < 6){
 			constructShowcaseView(mHelpStep);
 			mHelpStep++;
 		} else {
@@ -254,6 +254,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		int title, description;
 
 		switch (step){
+			case HELP_DRAWER :
+				target = new ToolbarHomeTarget(mMapToolbar, R.id.menu_add);
+				title = R.string.maps_help_home_title;
+				description = R.string.maps_help_home_description;
+				break;
 			case HELP_GEOLOC :
 				target = new ViewTarget(R.id.map_location, MapActivity.this);
 				title = R.string.maps_help_geoloc_title;
@@ -265,17 +270,17 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 				description = R.string.maps_help_filter_description;
 				break;
 			case HELP_REFRESHMENU:
-				target = new ToolbarActionItemTarget(mMapToolbar, R.id.menu_refresh_spot);
+				target = new ViewTarget(mMapToolbar.findViewById(R.id.menu_refresh_spot));
 				title = R.string.maps_help_refresh_title;
 				description = R.string.maps_help_refresh_description;
 				break;
 			case HELP_ADDSPOTMENU :
-				target = new ToolbarActionItemTarget(mMapToolbar, R.id.menu_add);
+				target = new ViewTarget(mMapToolbar.findViewById(R.id.menu_add));
 				title = R.string.maps_help_addspot_title;
 				description = R.string.maps_help_addspotmenu_description;
 				break;
 			case HELP_LISTMENU :
-				target = new ToolbarActionItemTarget(mMapToolbar, R.id.menu_list);
+				target = new ViewTarget(mMapToolbar.findViewById(R.id.menu_list));
 				title = R.string.maps_help_listmenu_title;
 				description = R.string.maps_help_listmenu_description;
 				break;
@@ -540,7 +545,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		}
 
-		if(!mSessionManager.tutorialMapHasShown()){
+		//if(!mSessionManager.tutorialMapHasShown()){
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setPositiveButton(getString(R.string.text_valider), new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
@@ -558,7 +563,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			AlertDialog alertDialog = builder.create();
 			alertDialog.setCanceledOnTouchOutside(false);
 			alertDialog.show();
-		}
+		//}
     }
 
     @Override

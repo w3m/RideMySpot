@@ -85,6 +85,8 @@
 	<string name="maps_help_popup_title">Tutoriel</string>
 	<string name="maps_help_popup_description">Voulez vous voir le tutoriel?</string>
 	<string name="maps_help_popup_addspot_description">Vous pouvez aussi ajouter un spot où vous le souhaitez en laissant votre doigt appuyé plus de 3 secondes sur la carte.\nVoulez vous essayer?</string>
+	<string name="maps_help_home_title">Bouton Home</string>
+	<string name="maps_help_home_description">Ce bouton vous permet d\'accèder au menu de navigation.</string>
 	<string name="maps_help_geoloc_title">Géolocalisation</string>
 	<string name="maps_help_geoloc_description">Ce bouton vous permet de recentrer la carte sur votre position GPS.</string>
 	<string name="maps_help_filter_title">Filtre</string>
