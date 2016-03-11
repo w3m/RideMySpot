@@ -38,7 +38,6 @@ import android.widget.Toast;
 
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.github.amlcurran.showcaseview.targets.PointTarget;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
@@ -74,6 +73,7 @@ import adapter.NavigationDrawerAdapter;
 import database.SQLiteSpot;
 import entity.Rmsendpoint;
 import entity.model.CollectionResponseSpots;
+import entity.model.Users;
 import model.MultiSpinner;
 import model.MultiSpinner.MultiSpinnerListener;
 import model.Spot;
@@ -817,6 +817,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 				if(checkName || checkType || checkMail){
 					Toast.makeText(MapActivity.this, getString(R.string.add_user_minimum_error_text) + check, Toast.LENGTH_LONG).show();
 				} else {
+					String[] userInfo = {mSessionManager.getUserDetails().get(SessionManager.KEY_ID), nameString, emailString, type};
+					new UpdateUser().execute(userInfo);
 					dialog.dismiss();
 				}
 			}
@@ -881,6 +883,49 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			} else {
 				Toast.makeText(m_context, getString(R.string.maps_loading_spot_error), Toast.LENGTH_SHORT).show();
 			}
+		}
+	}
+
+	private class UpdateUser extends AsyncTask<String, Void, Users>{
+
+		public UpdateUser(){
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Users doInBackground(String... userInfo) {
+			Users response = null;
+			try{
+
+				Rmsendpoint.Builder builder = new Rmsendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+				Rmsendpoint service = builder.build();
+
+				Users user = new Users();
+				user.setId(Long.valueOf(userInfo[0]));
+				user.setName(userInfo[1]);
+				user.setAdress(userInfo[2]);
+				user.setType(userInfo[3]);
+				response = service.updateUsers(user).execute();
+
+			} catch (Exception e){
+				Log.d(getString(R.string.drawerlayout_update_user_error_log), e.getMessage(), e);
+			}
+			return response;
+		}
+
+		@Override
+		protected void onPostExecute(Users user) {
+			if(user != null){
+				mSessionManager.updateLogin(user.getName(), user.getAdress(), user.getType());
+				Toast.makeText(getBaseContext(), getString(R.string.drawerlayout_update_user_success), Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getBaseContext(), getString(R.string.drawerlayout_update_user_error), Toast.LENGTH_LONG).show();
+			}
+
 		}
 	}
 

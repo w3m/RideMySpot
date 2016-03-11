@@ -699,13 +699,13 @@ public class SpotActivity extends ActionBarActivity implements OnItemClickListen
 				for(int i = 0; i < mListComment.size(); i++){
 					if(mListComment.get(i).getID() == _comment.getID()){
 						mListComment.set(i,
-								new Comment(
-									comment.getId(),
-									comment.getIdSpot(), 
-									comment.getIdUser(),
-									mSessionManager.getUserDetails().get(SessionManager.KEY_NAME),//TODO Information a verifier suite aux changements serveur Non renvoyer par le serveur au moment de l'ajout!
-									comment.getText(), 
-									comment.getNote())
+							new Comment(
+								comment.getId(),
+								comment.getIdSpot(),
+								comment.getIdUser(),
+								mSessionManager.getUserDetails().get(SessionManager.KEY_NAME),//TODO Information a verifier suite aux changements serveur Non renvoyer par le serveur au moment de l'ajout!
+								comment.getText(),
+								comment.getNote())
 							);
 					}
 				}

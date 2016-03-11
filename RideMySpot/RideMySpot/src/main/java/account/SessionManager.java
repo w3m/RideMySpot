@@ -91,6 +91,15 @@ public class SessionManager {
         return user;
     }
 
+    public void updateLogin(String name, String email, String type){
+        mEditor = mSharedPreference.edit();
+        mEditor.putBoolean(IS_LOGIN, true);
+        mEditor.putString(KEY_NAME, name);
+        mEditor.putString(KEY_EMAIL, email);
+        mEditor.putString(KEY_TYPE, type);
+        mEditor.apply();
+    }
+
     public boolean getChkVote(){
  	   return mSharedPreference.getBoolean(KEY_CHK_VOTE, false);
     }  

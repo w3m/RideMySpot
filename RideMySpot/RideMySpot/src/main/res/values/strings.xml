@@ -135,7 +135,12 @@
 	<string name="add_spot_loading">Ajout du spot&#8230;</string>
 	<string name="add_spot_loading_error">Une erreur est survenue pendant l\'ajout du spot!</string>
 	<string name="add_spot_loading_error_log">Exception in insertSpot service</string>
-	
+
+	<!-- SpotActivity -->
+	<string name="drawerlayout_update_user_success">Mise à jour du profil réussi</string>
+	<string name="drawerlayout_update_user_error">Le profil n\'a pas pu être mis à jour!</string>
+	<string name="drawerlayout_update_user_error_log">Exception in updateUsers service</string>
+
 	<!-- SpotActivity -->
 	<string name="menu_spot_fav">Favoris</string>
 	<string name="menu_spot_share">Partager</string>
