@@ -103,7 +103,7 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
 		}
 	}
 
-	@Override
+    @Override
 	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         alertDialogRideMySpot(requestCode);
 	}

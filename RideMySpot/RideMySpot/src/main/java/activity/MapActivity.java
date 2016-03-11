@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -302,6 +303,15 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 				.hideOnTouchOutside()
 				.setShowcaseEventListener(this)
 				.build();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+			mDrawerLayout.closeDrawers();
+		} else {
+			super.onBackPressed();
+		}
 	}
 
 	@Override
