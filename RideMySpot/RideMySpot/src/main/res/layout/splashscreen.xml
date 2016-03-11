@@ -5,11 +5,19 @@
     tools:context=".SplashActivity" >
 
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/image_content_description"
+        android:scaleType="fitXY"
+        android:src="@drawable/background"/>
+
+    <ImageView
         android:id="@+id/imageView1"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
         android:contentDescription="@string/image_content_description"
         android:src="@drawable/big_logo" />
 
@@ -18,7 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageView1"
-        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:text="@string/splashscreen_rms_button"
         />

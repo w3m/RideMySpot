@@ -1,6 +1,7 @@
 package activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,7 +21,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -29,7 +29,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +63,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import account.SessionManager;
 import adapter.InfoSpotAdapter;
@@ -645,8 +649,105 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+		switch (position){
+			case 0 :
+				alertDialogProfil();
+				break;
+		}
 	}
+
+
+	private void alertDialogProfil(){
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.add_user);
+
+		((TextView) dialog.findViewById(R.id.add_user_header_text)).setText(getString(R.string.text_profil));
+		((TextView) dialog.findViewById(R.id.add_user_description_text)).setVisibility(View.GONE);
+
+		final TextView name = (TextView)dialog.findViewById(R.id.add_user_name);
+		final TextView email = (TextView)dialog.findViewById(R.id.add_user_email);
+
+		name.setText(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
+		email.setText(mSessionManager.getUserDetails().get(SessionManager.KEY_EMAIL));
+		type = mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE);
+
+		final RadioButton radioRoller = (RadioButton) dialog.findViewById(R.id.add_user_roller);
+		final RadioButton radioSkate = (RadioButton) dialog.findViewById(R.id.add_user_skate);
+		final RadioButton radioBmx = (RadioButton) dialog.findViewById(R.id.add_user_bmx);
+		radioRoller.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				type = getString(R.string.text_roller);
+				radioSkate.setChecked(false);
+				radioBmx.setChecked(false);
+			}
+		});
+		radioSkate.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				type = getString(R.string.text_skate);
+				radioRoller.setChecked(false);
+				radioBmx.setChecked(false);
+			}
+		});
+		radioBmx.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				type = getString(R.string.text_bmx);
+				radioRoller.setChecked(false);
+				radioSkate.setChecked(false);
+			}
+		});
+		if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_roller))){
+			radioRoller.setChecked(true);
+		} else if (mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_skate))){
+			radioSkate.setChecked(true);
+		} else {
+			radioBmx.setChecked(true);
+		}
+
+		Button dialogButton = (Button) dialog.findViewById(R.id.add_user_validate);
+		dialogButton.setText(getString(R.string.text_update));
+		dialogButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String emailString = email.getText().toString();
+				String nameString = name.getText().toString();
+				String check = "";
+				boolean checkName = false;
+				boolean checkType = false;
+				boolean checkMail = false;
+				if (nameString.length() < 3) {
+					check += " " + getString(R.string.add_user_minimum_name);
+					checkName = true;
+				}
+				if (type == null) {
+					check += " " + getString(R.string.add_user_minimum_type);
+					checkType = true;
+				}
+				if(!validate(emailString)){
+					check += " " + getString(R.string.add_user_minimum_mail);
+					checkMail = true;
+				}
+				if(checkName || checkType || checkMail){
+					Toast.makeText(MapActivity.this, getString(R.string.add_user_minimum_error_text) + check, Toast.LENGTH_LONG).show();
+				} else {
+					dialog.dismiss();
+				}
+			}
+		});
+
+		dialog.show();
+	}
+
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+	public static boolean validate(String emailStr) {
+		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+		return matcher.find();
+	}
+
+	private String type;
 
 	private class ListSpots extends AsyncTask<Void, Void, CollectionResponseSpots>{
 		private Context m_context;

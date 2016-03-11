@@ -10,6 +10,8 @@
 	<string name="text_annuler">Annuler</string>
 	<string name="text_information">Information</string>
 	<string name="text_next">Suivant</string>
+	<string name="text_profil">Profil</string>
+	<string name="text_update">Mettre à jour</string>
 	
 	<string name="text_roller">Roller</string>
 	<string name="text_skatepark">Skatepark</string>
@@ -42,7 +44,7 @@
     <!-- SplashScreenActivity -->
 	<string name="splashscreen_rms_button">Créer un compte Ride My Spot</string>
 	<string name="splashscreen_already_button">J\'ai déjà un compte</string>
-	<string name="splashscreen_text">Please wait&#8230;</string>
+	<string name="splashscreen_text">Veuillez patienter&#8230;</string>
     
     <!-- AddUserDialog -->
 	<string name="add_user_title">Bienvenue</string>
