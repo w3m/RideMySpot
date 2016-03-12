@@ -123,48 +123,47 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		} else {
 			mDatabaseSpot = new SQLiteSpot(this);
 			new ListSpots(this).execute();
-		}
 
-		mMapToolbar = (Toolbar) findViewById(R.id.map_toolbar);
-		setSupportActionBar(mMapToolbar);
+			mMapToolbar = (Toolbar) findViewById(R.id.map_toolbar);
+			setSupportActionBar(mMapToolbar);
 
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		CircleImageView circleImageView = (CircleImageView) mDrawerLayout.findViewById(R.id.left_drawer_user_image);
-		if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_roller))){
-			circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_roller));
-		} else if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_skate))){
-			circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_skate));
-		} else {
-			circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_velo));
-		}
-		mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
-		mDrawerList.setAdapter(new NavigationDrawerAdapter(this));
-		mDrawerList.setOnItemClickListener(this);
+			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			CircleImageView circleImageView = (CircleImageView) mDrawerLayout.findViewById(R.id.left_drawer_user_image);
+			if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_roller))){
+				circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_roller));
+			} else if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_skate))){
+				circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_skate));
+			} else {
+				circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_velo));
+			}
+			mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
+			mDrawerList.setAdapter(new NavigationDrawerAdapter(this));
+			mDrawerList.setOnItemClickListener(this);
 
-		PackageInfo pInfo;
-		((TextView)findViewById(R.id.left_drawer_user_name)).setText(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
-		try {
-			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			((TextView)findViewById(R.id.left_drawer_version)).setText(pInfo.versionName);
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mMapToolbar, R.string.text_valider, R.string.text_annuler) {
-
-			public void onDrawerClosed(View view) {
-				super.onDrawerClosed(view);
-				invalidateOptionsMenu();
+			PackageInfo pInfo;
+			((TextView)findViewById(R.id.left_drawer_user_name)).setText(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
+			try {
+				pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+				((TextView)findViewById(R.id.left_drawer_version)).setText(pInfo.versionName);
+			} catch (PackageManager.NameNotFoundException e) {
+				e.printStackTrace();
 			}
 
-			public void onDrawerOpened(View drawerView) {
-				super.onDrawerOpened(drawerView);
-				invalidateOptionsMenu();
-			}
-		};
+			mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mMapToolbar, R.string.text_valider, R.string.text_annuler) {
 
-		// Set the drawer toggle as the DrawerListener
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
+				public void onDrawerClosed(View view) {
+					super.onDrawerClosed(view);
+					invalidateOptionsMenu();
+				}
+
+				public void onDrawerOpened(View drawerView) {
+					super.onDrawerOpened(drawerView);
+					invalidateOptionsMenu();
+				}
+			};
+			// Set the drawer toggle as the DrawerListener
+			mDrawerLayout.setDrawerListener(mDrawerToggle);
+		}
 
         //Maps Initialization
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -353,8 +352,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		}
 		mListSpot = mDatabaseSpot.getListSpot();
 		mDatabaseSpot.CloseDB();
-		
-		mMap.clear();    //On peut aussi jouer sur la visibilité... optimise le fais de pas avoir a recreer les marker!!
+
+		if(mMap != null)
+			mMap.clear();    //On peut aussi jouer sur la visibilité... optimise le fais de pas avoir a recreer les marker!!
 							//Du coup un populatemap() pour tout les points et un filtermarker() pour le filtre (le faire sur le clicklistener du filtre!)
 		
 		List<String> type = Arrays.asList(multiSpinner.getSelectedItem().toString().split(", "));
