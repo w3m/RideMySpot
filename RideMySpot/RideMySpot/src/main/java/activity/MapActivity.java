@@ -683,16 +683,16 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			case 0 :
 				alertDialogProfil();
 				break;
+			//case 1 :
+			//	alertDialogParameters();
+			//	break;
 			case 1 :
-				alertDialogParameters();
-				break;
-			case 2 :
 				alertDialogHelp();
 				break;
-			case 3 :
+			case 2 :
 				alertDialogDisclaimer();
 				break;
-			case 4 :
+			case 3 :
 				Intent email = new Intent(Intent.ACTION_SEND);
 				email.putExtra(Intent.EXTRA_EMAIL, new String[]{"youremail@yahoo.com"});
 				email.putExtra(Intent.EXTRA_SUBJECT, "subject");

@@ -28,7 +28,7 @@
  
     <string-array name="navigation_drawer_menu">
 		<item>Profil</item>
-		<item>Paramètres</item>
+		<!--<item>Paramètres</item>-->
 		<item>Aides/Tutoriel</item>
 		<item>Mentions légales</item>
 		<item>Contacter le Support</item>
@@ -38,7 +38,7 @@
     -->
 	<integer-array name="navigation_drawer_menu_drawable">
 		<item>@drawable/ic_action_user</item>
-		<item>@drawable/ic_setting_dark</item>
+		<!--<item>@drawable/ic_setting_dark</item>-->
 		<item>@drawable/ic_action_video</item>
 		<item>@drawable/ic_action_paste</item>
 		<item>@drawable/ic_action_mail</item>
