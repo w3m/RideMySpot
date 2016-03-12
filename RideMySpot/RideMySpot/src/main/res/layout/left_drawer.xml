@@ -38,7 +38,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
+            android:id="@+id/left_drawer_user_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_above="@id/left_drawer_user_name"

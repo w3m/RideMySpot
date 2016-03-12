@@ -74,6 +74,7 @@ import account.SessionManager;
 import adapter.InfoSpotAdapter;
 import adapter.NavigationDrawerAdapter;
 import database.SQLiteSpot;
+import de.hdodenhof.circleimageview.CircleImageView;
 import entity.Rmsendpoint;
 import entity.model.CollectionResponseSpots;
 import entity.model.Users;
@@ -128,6 +129,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		setSupportActionBar(mMapToolbar);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		CircleImageView circleImageView = (CircleImageView) mDrawerLayout.findViewById(R.id.left_drawer_user_image);
+		if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_roller))){
+			circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_roller));
+		} else if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_skate))){
+			circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_skate));
+		} else {
+			circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_velo));
+		}
 		mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
 		mDrawerList.setAdapter(new NavigationDrawerAdapter(this));
 		mDrawerList.setOnItemClickListener(this);
@@ -947,6 +956,15 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		protected void onPostExecute(Users user) {
 			if(user != null){
 				mSessionManager.updateLogin(user.getName(), user.getAdress(), user.getType());
+				((TextView)findViewById(R.id.left_drawer_user_name)).setText(mSessionManager.getUserDetails().get(SessionManager.KEY_NAME));
+				CircleImageView circleImageView = (CircleImageView) mDrawerLayout.findViewById(R.id.left_drawer_user_image);
+				if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_roller))){
+					circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_roller));
+				} else if(mSessionManager.getUserDetails().get(SessionManager.KEY_TYPE).equals(getString(R.string.text_skate))){
+					circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_skate));
+				} else {
+					circleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_velo));
+				}
 				Toast.makeText(getBaseContext(), getString(R.string.drawerlayout_update_user_success), Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(getBaseContext(), getString(R.string.drawerlayout_update_user_error), Toast.LENGTH_LONG).show();
