@@ -130,7 +130,16 @@ public class SessionManager {
         }
         return mSharedPreference.getBoolean(KEY_TUTORIAL_MAP, false);
     }
-    
+
+    public boolean tutorialMapState(){
+        return mSharedPreference.getBoolean(KEY_TUTORIAL_MAP, false);
+    }
+
+    public void tutorialMapShouldReset(boolean shouldReset){
+        mEditor = mSharedPreference.edit();
+        mEditor.putBoolean(KEY_TUTORIAL_MAP, shouldReset);
+        mEditor.apply();
+    }
     /**
      * Quick check for login
      * **/

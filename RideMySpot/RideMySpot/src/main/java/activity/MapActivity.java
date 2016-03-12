@@ -31,8 +31,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -558,7 +561,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		}
 
-		//if(!mSessionManager.tutorialMapHasShown()){
+		if(!mSessionManager.tutorialMapHasShown()){
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setPositiveButton(getString(R.string.text_valider), new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
@@ -576,7 +579,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 			AlertDialog alertDialog = builder.create();
 			alertDialog.setCanceledOnTouchOutside(false);
 			alertDialog.show();
-		//}
+		}
     }
 
     @Override
@@ -712,10 +715,25 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.help_tutorial);
 
-
+		CheckBox mapTutoSwitch = (CheckBox) dialog.findViewById(R.id.help_tutorial_replay_map_switch);
+		mapTutoSwitch.setChecked(!mSessionManager.tutorialMapState());
+		mapTutoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				mSessionManager.tutorialMapShouldReset(!isChecked);
+			}
+		});
 
 		Button dialogButton = (Button) dialog.findViewById(R.id.help_tutorial_validate);
 		dialogButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		Button dialogButtonCancel = (Button) dialog.findViewById(R.id.help_tutorial_cancel);
+		dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();

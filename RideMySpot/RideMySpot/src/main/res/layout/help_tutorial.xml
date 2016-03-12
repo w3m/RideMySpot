@@ -29,12 +29,28 @@
             android:text="@string/text_help_tutorial"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/help_tutorial_validate"
-        android:layout_width="fill_parent"
+
+    <LinearLayout
+        android:id="@+id/help_tutorial_footer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/text_valider"/>
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/help_tutorial_validate"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/text_valider"/>
+
+        <Button
+            android:id="@+id/help_tutorial_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/text_annuler"/>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/help_tutorial_scrollview"
@@ -42,32 +58,45 @@
         android:layout_height="fill_parent"
         android:fillViewport="true"
         android:layout_below="@id/help_tutorial_header"
-        android:layout_above="@id/help_tutorial_validate">
+        android:layout_above="@id/help_tutorial_footer">
 
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:padding="20dp">
+
             <TextView
-                android:id="@+id/help_tutorial_replay_map_text"
-                android:layout_width="wrap_content"
+                android:id="@+id/help_tutorial_replay_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="@string/help_tutorial_replay_map"/>
+                android:text="@string/help_tutorial_replay_text"/>
 
-            <Switch
-                android:id="@+id/help_tutorial_replay_map_switch"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"/>
+                android:layout_below="@id/help_tutorial_replay_text"
+                android:paddingLeft="20dp"
+                android:paddingRight="50dp">
+                <TextView
+                    android:id="@+id/help_tutorial_replay_map_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/help_tutorial_replay_map"/>
 
+                <CheckBox
+                    android:id="@+id/help_tutorial_replay_map_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+<!--
             <TextView
                 android:id="@+id/help_tutorial_replay_list_text"
                 android:layout_width="wrap_content"
@@ -79,7 +108,7 @@
                 android:layout_below="@id/help_tutorial_replay_map_text"
                 android:text="@string/help_tutorial_replay_list"/>
 
-            <Switch
+            <CheckBox
                 android:id="@+id/help_tutorial_replay_list_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,6 +117,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/help_tutorial_replay_map_text"
                 android:layout_alignParentEnd="true"/>
+-->
         </RelativeLayout>
     </ScrollView>
 

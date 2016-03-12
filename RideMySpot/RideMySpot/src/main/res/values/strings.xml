@@ -53,8 +53,9 @@
 	<string name="parameters_geolocalisation">Géolocalisation</string>
 
 	<!-- Help/TutoDialog -->
-	<string name="help_tutorial_replay_map">Rejouer map</string>
-	<string name="help_tutorial_replay_list">Rejouer liste</string>
+	<string name="help_tutorial_replay_text">Choisissez le tutoriel que vous souhaitez rejouer :</string>
+	<string name="help_tutorial_replay_map">- Carte</string>
+	<string name="help_tutorial_replay_list">- Liste</string>
 
 	<!-- AddUserDialog -->
 	<string name="add_user_title">Bienvenue</string>
