@@ -31,12 +31,28 @@
             android:text="@string/add_user_title"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/add_user_validate"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:id="@+id/add_user_footer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/text_valider"/>
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/add_user_validate"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/text_valider"/>
+
+        <Button
+            android:id="@+id/add_user_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/text_annuler"/>
+    </LinearLayout>
+
 
     <ScrollView
         android:id="@+id/add_user_scrollview"
@@ -44,7 +60,7 @@
         android:layout_height="fill_parent"
         android:fillViewport="true"
         android:layout_below="@id/add_user_header"
-        android:layout_above="@id/add_user_validate">
+        android:layout_above="@id/add_user_footer">
 
         <LinearLayout
             android:layout_width="fill_parent"

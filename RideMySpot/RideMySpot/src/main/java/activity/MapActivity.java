@@ -828,17 +828,25 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 					check += " " + getString(R.string.add_user_minimum_type);
 					checkType = true;
 				}
-				if(!validate(emailString)){
+				if (!validate(emailString)) {
 					check += " " + getString(R.string.add_user_minimum_mail);
 					checkMail = true;
 				}
-				if(checkName || checkType || checkMail){
+				if (checkName || checkType || checkMail) {
 					Toast.makeText(MapActivity.this, getString(R.string.add_user_minimum_error_text) + check, Toast.LENGTH_LONG).show();
 				} else {
 					String[] userInfo = {mSessionManager.getUserDetails().get(SessionManager.KEY_ID), nameString, emailString, type};
 					new UpdateUser().execute(userInfo);
 					dialog.dismiss();
 				}
+			}
+		});
+
+		Button dialogButtonCancel = (Button) dialog.findViewById(R.id.add_user_cancel);
+		dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
 			}
 		});
 
