@@ -44,6 +44,11 @@
 		<item>@drawable/ic_action_mail</item>
 	</integer-array>
 
+	<!-- Info mail -->
+	<string name="choose_mail">Choisissez votre application mail :</string>
+	<string name="subject_mail">[Android] Report</string>
+	<string name="message_mail">To support@ridemyspot.com,\n\nMerci pour votre report, veuillez indiquer votre message : \n\n</string>
+
     <!-- SplashScreenActivity -->
 	<string name="splashscreen_rms_button">Créer un compte Ride My Spot</string>
 	<string name="splashscreen_already_button">J\'ai déjà un compte</string>

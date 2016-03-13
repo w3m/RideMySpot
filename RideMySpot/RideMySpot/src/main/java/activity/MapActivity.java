@@ -694,11 +694,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 				break;
 			case 3 :
 				Intent email = new Intent(Intent.ACTION_SEND);
-				email.putExtra(Intent.EXTRA_EMAIL, new String[]{"youremail@yahoo.com"});
-				email.putExtra(Intent.EXTRA_SUBJECT, "subject");
-				email.putExtra(Intent.EXTRA_TEXT, "message");
+				email.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.support_mail)});
+				email.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
+				email.putExtra(Intent.EXTRA_TEXT, getString(R.string.message_mail));
 				email.setType("message/rfc822");
-				startActivity(Intent.createChooser(email, "Choose an Email client :"));
+				startActivity(Intent.createChooser(email, getString(R.string.choose_mail)));
 				break;
 		}
 	}
