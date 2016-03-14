@@ -14,7 +14,7 @@
 	<string name="text_update">Mettre à jour</string>
 	<string name="text_parameters">Paramètres</string>
 	<string name="text_help_tutorial">Aide et Tutoriel</string>
-	<string name="text_disclaimer">Mentions légales</string>
+	<string name="text_disclaimer">Avertissement</string>
 	
 	<string name="text_roller">Roller</string>
 	<string name="text_skatepark">Skatepark</string>
@@ -54,10 +54,14 @@
 	<string name="splashscreen_already_button">J\'ai déjà un compte</string>
 	<string name="splashscreen_text">Veuillez patienter&#8230;</string>
 
+	<!-- DisclaimerDialog -->
+	<string name="disclaimer_text">Ceci est la version Alpha de Ride My Spot.\n\nC\'est donc une application en cours de développement.\nVous êtes libre de nous laisser vos commentaires ou encore de nous remonter des bugs via le bouton de menu \"Contacter le support\".\n\nMerci pour vos retours en espérant que l\'application vous plaise.\n\nBon ride. ;)\n\nps : désolé pour la publiciter c\'est le seul moyen pour payer les serveurs et garder l\'application gratuite.</string>
+
 	<!-- ParametersDialog -->
 	<string name="parameters_geolocalisation">Géolocalisation</string>
 
 	<!-- Help/TutoDialog -->
+	<string name="help_tutorial_description">Le menu d\'aide vous permet de rejouer des tutoriels et vous indique des actuces pour utiliser l\'application</string>
 	<string name="help_tutorial_replay_text">Choisissez le tutoriel que vous souhaitez rejouer :</string>
 	<string name="help_tutorial_replay_map">- Carte</string>
 	<string name="help_tutorial_replay_list">- Liste</string>

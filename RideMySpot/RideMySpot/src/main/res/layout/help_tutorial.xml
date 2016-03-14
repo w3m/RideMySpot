@@ -10,20 +10,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp">
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/help_tutorial_header_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:lines="2"
             android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:textSize="30sp"
             android:text="@string/text_help_tutorial"/>
@@ -67,15 +68,26 @@
             android:padding="20dp">
 
             <TextView
-                android:id="@+id/help_tutorial_replay_text"
+                android:id="@+id/help_tutorial_description_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_marginBottom="20dp"
+                android:text="@string/help_tutorial_description"/>
+
+            <TextView
+                android:id="@+id/help_tutorial_replay_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/help_tutorial_description_text"
                 android:text="@string/help_tutorial_replay_text"/>
 
             <RelativeLayout
+                android:id="@+id/help_tutorial_replay_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/help_tutorial_replay_text"
@@ -96,28 +108,33 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
-<!--
-            <TextView
-                android:id="@+id/help_tutorial_replay_list_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/help_tutorial_replay_map_text"
-                android:text="@string/help_tutorial_replay_list"/>
 
-            <CheckBox
-                android:id="@+id/help_tutorial_replay_list_switch"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/help_tutorial_replay_map_text"
-                android:layout_alignParentEnd="true"/>
--->
+                android:paddingLeft="20dp"
+                android:paddingRight="50dp"
+                android:layout_below="@id/help_tutorial_replay_map">
+
+                <TextView
+                    android:id="@+id/help_tutorial_replay_list_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/help_tutorial_replay_list"/>
+
+                <CheckBox
+                    android:id="@+id/help_tutorial_replay_list_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@id/help_tutorial_replay_map_text"/>
+
+            </RelativeLayout>
+
         </RelativeLayout>
     </ScrollView>
 

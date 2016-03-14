@@ -8,12 +8,15 @@
     </facet>
     <facet type="android" name="Android">
       <configuration>
-        <option name="SELECTED_BUILD_VARIANT" value="RideMySpotRelease" />
+        <option name="SELECTED_BUILD_VARIANT" value="RideMySpotDevDebug" />
         <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
-        <option name="ASSEMBLE_TASK_NAME" value="assembleRideMySpotRelease" />
-        <option name="COMPILE_JAVA_TASK_NAME" value="compileRideMySpotReleaseSources" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleRideMySpotDevDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileRideMySpotDevDebugSources" />
+        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleRideMySpotDevDebugAndroidTest" />
+        <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileRideMySpotDevDebugAndroidTestSources" />
         <afterSyncTasks>
-          <task>generateRideMySpotReleaseSources</task>
+          <task>generateRideMySpotDevDebugAndroidTestSources</task>
+          <task>generateRideMySpotDevDebugSources</task>
         </afterSyncTasks>
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
@@ -24,44 +27,50 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/build/intermediates/classes/RideMySpot/release" />
+    <output url="file://$MODULE_DIR$/build/intermediates/classes/RideMySpotDev/debug" />
     <output-test url="file://$MODULE_DIR$/build/intermediates/classes/androidTest/RideMySpotDev/debug" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/RideMySpot/release" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/RideMySpot/release" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/RideMySpot/release" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/RideMySpot/release" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/RideMySpot/release" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/RideMySpot/release" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotRelease/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotRelease/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotRelease/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotRelease/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotRelease/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotRelease/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotRelease/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpot/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpot/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpot/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpot/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpot/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpot/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpot/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpot/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpot/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpot/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpot/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpot/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpot/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpot/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/release/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/release/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/release/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/release/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/release/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/release/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/release/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/RideMySpotDev/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/RideMySpotDev/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/RideMySpotDev/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/RideMySpotDev/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/RideMySpotDev/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/RideMySpotDev/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDevDebug/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDevDebug/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDevDebug/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDevDebug/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDevDebug/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDevDebug/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDevDebug/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/RideMySpotDev/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/RideMySpotDev/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/RideMySpotDev/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/RideMySpotDev/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/RideMySpotDev/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/RideMySpotDev/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDev/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDev/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDev/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDev/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDev/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDev/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/RideMySpotDev/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpotDev/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpotDev/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpotDev/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpotDev/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpotDev/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpotDev/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestRideMySpotDev/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
@@ -82,6 +91,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/23.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/multidex-instrumentation/1.0.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.amlcurran.showcaseview/library/5.4.1/jars" />
@@ -142,8 +152,8 @@
     <orderEntry type="library" exported="" name="play-services-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-drive-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-safetynet-8.4.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="jsr305-1.3.9" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-maps-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.16.0-rc" level="project" />
@@ -164,6 +174,7 @@
     <orderEntry type="library" exported="" name="play-services-analytics-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-measurement-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.4" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-cast-8.4.0" level="project" />
   </component>
 </module>
