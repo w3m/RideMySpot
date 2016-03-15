@@ -221,6 +221,12 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
                 }
             }
         });
+        dialog.findViewById(R.id.add_user_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
     }
